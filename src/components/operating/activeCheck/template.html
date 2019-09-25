@@ -1,0 +1,147 @@
+<div>
+
+    <div class="breadcrumb">
+      <a href="#">活动管理</a>
+      <a href="#" class="active">选送列表</a>
+    </div>
+    <div class="table-content">
+      <!-- 搜索列表选项框 -->
+      <div class="table-search">
+        <div class="search-top">
+          <div class="search-title">
+            <p style="margin-left: 10px; font-size: 12px"> </p>
+          </div>
+          <div class="search-list">
+            <el-form :inline="true" :model="searchItem" class="demo-form-inline">
+              <el-form-item>
+                <el-input @change="fushu" v-model="searchItem.resourceId" placeholder="活动编号" size="mini" style="width: 186px;"></el-input>
+              </el-form-item>
+              <el-form-item>
+                <el-input v-model="searchItem.beginTitle" placeholder="活动名称" size="mini" style="width: 186px;"></el-input>
+              </el-form-item>
+  
+  
+              <el-form-item>
+                <el-select v-model="searchItem.resourceType" clearable placeholder="模式" size="mini" style="width:186px;">
+                  <el-option label="打卡" value="3"></el-option>
+                  <el-option label="闯关" value="4"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item v-show="active">
+                  <el-input v-model="searchItem.selectedOrgName" placeholder="选送组织" size="mini" style="width: 186px;"></el-input>                
+              </el-form-item>
+              <el-form-item v-show="active">
+                  <el-input v-model="searchItem.publishOrgName" placeholder="发布人组织" size="mini" style="width: 186px;"></el-input>                
+              </el-form-item>
+              <el-form-item>
+                <el-button @click="renderList2()" size="mini" style="padding: 8px 78px;
+                    font-size: 14px;
+                    background-color: #409EFF;
+                    color: #fff;
+                    margin-top: 6px; 
+                ">搜索</el-button>
+              </el-form-item>
+              <br>
+              <el-form-item>
+                <div v-show="styleTextBool" @click="style()" style="width: 186px; margin-left: 4px;margin-top: -10px; cursor: pointer;">
+                  <img src="../../../../static/moreS.png" alt="">
+                  <span style="color: #909399; margin-left: 5px; font-size: 12px;">更多条件</span>
+                </div>
+              </el-form-item>
+  
+  
+  
+              <!-- <el-button class="search-button btnMin" size="mini" @click="renderList2()" style="padding: 4px 8px; font-size: 12px">搜索</el-button> -->
+  
+            </el-form>
+  
+          </div>
+        </div>
+        <!-- <div class="search-button">
+          
+        </div> -->
+      </div>
+      <!-- 表格 -->
+      <div class="table-box">
+        <template>
+          <div class="details-Date">
+            <!-- <i></i> -->
+            <p>详细数据:</p>
+            <ul>
+              <li>
+                <el-button size="mini" @click="goActiveDataPic()">选送记录</el-button>
+              </li>
+            </ul>
+  
+          </div>
+  
+          <!-- 表格 -->
+          <el-table v-loading="loading" :data="tableData" style="width: 100%" :header-cell-style="getRowClass" :row-style="tabH"
+            :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}">
+            <!-- <el-table-column prop="activityId" label="活动编号" header-align="center">
+            </el-table-column> -->
+            <el-table-column prop="beginTitle" label="活动名称" header-align="center">
+              <template slot-scope="scope">
+                <span @click="handleLook(scope.row.resourceId)" class="demo" style="min-width: 100px;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden; text-align: center; color: #F56C6C; cursor: pointer;"
+                  :title="scope.row.beginTitle">{{scope.row.beginTitle}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="resourceType" label="模式" header-align="center">
+            </el-table-column>
+            <el-table-column prop="applyOrgName" label="选送组织" header-align="center">
+              <template slot-scope="scope">
+                <span class="demo" style="min-width: 100px;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden; text-align: center; cursor: pointer;"
+                  :title="scope.row.applyOrgName">{{scope.row.applyOrgName}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="activityOrgName" label="发布人组织" header-align="center">
+                <template slot-scope="scope">
+                  <span class="demo" style="min-width: 100px;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden; text-align: center; cursor: pointer;"
+                    :title="scope.row.activityOrgName">{{scope.row.activityOrgName}}</span>
+                </template>
+              </el-table-column>
+            <el-table-column label="操作" width="100" header-align="center">
+              <template slot-scope="scope">
+                <a type="danger" plain size="small" @click="noTop(scope.row.resourceId)"
+                  style="color:#F56C6C;padding: 0px 2px; font-size: 12px">通过</a>
+                <a type="danger" plain size="small" @click="toTop(scope.row.resourceId)"
+                  style="color:#F56C6C;padding: 0px 2px; font-size: 12px">拒绝</a>
+              </template>
+            </el-table-column>
+          </el-table>
+  
+          <!-- 分页 -->
+          <el-pagination @current-change="handleCurrentChange" style="margin-top: 10px;margin-bottom: 10px;" :currentPage="currentPage"
+            :page-size="10" layout="total, prev, pager, next, jumper" :total="total">
+          </el-pagination>
+        </template>
+      </div>
+    </div>
+  
+  
+  
+    <!-- 活动置顶 -->
+    <el-dialog title="拒绝选送" :visible.sync="dialogVisibleToTop" width="40%">
+      <span>确认拒绝此条活动选送?</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="EditToTop()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+        <el-button @click="dialogVisibleToTop = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+      </span>
+    </el-dialog>
+  
+    <!-- 活动取消置顶 -->
+    <el-dialog title="同意选送" :visible.sync="dialogVisibleNoTop" width="40%">
+      <span>确认同意此条活动选送?</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="EditNoTop()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+        <el-button @click="dialogVisibleNoTop = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+      </span>
+    </el-dialog>
+  
+ 
+
+
+  
+  </div>
+  </div>
+  

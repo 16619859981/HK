@@ -1,0 +1,57 @@
+<div>
+    <div class="breadcrumb">
+        <a href="#">消息管理</a>
+        <a href="#" onClick="window.history.go(-1)">通知列表</a>
+        <a href="#" class="active">通知查看</a>
+
+      </div>
+    
+    <!-- 创建专辑的内容 -->
+    <div class="albumContent">
+        <div class="msg">
+            <div class="preview-box-bottom">
+                <div class="preview-box-bottom-title">
+                    <h3>{{ruleForm.messageTitle}}</h3>
+                </div>
+                
+                <div class="preview-box-bottom-content">
+                  <div v-for="(item, index) in ruleForm.uploadArr">
+                    <div v-if="item.type == 'text'" class="preview-box-bottom-content-text">
+                      {{ item.areaText }}
+                    </div>
+                    <div v-if="item.type == 'img'" class="preview-box-bottom-content-img">
+                      <img :src="item.imgSrc" alt="" width="320px">
+                    </div>
+                    <div v-if="item.type == 'mp4'" class="preview-box-bottom-content-mp4">
+                      <video controls="controls" :src="item.mp4Url" @play="playvideo(item.mp4Url)" width="320px" height="180px"></video>
+                    </div>
+                    <div v-if="item.type == 'mp3'" class="preview-box-bottom-content-mp3">
+                      <audio controls="controls" :src="item.mp3Url" @play="playaudio(item.mp3Url)"  style="width: 333px; height: 55px;"></audio>
+                    </div>
+                  </div>
+                 
+                </div>
+                <div class="right" style="position:absolute;right:40px;">
+                  <p>{{ruleForm.messageCreateName }}</p>
+                  <p>{{ruleForm.tableAutoUptime}}</p>
+                </div>
+                <div class="range">
+                  <div>
+                    <p style="font-size:14px;line-height:28px;">通知对象：</p>
+                    <p v-for="(item,index) in ruleForm.area" :key="index">{{item.sendType}} ( {{item.areaCode}} ) </p>
+              
+                  </div>
+                </div>
+                
+              </div>
+
+
+        </div>
+      
+    </div>
+
+
+
+</div>
+
+</div>

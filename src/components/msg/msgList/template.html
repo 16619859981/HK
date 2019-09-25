@@ -1,0 +1,153 @@
+<div>
+  <div class="breadcrumb">
+    <a href="#">消息管理</a>
+    <a href="#" class="active">通知列表</a>
+  </div>
+
+  <div class="table-content">
+    <!-- 搜索列表选项框 -->
+    <div class="table-search">
+      <div class="search-top">
+        <div class="search-title">
+          <!-- <i></i>
+          <p style="margin-left: 10px;"> 搜索</p> -->
+
+        </div>
+        <div class="search-list">
+          <el-form :inline="true" :model="searchItem" class="demo-form-inline">
+
+
+            <div class="search-list">
+              <el-form :inline="true" :model="searchItem" class="demo-form-inline">
+
+                <el-form-item>
+                  <el-input v-model="searchItem.title" placeholder="标题" size="mini" style="width:189px;"></el-input>
+                </el-form-item>
+
+
+
+
+
+
+
+                <!-- <el-form-item  >
+              <el-date-picker
+                v-model="searchItem.createTime"
+                type="date"
+                placeholder="选择日期"
+                size="mini"
+                style="width:189px;"
+                value-format="timestamp"
+         
+                >
+              </el-date-picker>
+              -
+              <el-date-picker
+              v-model="searchItem.createTime2"
+              type="date"
+              placeholder="选择日期"
+              size="mini"
+              style="width:189px;"
+              value-format="timestamp"
+              >
+            </el-date-picker>
+            </el-form-item> -->
+
+                <el-form-item>
+                  <el-button @click="handleList2()" style="padding: 8px 78px;
+                          font-size: 14px;
+                          background-color: #409EFF;
+                          color: #fff;
+                          margin-top: 6px; 
+                      ">搜索</el-button>
+                </el-form-item>
+
+
+              </el-form>
+
+            </div>
+
+
+
+          </el-form>
+
+        </div>
+      </div>
+      <div class="search-button">
+
+      </div>
+    </div>
+    <!-- 表格 -->
+    <div class="table-box">
+
+      <div class="details-Date">
+        <!-- <i></i> -->
+        <p> 详细数据</p>
+        <ul style="float:right;">
+<!-- 
+          <li>
+            <el-button size="mini" class="btnMin" @click="handelCreate()">创建通知</el-button>
+          </li> -->
+
+
+
+        </ul>
+
+      </div>
+      <!-- 表格 -->
+      <el-table v-loading="loading" :data="tableData" :header-cell-style="getRowClass" :row-style="tabH" :cell-style="tabP"
+        style="width: 100%" :default-sort="{prop: 'date', order: 'descending'}">
+        >
+        <el-table-column prop="messageTitle" label="通知标题" width="180" header-align="center">
+          <template slot-scope="scope">
+            <p @click="lookmsg(scope.row.messageId)" style="color:#F56C6C;display: inline-block;cursor: pointer;width: 140px;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;text-align: center;"
+              :title="scope.row.messageTitle">{{scope.row.messageTitle}}</p>
+          </template>
+        </el-table-column>
+        <el-table-column prop="messageReceiveType" label="发布对象"  header-align="center">
+        </el-table-column>
+
+
+        <el-table-column prop="messageCreateName" label="创建人"  header-align="center">
+        </el-table-column>
+
+        <el-table-column prop="messagePtime" label="发布时间"  header-align="center">
+        </el-table-column>
+
+
+        <el-table-column label="操作" header-align="center">
+          <template slot-scope="scope">
+
+            <a href="javaScript:;" @click="cancelPub(scope.row.messageId)" style="color:#F56C6C; font-size: 12px">
+              删除
+            </a>
+
+
+
+          </template>
+        </el-table-column>
+      </el-table>
+
+
+      <!-- 分页 -->
+      <el-pagination @current-change="handleCurrentChange" style="margin-top: 10px;margin-bottom: 10px;" :currentPage="currentPage"
+        :page-size="10" layout="total, prev, pager, next, jumper" :total="total">
+      </el-pagination>
+
+    </div>
+
+    <!-- 取消发布弹框 -->
+    <template>
+      <el-dialog title="删除通知" :visible.sync="dialogVisible" width="30%" height="500px;">
+        <span>删除后用户将无法访问</span>
+
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="cancelPubSuccess()" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+          <el-button @click="dialogVisible = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+        </span>
+      </el-dialog>
+
+    </template>
+
+  </div>
+</div>

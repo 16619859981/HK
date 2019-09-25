@@ -1,0 +1,84 @@
+<div>
+  <div class="breadcrumb">
+    <a href="#">奖章管理</a>
+    <a href="#" onClick="window.history.go(-1)">奖章列表</a>
+    <a href="#" class="active">编辑奖章</a>
+
+
+  </div>
+  <!-- 创建专辑的内容 -->
+  <div class="albumContent" v-loading="loading">
+    <div class="button" style="float:right;    margin-top:20px;    margin-right:20px;">
+
+      <el-button size="mini" class="btnMin" @click="addMedal()">增加奖章数量</el-button>
+    </div>
+    <div class="msg" v-for="(item,index) in ruleForm" :key="index">
+      <el-form label-width="100px" class="ruleForm">
+        <div class="top">
+          <el-form-item label="奖章名称:">
+            <el-input v-model="medalName" placeholder="请给我取个霸气的名字吧，最多6个字" style="width: 280px;"></el-input>
+            <!-- <span style="color:rgb(245, 93, 85);" @click="checkRep(ruleForm.name)">校验重名</span> -->
+          </el-form-item>
+
+          <el-form-item>
+            <!-- <el-input type="textarea" v-model="ruleForm.desc"></el-input> -->
+            <el-upload class="avatar-uploader" style="border: 1px dashed #D8DCE6;width:150px;height:150px; position: relative;"
+              :action=action :show-file-list="false" :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="item.fileUrl" :src="item.fileUrl" class="avatar" style="width:150px;height:150px;" @click="getindex(index)">
+              <i v-else class="el-icon-plus avatar-uploader-icon" @click="getindex(index)"></i>
+            </el-upload>
+            <div style="color:#909399;font-size: 12px; position: absolute;left:170px;top:18px; line-height: 22px;">
+              <p>上传尺寸要求宽高相等</p>
+              <p>推荐最佳尺寸为150*150</p>
+              <p>图片须小于1MB</p>
+              <p>图片格式只能使用png</p>
+            </div>
+          </el-form-item>
+          <el-form-item :label="Number(index)+1+'级别名称：'" v-show="num==1">
+            <el-input v-model="item.medalName" placeholder="奖章是金银铜还是中高级呢" style="width: 280px;"></el-input>
+          </el-form-item>
+
+
+        </div>
+      </el-form>
+
+
+    </div>
+    <div class="msg">
+        <el-form label-width="100px" class="ruleForm"  v-show="num==1">
+            <div class="top">
+              <el-form-item label="发放步骤:">
+                  <el-select v-model="medalType" placeholder="是否需要必须按照顺序获取"  style="width: 280px;">
+                      <el-option label="不按级别发放" value='1'></el-option>
+                      <el-option label="按级别获取" value="2"></el-option>
+                 
+                    </el-select>
+              </el-form-item>
+    
+    
+            </div>
+          </el-form>
+    
+    </div>
+    <div class="btn">
+      <el-button @click="submit1()" style="width:193px;height: 37px;background-color:#409eff;border-radius:4px;">发布</el-button>
+     
+    </div>
+  </div>
+  <template>
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="50%" height="500px;">
+      <span>确认提交?</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="submit()" size="mini">确定</el-button>
+        <el-button @click="dialogVisible = false,loading='true'" size="mini"> 取消</el-button>
+      </span>
+    </el-dialog>
+  </template>
+
+
+
+
+</div>
+
+</div>

@@ -1,0 +1,92 @@
+<div>
+    <!-- 头部 -->
+    <div class="header-header">
+        <h3>用户管理-平台用户
+        </h3>
+        <span style="margin-right: 20px;" class="active_title">用户信息</span>
+
+        <!-- <span>创建视频专辑</span> -->
+
+    </div>
+    <!-- 创建专辑的内荣 -->
+    <div class="albumContent">
+        <div class="msg">
+            <div class="title">
+                <i></i>
+                <span>用户信息</span>
+            </div>
+
+            <el-form :model="ruleForm"  ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                <div class="top">
+                    <el-form-item label="用户姓名:" prop="name">
+                        <span>{{ruleForm.name}}</span>
+                    </el-form-item>
+                    <el-form-item label="联系方式:" prop="type">
+                        <span>{{ruleForm.phone}}</span>
+                    </el-form-item>
+    
+                    <el-form-item label="性别:" prop="type">
+                        <span>{{ruleForm.email}}</span>
+                    </el-form-item>
+                    <el-form-item label="地区:" prop="type">
+                        <span>{{ruleForm.type}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="学校:" prop="type">
+                        <span>{{ruleForm.region}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="绑定孩子:" prop="type">
+                        <span>{{ruleForm.address}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="身份:" prop="type">
+                        <span>{{ruleForm.postal}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="专辑数:" prop="type">
+                        <span>{{ruleForm.postal}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="注册时间:" prop="type">
+                        <span>{{ruleForm.postal}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="状态:" prop="type">
+                        <span>{{ruleForm.postal}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="操作人:" prop="type">
+                        <span>{{ruleForm.postal}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="操作时间:" prop="type">
+                        <span>{{ruleForm.postal}}</span>
+                    </el-form-item>
+
+                   
+
+                    <el-form-item label="个人简介:" prop="desc">
+                        <span>{{ruleForm.profile}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="用户头像:" prop="img">
+
+                        <img :src="ruleForm.imageUrl" class="avatar">
+
+                    </el-form-item>
+                </div>
+                
+            </el-form>
+
+
+        </div>
+
+    </div>
+
+
+
+
+</div>
+
+</div>

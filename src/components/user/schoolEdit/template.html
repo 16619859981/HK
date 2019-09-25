@@ -1,0 +1,99 @@
+<div>
+        <!-- 头部 -->
+        <div class="header-header">
+            <h3>用户管理-学校管理-全部学校
+            </h3>
+            <span style="margin-right: 20px;" class="active_title">创建学校</span>
+    
+            <!-- <span>创建视频专辑</span> -->
+    
+        </div>
+        <!-- 创建专辑的内容 -->
+        <div class="albumContent">
+            <div class="msg">
+                <div class="title">
+                    <i></i>
+                    <span>学校信息</span>
+                </div>
+    
+                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="ruleForm" :inline="true">
+                    <div class="top">
+                        <el-form-item label="学校名称:" prop="school_name">
+                            <el-input v-model="ruleForm.school_name" placeholder="请输入学校名称" class="inp"></el-input>
+                        </el-form-item>
+
+                        <!-- <el-form-item label="学校类型:" prop="name">
+                            <el-select v-model="ruleForm.school_type" placeholder="请选择学校类型" class="inp" :selected="value">
+                                <el-option label="幼儿园" value="1"></el-option>
+                                 <el-option label="小学" value="2"></el-option>
+                                 <el-option label="初中" value="3"></el-option>
+                            </el-select>
+                        </el-form-item> -->
+
+                        <el-form-item label="选择地区:" prop="name">
+                            <el-select v-model="ruleForm.school_area" placeholder="请选择地区" class="inp" :selected="value">
+                                <el-option label="区域一" value="shanghai"></el-option>
+                                <el-option label="区域二" value="beijing"></el-option>
+                            </el-select>
+                        </el-form-item>
+
+                        <el-form-item label="详情地址:" >
+                                <el-input v-model="ruleForm.school_address" placeholder="请详情地址" class="inp" ></el-input>
+                        </el-form-item>
+    
+                        <el-form-item label="邮政编码:">
+                            <el-input v-model="ruleForm.school_postcode" placeholder="请输入邮政编码" class="inp"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="联系方式:" prop="school_phone" >
+                            <el-input v-model="ruleForm.school_phone" placeholder="请输入电话号码" class="inp" ></el-input>
+                        </el-form-item>
+                        <el-form-item label="学校邮箱:" >
+                            <el-input v-model="ruleForm.school_email" placeholder="请清儒学校邮箱" class="inp" ></el-input>
+                        </el-form-item>
+            
+                                    <br>
+                        <el-form-item label="学校简介:" prop="school_intro">
+                            <el-input type="textarea" :autosize="{ minRows: 10, maxRows: 10 }" v-model="ruleForm.school_intro" placeholder="请输入学校简介" style="width: 1300px;"></el-input>
+                        </el-form-item>
+                        <br>
+                        <el-form-item label="学校LOGO:" prop="img">
+                          
+                            <el-upload class="avatar-uploader" :action=action :show-file-list="false" :on-success="handleAvatarSuccess"
+                                :before-upload="beforeAvatarUpload">
+                                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </el-form-item>
+                    </div>
+
+                    <div class="title">
+                        <i></i>
+                        <span>管理员信息</span>
+                    </div>
+                    
+                    <el-form-item label="管理员账号:" prop="user_login_name">
+                        <el-input v-model="ruleForm.user_login_name" placeholder="请输入管理员账号" class="inp"></el-input>
+                    </el-form-item>
+                    <el-form-item label="管理员密码:" prop="user_pass">
+                        <el-input v-model="ruleForm.user_pass" placeholder="请输入管理员密码" class="inp" type="password"></el-input>
+                        <el-button type="danger" plain>查看密码</el-button>
+                    </el-form-item>
+                    
+                </el-form>
+
+                
+
+                
+             
+               
+            </div>
+            <div class="btn">
+                    <el-button @click = "submitSchool(ruleForm)">提交</el-button>
+            </div>
+        </div>
+    
+    
+    </div>
+    
+    </div>

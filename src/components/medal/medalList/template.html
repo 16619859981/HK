@@ -1,0 +1,124 @@
+<div>
+
+  <div class="breadcrumb">
+    <a href="#">奖章管理</a>
+    <a href="#" class="active">奖章列表</a>
+  </div>
+
+  <div class="table-content">
+    <!-- 搜索列表选项框 -->
+    <div class="table-search">
+      <div class="search-top">
+        <div class="search-title">
+          <p style="margin-left: 10px; font-size: 12px"></p>
+        </div>
+        <div class="search-list">
+          <el-form :inline="true" :model="searchItem" class="demo-form-inline">
+            <el-form-item>
+              <el-input v-model="searchItem.businessId" @change="fushu" placeholder="奖章编号" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model="searchItem.medalName" placeholder="奖章名称" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+
+            <el-form-item v-show="active">
+              <el-select v-model="searchItem.state" placeholder="状态" size="mini" style="width:186px;">
+                <el-option label="全部" value='0'></el-option>
+                <el-option label="进行中" value="1"></el-option>
+                <el-option label="已结束" value="2"></el-option>
+              </el-select>
+            </el-form-item>
+
+            <el-form-item v-show="active">
+              <el-input v-model="searchItem.userName" placeholder="组织名称" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button @click="renderList2()" style="padding: 8px 78px;
+                    font-size: 14px;
+                    background-color: #409EFF;
+                    color: #fff;
+                    margin-top: 6px; 
+                ">搜索</el-button>
+            </el-form-item>
+            <br>
+            <el-form-item>
+              <!-- <el-button v-show="styleTextBool" size="mini" @click="style()" style="padding: 8px 64px;
+                font-size: 14px;   
+                margin-top:6px; 
+                
+                ">{{styleText}}</el-button> -->
+              <div v-show="styleTextBool" @click="style()" style="width: 186px; margin-left: 4px;margin-top: -10px; cursor: pointer;">
+                <img src="../../../../static/moreS.png" alt="">
+                <span style="color: #909399; margin-left: 5px; font-size: 12px;">更多条件</span>
+              </div>
+
+            </el-form-item>
+            <!-- </div> -->
+
+
+          </el-form>
+        </div>
+      </div>
+    </div>
+    <!-- 表格 -->
+    <div class="table-box">
+      <template>
+        <div class="details-Date">
+          <p>详细数据:</p>
+          <ul>
+            <!-- <li>
+              <el-button size="mini" class="btnMin" @click="creatMedal()">新建奖章</el-button>
+            </li> -->
+          </ul>
+        </div>
+        <!-- 表格 -->
+        <el-table   v-loading="loading" :data="tableData" :header-cell-style="getRowClass" style="width: 100%;"
+          :row-style="tabH" :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}"  @sort-change="sortChange">
+          <el-table-column prop="businessId" label="奖章编号" header-align="center">
+          </el-table-column>
+          <el-table-column prop="medalName" label="奖章名称" header-align="center">
+            <template slot-scope="scope">
+              <span class="demo" @click= "lookMedal(scope.row.businessId)" style="min-width: 100px;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden; text-align: center; color: #F56C6C; cursor: pointer;"
+                :title="scope.row.medalName">{{scope.row.medalName}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="medalNum" label="奖章数量" header-align="center" sortable>
+          </el-table-column>
+
+          <el-table-column prop="groupAsc" label="组织名称" header-align="center">
+         
+          </el-table-column>
+          <el-table-column prop="state" label="状态" header-align="center">
+          </el-table-column>
+          <el-table-column label="操作" header-align="center">
+            <template slot-scope="scope">
+              <a type="primary" plain size="small" v-if=" scope.row.groupAsc!='中少红卡'" @click="editMedal(scope.row.businessId)" style="color:#F56C6C;padding: 4px 2px; font-size: 13px">编辑</a>
+              <a type="primary" plain size="small"  @click="handleData(scope.row.businessId)" style="color:#F56C6C;padding: 4px 2px; font-size: 13px">奖章数据</a>
+              <a type="primary" plain size="small" @click="handleState(scope.row.businessId,scope.row.state)" v-if = "scope.row.state=='进行中' "style="color:#F56C6C;padding: 4px 2px; font-size: 13px">结束</a>
+              <a type="primary" plain size="small" @click="handleState(scope.row.businessId,scope.row.state)" v-if = "scope.row.state=='已结束' "style="color:#F56C6C;padding: 4px 2px; font-size: 13px">开始</a>
+
+
+            </template>
+          </el-table-column>
+        </el-table>
+        <!-- 分页 -->
+        <el-pagination style="margin-top: 10px;margin-bottom: 10px;" @current-change="handleCurrentChange" :currentPage="currentPage"
+          :page-size="10" layout="total, prev, pager, next, jumper" :total="total">
+        </el-pagination>
+      </template>
+    </div>
+  </div>
+ 
+  <!-- 通过弹窗 -->
+  <template>
+      <el-dialog title="修改" :visible.sync="dialogVisible" width="60%" height="500px;">
+      <span>确定修改奖章的状态？</span>
+  
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="editState()">确定</el-button>
+          <el-button @click="dialogVisible = false">取消</el-button>
+  
+        </span>
+      </el-dialog>
+    </template>
+</div>

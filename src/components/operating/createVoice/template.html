@@ -1,0 +1,91 @@
+<div>
+    <!-- 头部 -->
+    <div class="header-header">
+
+        <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+        <br>
+        <span style="margin-right: 20px;margin-top:10px;"  @click="createPic()">创建图文活动</span>
+        <span style="margin-right: 20px;" @click="createVoice()"  class="active_title">创建语音活动</span>
+
+        <span style="margin-right: 20px;" @click="createVote()">创建投票活动</span>
+        <!-- <span>创建视频专辑</span> -->
+
+    </div>
+    <!-- 创建专辑的内荣 -->
+    <div class="albumContent">
+        <div class="msg">
+            <div class="title">
+                <!-- <i></i> -->
+                <span>活动信息</span>
+            </div>
+            <div class="picMsg">
+                <el-form :inline="true" :rules="rules" :model="ruleForm" class="demo-form-inline">
+                    <el-form-item label="活动名称：" prop="name">
+                        <el-input v-model="ruleForm.name" placeholder="活动" style="width:300px;"></el-input>
+                    </el-form-item>
+                    <el-form-item label="归属专题：" prop="sub" style="margin-left: 100px;">
+                        <el-select v-model="ruleForm.subjectId" placeholder="专题" style="width:300px;">
+                            <el-option v-for="item in options" :key="item.subjectId" :label="item.subjectName" :value="item.subjectId">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <br>
+                    <el-form-item label="活动时间：" prop="time" style="width:600px;">
+                        <div class="block">
+
+                            <el-date-picker v-model="ruleForm.time" :picker-options="pickerOptions0" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
+                                @change="getTime" value-format="timestamp">
+                            </el-date-picker>
+                        </div>
+                    </el-form-item>
+                    <br>
+                    <el-form-item label="活动简介：" prop="intro">
+                        <!-- <script id="container" name="content" type="text/plain"></script> -->
+                        <vue-ueditor-wrap v-model="ruleForm.intro" :config="myConfig" style="width:800px;height:150px;" class="bjq"></vue-ueditor-wrap>
+                    </el-form-item>
+                    <br>
+                    <el-form-item label="活动封面:" prop="img">
+                        <!-- <el-input type="textarea" v-model="ruleForm.desc"></el-input> -->
+                        <el-upload class="avatar-uploader" style="border:1px solid #ccc;width:150px;height:150px; position: relative;" :action=action
+                            :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                            <img v-if="imageUrl" :src="imageUrl" class="avatar" style="width:150px;height:150px; ">
+                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                        </el-upload>
+                        <div style="color:#ccc;font-size: 12px; position: absolute;left:186px;top:28px; line-height: 22px;width: 300px;">
+                            <p>上传尺寸要求宽高相等</p>
+                            <p>推荐最佳尺寸为600*600，最小尺寸应大于300*300</p>
+                            <p>图片须小于1MB</p>
+                            <p>图片支持格式jpeg、jpg、png、bmp</p>
+                        </div>
+                    </el-form-item>
+                    <br>
+                    <el-form-item label="是否推送红卡设备:" prop="radio">
+                 
+                        <el-radio v-model="ruleForm.radio" label="1">是</el-radio>
+                        <el-radio v-model="ruleForm.radio" label="2">否</el-radio>
+
+                    </el-form-item>
+                </el-form>
+            </div>
+
+            <div class="btn">
+                <el-button @click="submit()">提交</el-button>
+                <el-button @click="cancel">
+                    取消
+                </el-button>
+            </div>
+        </div>
+        <!-- 提交的弹框 -->
+        <template>
+            <el-dialog title="提示" :visible.sync="dialogVisible" width="50%" height="500px;">
+                <span>确认提交?</span>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="handleForm()" size="mini">确定</el-button>
+                    <el-button @click="dialogVisible = false" size="mini"> 取消</el-button>
+                </span>
+            </el-dialog>
+        </template>
+
+    </div>
+
+</div>

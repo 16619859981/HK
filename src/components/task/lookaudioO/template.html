@@ -1,0 +1,63 @@
+<div>
+  <!-- 头部 -->
+  <div class="header-header">
+    <h3>
+      <!-- <a @click=" a() ">内容管理</a>- -->
+      <!-- <a @click=" a() ">专辑管理</a> -->
+    </h3>
+    <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+    <br>
+    <span style="margin-right: 20px;margin-top:10px;" class="active_title">任务评论</span>
+
+
+    <!-- <span>创建视频专辑</span> -->
+
+  </div>
+  <!-- 创建专辑的内荣 -->
+  <div class="albumContent">
+    <div class="msg">
+      <div class="title">
+        <!-- <i></i> -->
+        <!-- <span>专辑信息</span> -->
+      </div>
+
+      <el-form :model="tableData" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <div class="top">
+          <el-form-item label="文字评论:" v-if=" tableData.taskComment != '' ">
+
+            <span>{{tableData.taskComment}}</span>
+            
+          </el-form-item>
+
+          <el-form-item label="图片评论:" style="width: 800px;" v-if="img.length > 0">
+            <el-popover placement="right" height="500" trigger="click" style="padding:0;border:none;" v-for="(item,index) in img" :key="index">
+              <img :src="item" class="avatar" style="width:500px;height:500px;">
+              <el-button slot="reference" style="padding:0;border:none; margin-right: 30px; margin-top: 10px;">
+
+                    <img :src="item" class="avatar">
+
+                    
+                
+              </el-button>
+            </el-popover>
+          </el-form-item>
+
+          <el-form-item label="语音评论:" style="width: 800px;" v-if="mp3.length > 0">
+              <audio :src="item" controls  v-for="(item,index) in mp3" :key="index"></audio>
+          </el-form-item>
+
+        </div>
+     </el-form>
+
+
+    </div>
+
+  </div>
+
+
+
+
+
+</div>
+
+</div>

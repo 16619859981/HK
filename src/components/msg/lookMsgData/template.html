@@ -1,0 +1,85 @@
+<div>
+
+  <!-- 内容管理头 -->
+  <div class="header-header">
+      <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+      <br>
+      <span style="margin-right: 20px;margin-top:10px;" class="active_title">查看数据</span>
+  
+     
+     
+    </div>
+  <div class="table-content">
+  
+    <div class="left">
+      <div class="top">
+        <div id="echarts" style="width: 600px;height:400px;"></div>
+      </div>
+      <div class="bottom">
+        <div class="title">
+          <p style="font-size: 20px;font-weight: 600;">阅读率</p>
+        </div>
+        <el-table
+        :data="tableData"
+        border
+        style="width: 60%;margin: 0 auto;margin-top: 20px;;">
+        <el-table-column
+          prop="date"
+          label="送达率"
+          header-align="center"
+         >
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          label="人数"
+          header-align="center"
+         >
+        </el-table-column>
+        <el-table-column
+          prop="address"
+          label="百分比"
+          header-align="center"
+          >
+        </el-table-column>
+      </el-table>
+      </div>
+    </div>
+    <div class="right">
+      <div class="top"  style="height:365px;padding:0px 150px;padding-top:50px;">
+          <el-progress :text-inside="true" :stroke-width="18" :percentage="80" color="rgba(142, 113, 199, 0.7)" style="margin-top: 30px;;"></el-progress>
+          <el-progress :text-inside="true" :stroke-width="18" :percentage="100" status="success" style="margin-top: 30px;;"></el-progress>
+          <el-progress :text-inside="true" :stroke-width="18" :percentage="50" status="exception" style="margin-top: 30px;;"></el-progress>
+      </div>
+      <div class="bottom">
+          <div class="title">
+              <p style="font-size: 20px;font-weight: 600;">分类阅读率</p>
+            </div>
+        <el-table
+        :data="tableData2"
+        border
+        style="width: 60%;margin: 0 auto;margin-top: 20px;">
+        <el-table-column
+          prop="date"
+          label="送达率"
+          header-align="center"
+         >
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          label="人数"
+          header-align="center"
+         >
+        </el-table-column>
+        <el-table-column
+          prop="address"
+          label="百分比"
+          header-align="center"
+          >
+        </el-table-column>
+      </el-table>
+      </div>
+    </div>
+
+                                                              
+  </div>
+</div>

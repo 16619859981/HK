@@ -1,0 +1,135 @@
+<div>
+  <!-- 头部 -->
+  <div class="header-header">
+    <!-- <h3>运营管理-活动管理-创建活动
+        </h3>
+        <span style="margin-right: 20px;" class="active_title">查看活动</span> -->
+    <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+    <br>
+    <span style="margin-right: 20px;margin-top:10px;" class="active_title">查看活动</span>
+
+
+    <!-- <span>创建视频专辑</span> -->
+
+  </div>
+  <!-- 创建专辑的内荣 -->
+  <div class="albumContent">
+    <div class="msg">
+
+      <div class="picMsg">
+        <el-form :inline="true" :rules="rules" :model="ruleForm" class="demo-form-inline">
+          <el-form-item label="活动名称：" prop="name">
+            <!-- <el-input v-model="ruleForm.name"  placeholder="活动" style="width:300px;"></el-input> -->
+            <span>{{ruleForm.activityName}}</span>
+          </el-form-item>
+          <br>
+       
+          <el-form-item label="活动时间：" prop="name" style="width:600px;">
+            <div class="block">
+              <span>{{ruleForm.activityStime}}</span>
+              <span style="margin-left: 10px;margin-right: 10px;">至</span>
+              <span>{{ruleForm.activityEtime }}</span>
+              <!-- <el-date-picker v-model="time" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+                            </el-date-picker> -->
+            </div>
+          </el-form-item>
+          <br>
+          <el-form-item label="活动地区：" prop="name" style="width:600px;">
+            <div class="block">
+
+              <span>{{ruleForm.activityAreaName }}</span>
+              <!-- <el-date-picker v-model="time" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+                                </el-date-picker> -->
+            </div>
+          </el-form-item>
+          <br>
+          <el-form-item label="活动简介：" prop="name">
+            <!-- <vue-ueditor-wrap v-model="ruleForm.activityIntro" readonly :config="myConfig" style="width: 800px;height:200px;"></vue-ueditor-wrap> -->
+            <div id="main" style="width: 800px;">
+
+            </div>
+            <!-- <vue-ueditor-wrap v-model="msg" :config="myConfig" style="width: 1300px;height:200px;"></vue-ueditor-wrap> -->
+          </el-form-item>
+          <br>
+          <el-form-item label="活动封面：" prop="name">
+            <el-popover placement="right" height="500" trigger="click" style="padding:0;border:none">
+              <img :src="ruleForm.activityFileUrl" class="avatar" style="width:500px;height:500px;">
+              <el-button slot="reference" style="padding:0;border:none">
+                <img :src="ruleForm.activityFileUrl" class="avatar">
+              </el-button>
+
+            </el-popover>
+          </el-form-item>
+          <br>
+          <el-form-item label="归属专题：" prop="name">
+            <!-- <el-select v-model="ruleForm.user" placeholder="专题" style="width:300px;">
+                            <el-option label="区域一" value="shanghai"></el-option>
+                            <el-option label="区域二" value="beijing"></el-option>
+                        </el-select> -->
+            <span>{{ruleForm.activitySubjectName}}</span>
+          </el-form-item>
+          <br>
+          <el-form-item label="是否推送到红卡设备:" prop="name">
+            <template>
+              <span>{{ruleForm.activityRadio}}</span>
+
+            </template>
+
+          </el-form-item>
+          <br>
+          <el-form-item label="发布时间：" prop="name">
+            <template>
+              <span>{{ruleForm.activityItime}}</span>
+
+            </template>
+
+          </el-form-item>
+          <br>
+          <el-form-item label="评论时间：" prop="name" v-if="activityIssingleNum == 1">
+            <template>
+              <span>{{ruleForm.activityIssingle}}</span>
+
+            </template>
+
+          </el-form-item>
+          <br>
+
+          <el-form-item label="评论开始时间：" prop="name" v-if="activityIssingleNum == 0">
+            <template>
+              <span>{{ruleForm.activityDayStartTime}}</span>
+
+            </template>
+
+          </el-form-item>
+          <br v-if="activityIssingleNum == 0">
+          <el-form-item label="评论结束时间：" prop="name" v-if="activityIssingleNum == 0">
+            <template>
+              <span>{{ruleForm.activityDayEndTime}}</span>
+
+            </template>
+
+          </el-form-item>
+          <br v-if="activityIssingleNum == 0">
+          <el-form-item label="活动评论类型：" prop="name">
+            <template>
+              <span>{{ruleForm.activityLimitType}}</span>
+
+            </template>
+
+          </el-form-item>
+
+        </el-form>
+      </div>
+
+      <!-- <div class="btn">
+                <el-button>提交</el-button>
+                <el-button>
+                    取消
+                </el-button>
+            </div> -->
+    </div>
+
+
+  </div>
+
+</div>

@@ -1,0 +1,132 @@
+<div>
+    <div class="breadcrumb">
+        <a href="#">硬件管理</a>
+        <a href="#" class="active">硬件列表</a>
+      </div>
+  <div class="table-content">
+    <!-- 搜索列表选项框 -->
+    <div class="table-search">
+      <div class="search-top">
+        <div class="search-title">
+          <!-- <i></i> -->
+          <!-- <p style="margin-left: 10px;"> 搜索</p> -->
+
+        </div>
+        <div class="search-list">
+          <el-form :inline="true" :model="deviceForm" class="demo-form-inline" >
+            <el-form-item >
+              <el-input @change="fushu"   v-model="deviceForm.deviceNumber" placeholder="设备号" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+            <el-form-item >
+              <el-input v-model="deviceForm.studentPersonId" placeholder="学生ID" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+            <el-form-item >
+              <el-input v-model="deviceForm.value " placeholder="关键字" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+            <el-form-item v-show="active">
+              <el-select v-model="deviceForm.deviceltime" placeholder="使用状态" size="mini" style="width: 186px;">
+                  <el-option label="全部" value="0"></el-option>
+
+                <el-option label="刚刚" value="1"></el-option>
+                <el-option label="一小时前" value="2"></el-option>
+                <el-option label="一天前" value="3"></el-option>
+
+                <el-option label="一周前" value="4"></el-option>
+
+                <el-option label="一个月前" value="5"></el-option>
+                <el-option label="一年前" value="6"></el-option>
+                <el-option label="一年后" value="7"></el-option>
+                <el-option label="未使用" value="8"></el-option>
+
+
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+                <el-button @click="hardwareList2()" style="padding: 8px 78px;
+                        font-size: 14px;
+                        background-color: #409EFF;
+                        color: #fff;
+                        margin-top: 6px; 
+                    ">搜索</el-button>
+              </el-form-item>
+              <br>
+              <el-form-item>
+               
+                <div v-show="styleTextBool" @click="style()" style="width: 186px; margin-left: 4px;margin-top: -10px; cursor: pointer;">
+                  <img src="../../../../static/moreS.png" alt="">
+                  <span style="color: #909399; margin-left: 5px; font-size: 12px;">更多条件</span>
+                </div>
+  
+              </el-form-item>
+
+          </el-form>
+
+        </div>
+      </div>
+    </div>
+    <!-- 表格 -->
+    <div class="table-box">
+      <template>
+        <div class="details-Date">
+          <!-- <i></i> -->
+          <p> 详情数据</p>
+          <!-- <ul style="float:right;">
+            <li>
+              <el-button size="mini" @click="deviceVisible=true">新建硬件</el-button>
+            </li>
+            <li>
+              <el-button size="mini"  @click="download()">导出本页数据</el-button>
+            </li>
+     
+          </ul> -->
+
+        </div>
+        <!-- 表格 -->
+        <el-table v-loading="loading" :data="tableData" id="div" style="width: 100%" :header-cell-style="getRowClass" :row-style="tabH" :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}">
+          <el-table-column prop="deviceNumber" label="设备号" header-align="center">
+          </el-table-column>
+          <el-table-column prop="studentPersonId" label="学生ID" header-align="center">
+          </el-table-column>
+          <el-table-column prop="studentName" label="学生姓名" header-align="center">
+          </el-table-column>
+          <!-- <el-table-column prop="studentPhone" label="红卡手机号" header-align="center">
+          </el-table-column> -->
+          <el-table-column prop="parenName" label="家长姓名" header-align="center">
+          </el-table-column>
+          <el-table-column prop="parentPhone" label="家长手机号" header-align="center">
+          </el-table-column>
+          <el-table-column prop="schoolName" label="学校名称" header-align="center">
+          </el-table-column>
+          <!-- <el-table-column prop="time" label="操作时间" >
+          </el-table-column> -->
+          <el-table-column prop="deviceltimeStr" label="使用状态" header-align="center">
+          </el-table-column>
+         
+        </el-table>
+
+        <!-- 分页 -->
+        <el-pagination @current-change="handleCurrentChange"  :currentPage="currentPage" :page-size="10" layout="total, prev, pager, next, jumper" :total="total" style="margin-top: 10px;margin-bottom: 10px;">
+        </el-pagination>
+      </template>
+    </div>
+  </div>
+
+
+  <!-- 弹框 -->
+  <template>
+    <el-dialog title="新增硬件" :visible.sync="deviceVisible" class="checkDialog" width="36%">
+  
+      <!-- 外框 -->
+      <el-form label-width="120px" >
+        <el-form-item label="设备号：">
+          <el-input v-model="deviceNumber2" readonly ></el-input>
+        </el-form-item>
+   
+      </el-form>
+      <div slot="footer" class="dialog-footer footers">
+        <el-button @click="deviceVisible = false">提交</el-button>
+        <el-button  @click="deviceVisible = true">取消</el-button>
+      </div>
+    </el-dialog>
+  </template>
+</div>

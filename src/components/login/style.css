@@ -1,0 +1,146 @@
+body{background-color: #141D4F;margin: 0px;overflow: hidden;}
+a{color:#0078ff;}
+.login-wrap {
+  width: 100%;
+  height: 100%;
+  background-color: #141D4F;;
+
+position: relative;
+overflow-y: hidden;
+overflow-x: hidden;
+
+
+}
+.login-wrap .bg {
+  width: 100%;
+
+  height: 100%;
+  background-color: #141D4F;
+}
+
+
+.w {
+  width:1366px;
+
+  height: 655px;
+  margin: 0 auto;
+  position: absolute;
+
+  top: 50%;
+  margin-top: -328px;
+  left: 50%;
+  margin-left: -683px;
+}
+
+
+
+/* .login-from {
+  width: 245px;
+  height:354px; 
+  background-color: #fff;
+  position: absolute;
+  top:60px;
+  right:90px;
+  border-radius: 8px;
+  padding:30px;
+  padding-top:16px;
+  text-align: center;
+
+} */
+
+.login-wrap .login-form .login-submit {
+  width: 100%;
+}
+
+.login-btn {
+  display: block;
+  width: 400px;
+}
+
+.bg-img {
+  height: 397px;
+  text-align: center;
+  /* line-height: 535px; */
+  width: 926px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.bg-img .img {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  transform: translateY(-30%);
+}
+
+.login-from {
+  width: 390px;
+  height: 400px;
+  background-color: #fff;
+  margin: 0 auto;
+  border-radius: 10px;
+  padding: 20px 50px;
+  margin-top: 5%;
+}
+.el-form-item {
+  position: relative;
+  margin-bottom: 20px;
+}
+.login-from i {
+  color:#568BFC;
+  margin-right: 10px;
+  width: 30px;
+  height: 24px;
+  display: block;
+  position: absolute;
+  /* margin-right: 10px; */
+
+  z-index: 10;
+}
+
+.login-from  h1 {
+  font-size: 14px;
+  text-align: left;
+  margin-left: 6px;
+  margin-bottom: -10px;
+  color: #424C64;
+}
+/* input框内的左padding */
+.el-input .el-input__inner  {
+  padding-left:25px !important;
+}
+
+.yanzheng {
+  position: absolute;
+  top: 0;
+  right: 27px;
+  color: #57a3f3;
+  
+}
+
+.ppp {
+  width: 274px;
+  /* margin: 0 auto; */
+  /* position: absolute; */
+  /* left: 40%; */
+  /* top: 96%; */
+  color: #ccc;
+  /* margin: 0 auto; */
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  transform: translate( -50%, -50%);
+  
+}
+
+
+.disabled{
+  background-color: #ddd;
+  border-color: #ddd;
+  color:#57a3f3;
+  cursor: not-allowed;
+ }
+ /* #141D4F */
+ 

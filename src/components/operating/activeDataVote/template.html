@@ -1,0 +1,91 @@
+<div>
+  <div class="breadcrumb">
+    <a href="#">活动管理</a>
+    <a href="#" @click="goActiveManagement">活动列表</a>
+    <a href="#" class="active">活动详情</a>
+  </div>
+  <div class="top-box">
+    <div class="box-top">
+      <div class="box-title-1">
+        <span class="box-title-span" @click="goActiveDataVote()">活动详情</span>
+        <span class="box-title-span-1">评论详情</span>
+      </div>
+      <div class="box-title">
+        <el-select v-model="from.sortBy" @change="handleList2()" clearable placeholder="排序" size="mini" style="width:186px;">
+          <el-option label="时间倒序" value="1"></el-option>
+          <el-option label="时间正序" value="2"></el-option>
+          <el-option label="热门" value="3"></el-option>
+        </el-select>
+      </div>
+      <div class="box-top-box" v-for="(item, index) in tableData" :key="index" style="position:relative;">
+
+     
+        <!-- <div class="box-top-box-left"> -->
+          <div class="box-top-box-left-img">
+            <img :src="item.personFileId" alt="">
+          </div>
+          <div class="box-top-box-right-box">
+            <p class="box-top-box-right-box-p1">{{ item.personName }}<span v-if="item.clockCount!= 0"> ( 连续{{item.clockCount}}天打卡 ) </span></p>
+            <p class="box-top-box-right-box-p2">{{item.psersonRnage}}</p>
+            <p class="box-top-box-right-box-p3">{{ item.content }}</p>
+            <div class="box-9" v-for="(item1, index1) in item.fileUrl" :key="index1">
+              <div class="box-9-1" v-if="item1.type == 2"  style="text-align: center; line-height: 80px;">
+                <img src="./b1.png" alt="" style="width: 50px; height: 50px; cursor: pointer;" @click="playVedio(item1.url)">
+              </div>
+              <div class="box-9-1" v-if="item1.type == 1">
+                <img v-show="num=='1'" src="./play.png" alt="" @click="playAudio($event)" class="img">
+                <img v-show="num=='2'" src="./audio.gif" alt="" @click="playAudio($event)" class="img">
+                <audio :src="item1.url" class="audio"></audio>
+              </div>
+              <div class="box-9-1" v-if="item1.type == 3">
+                <img :src="item1.url" alt="">
+              </div>
+            </div>
+
+            <div style="margin-bottom: 5px;color: #909399; font-size: 12px;">{{ item.ctime }}</div>
+          </div>
+          <div style="margin-left: 64px;">
+            <img src="./a.png" alt="" class="img-img"><span class="img-span">{{ item.awesomeCount }}</span>
+            <img src="./b.png" alt="" class="img-img"><span class="img-span">{{ item.commentCount }}</span>
+            <img src="./c.png" alt="" class="img-img"><span class="img-span">{{ item.shareitCount }}</span>
+          </div>
+        <!-- </div> -->
+        <div class="box-top-box-right" style="position:absolute;right:0px;top:0px;">
+          <el-button type="primary" plain style="padding: 9px 20px; float: right;" @click="delComments(item.contentId)">删 除</el-button>
+          <el-button type="primary" plain style="padding: 9px 20px; float: right; margin-right: 10px;" @click="goActiveHistory(item.contentId)">打卡详情</el-button>
+          <el-button type="primary" plain style="padding: 9px 20px; float: right;" v-if="item.score == 0" @click="comments(item.contentId)">去点评</el-button>
+          <el-button type="primary" plain style="padding: 9px 20px; float: right;" v-else>已点评</el-button>
+          <div v-if="item.score != 0" style="margin-top: 50px; margin-left: 84px; background: #EBEEF5; padding: 10px;">
+            <p style="font-size: 14px; color:#606266;">{{ item.scoreUserName }}</p>
+            <p style="font-size: 12px; color:#909399;">{{ item.scoreTime }}</p>
+            <p>打分 <el-rate disabled v-model="item.score" show-score text-color="#F7BA2A" score-template="{value}"></el-rate></p>
+            <p style="color: #409EFF;">{{ item.scoreContent }}</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <template>
+    <el-dialog title="节目播放" :visible.sync="dialogVisiblePlay" @close="closeDialog" width="60%" height="500px;">
+      <div slot="footer" style="width:480px;height:320px;margin: 0 auto;margin-top: -45px;margin-bottom: 20px;">
+        <video id="media" controls="controls" style="width:480px;height:265px;" src=""></video>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisiblePlay = false">确定</el-button>
+      </span>
+    </el-dialog>
+  </template>
+  <template>
+    <el-dialog title="删除打卡" :visible.sync="dialogVisibleComments" @close="closeDialog" width="30%" height="500px;">
+      <span>确认删除这条打卡？</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="CommentsBtn()">确定</el-button>
+      </span>
+    </el-dialog>
+  </template>
+</div>
+  
+
+
+</div>

@@ -1,0 +1,181 @@
+<div>
+
+        <!-- 内容管理头 -->
+        <div class="header-header">
+          <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+          <br>
+            <span style="margin-right: 20px;margin-top:10px;" class="active_title">完成任务数据</span>
+        
+           
+           
+          </div>
+        <div class="table-content">
+          <!-- 搜索列表选项框 -->
+          <div class="table-search">
+            <div class="search-top">
+              <div class="search-title">
+                <!-- <i></i> -->
+                <!-- <p style="margin-left: 10px;"> 搜索</p> -->
+      
+              </div>
+              <div class="search-list">
+                <el-form :inline="true" :model="deviceForm" class="demo-form-inline" >
+                  <el-form-item label="学生ID：" >
+                    <el-input @change="fushu"   v-model="deviceForm.child" placeholder="请输入学生ID" size="mini" style="width:140px;"></el-input>
+                  </el-form-item>
+                  <el-form-item label="关键字：　" >
+                    <el-input v-model="deviceForm.key" placeholder="请输入关键字" size="mini" style="width:140px;"></el-input>
+                  </el-form-item>
+
+
+                  <el-form-item label="状　　态：">
+                    <el-select v-model="deviceForm.status" placeholder="请选择" size="mini" style="width:140px;">
+                      <el-option label="全部" value="0"></el-option>
+                      <el-option label="完成" value="1"></el-option>
+                      <el-option label="未完成" value="3"></el-option>
+                      <el-option label="待审核" value="2"></el-option>
+                    </el-select>
+                  </el-form-item>
+
+                  <el-form-item label="完成时间："  style="margin-right: 65px;">
+                    <el-date-picker v-model="deviceForm.endTime" value-format="timestamp" type="date" placeholder="选择日期" size="mini" style="width:140px;">
+                    </el-date-picker>
+                    -
+                    <el-date-picker v-model="deviceForm.endTime2"  value-format="timestamp"  type="date" placeholder="选择日期" size="mini" style="width:140px;">
+                    </el-date-picker>
+                  </el-form-item>
+      
+                  <el-button class="search-button btnMin" size="mini" @click="handleList2()" style="padding: 7px 19px;
+                  font-size: 12px;
+                  background-color: #409eff;
+                  color: #fff;
+              ">搜索</el-button>
+                  
+      
+                </el-form>
+      　
+              </div>
+            </div>
+          </div>
+          <!-- 表格 -->
+          <div class="table-box">
+            <template>
+              <div class="details-Date">
+                <!-- <i></i> -->
+                <!-- <p> 详情数据</p> -->
+                <ul style="float:right;">
+
+                  <!-- <li>
+                    <el-button size="mini" @click="download()">导出本页数据</el-button>
+                  </li> -->
+           
+                </ul>
+      
+              </div>
+              <!-- 表格 -->
+              <el-table v-loading="loading" :data="tableData1" style="width: 100%" :header-cell-style="getRowClass" :row-style="tabH" :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}">
+                <!-- <el-table-column label="视频评论内容" header-align="center" width="420">
+                    <template slot-scope="scope">
+                        <video controls="controls" style="width: 100px; height: 50px;" :src="scope.row.fileUrl"></video>
+                    </template>
+                  
+                </el-table-column> -->
+                <el-table-column prop="studentId" label="学生ID" header-align="center">
+                </el-table-column>
+                <el-table-column prop="studentName" label="学生姓名" header-align="center">
+                </el-table-column>
+                <el-table-column prop="parentPhone" label="家长手机号" header-align="center">
+                </el-table-column>
+                <el-table-column prop="schoolName" label="学校名称" header-align="center">
+                </el-table-column>
+                <el-table-column prop="className" label="班级信息" header-align="center">
+                </el-table-column>
+                <el-table-column prop="Medalstatus" label="状态" header-align="center">
+                </el-table-column>
+                <el-table-column prop="endTime" label="完成时间" width="150" header-align="center">
+                </el-table-column>
+
+                <el-table-column  label="操作" width="180"  header-align="center" >
+                  <template slot-scope="scope">
+                    <a @click="look(scope.row.actionId,scope.row.taskId)" type="danger" plain size="small" style="color:#409eff;padding: 4px 8px; font-size: 12px">查看</a>
+                    <a v-if="scope.row.Medalstatus == '等待审批'" @click="statusTrue(scope.row.medalId,scope.row.actionId)" type="danger" plain size="small" style="color:#409eff;padding: 4px 8px; font-size: 12px">通过</a>
+                    <a v-if="scope.row.Medalstatus == '等待审批'" @click="statusFalse(scope.row.medalId,scope.row.actionId)" type="danger" plain size="small" style="color:#409eff;padding: 4px 8px; font-size: 12px">拒绝</a>
+
+      
+                  </template>
+                </el-table-column>
+               
+              </el-table>
+
+
+      
+              <!-- 分页 -->
+              <el-pagination @current-change="handleCurrentChange" :currentPage="currentPage" :page-size="10" layout="total, prev, pager, next, jumper" :total="total" style="margin: 10px 0px;">
+              </el-pagination>
+            </template>
+          </div>
+        </div>
+      
+
+
+
+   <!-- 拒绝弹框 -->
+   <template>
+    <el-dialog title="操作" :visible.sync="outerVisible" class="checkDialog" :closeOnClickModal="false">
+      <!-- 内框 -->
+      <el-dialog width="30%" title="拒绝理由" :visible.sync="innerVisible" append-to-body>
+        <el-form>
+          <el-form-item label="不通过理由:">
+            <el-input v-model="statusForm.comment" type="textarea" :autosize="{ minRows: 3, maxRows: 3 }" style="width:370px;"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="editStatUs()" style="padding: 12px 24px; font-size: 12px">提交</el-button>
+          <el-button @click="innerVisible = false,outerVisible = true" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+        </div>
+      </el-dialog>
+      <!-- 外框 -->
+      <span>确认要拒绝此任务的评论么?</span>
+      <div slot="footer" class="dialog-footer footers">
+        <el-button @click="innerVisible=true" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+        <el-button @click="outerVisible=false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+      </div>
+    </el-dialog>
+  </template>
+
+
+  <!-- 通过弹框 -->
+  <template>
+      <el-dialog title="操作" :visible.sync="dialogVisiblePass" width="50%" height="500px;" >
+          <span>确认要通过此任务的评论么?</span>
+            
+          <span slot="footer" class="dialog-footer">
+              <el-button @click="editStatUs()" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+              <el-button  @click="dialogVisiblePass = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+          </span>
+      </el-dialog>
+
+  </template>
+
+
+
+<!-- 预览的弹框 -->
+<template>
+    <el-dialog title="预览" :visible.sync="dialogVisiblePer" width="60%" height="500px;">
+      <div style="display: inline-block; position: relative; margin-left: 50px;" v-for="(item,index) in URL">
+
+        <span class="sp">语音评论{{ index+1 }}:</span>
+        <audio  controls="controls" @click="btn($event)" :src="item.url" style="width: 260px;height:65px; margin-left: 50px;"></audio>
+
+
+      </div>
+      <!-- <audio src="" controls="controls"></audio> -->
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisiblePer = false" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+        <el-button @click="dialogVisiblePer=false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+      </span>
+    </el-dialog>
+  </template>
+
+      </div>
+      

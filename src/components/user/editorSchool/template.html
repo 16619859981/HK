@@ -1,0 +1,120 @@
+<div>
+    <div class="breadcrumb">
+      <a href="#">账户管理</a>
+      <a href="#" @click="goSchoolManagement()">全部学校</a>
+      <a href="#" class="active">编辑学校</a>
+    </div>
+    <!-- 创建专辑的内容 -->
+    <div class="albumContent" v-show="box1">
+      <div class="msg">
+  
+        <el-form :model="from" :rules="rules" ref="from" label-width="100px" class="from">
+          <div class="top">
+            <el-form-item label="学校名称:" prop="schoolName">
+              <el-input v-model="from.schoolName" placeholder="请输入学校名称，最多20个字" class="inp" style="width: 400px;"></el-input>
+            </el-form-item>
+            <el-form-item label="选择地区:" prop="area">
+              <el-select v-model="value1" placeholder="请选择省份" @change="valu1(value1)" style="width: 200px;">
+                <el-option v-for="(item,index) in options1" :key="index" :label="item.areaName" :value="item.areaNumber">
+                </el-option>
+              </el-select>
+              <el-select v-model="value2" placeholder="请选择城市" @change="valu2(value2)" style="width: 200px;">
+                <el-option v-for="(item,index) in options2" :key="index" :label="item.areaName" :value="item.areaNumber">
+                </el-option>
+              </el-select>
+              <el-select v-model="value3" placeholder="请选择县区" @change="valu3(value3)" style="width: 200px;">
+                <el-option v-for="(item,index) in options3" :key="index" :label="item.areaName" :value="item.areaNumber">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="详情地址:">
+              <el-input v-model="from.schoolAddress" placeholder="请输入详细地址" class="inp" style="width: 400px;"></el-input>
+            </el-form-item>
+            <el-form-item label="管理员姓名:" prop="managerName">
+              <el-input v-model.trim="from.managerName" placeholder="请输入管理员姓名，最多20个字" class="inp" style="width: 400px;"></el-input>
+            </el-form-item>
+            <el-form-item label="管理员手机:" prop="managerPhone">
+              <el-input v-model="from.managerPhone" placeholder="请输入手机号" class="inp" style="width: 400px;"></el-input>
+            </el-form-item>
+            <el-form-item label="选择上级:" prop="positionId">
+              <el-select v-model="from.positionId" placeholder="请选择上级" style="width: 400px;">
+                <el-option v-for="(item, index) in superiorIdArr" :key="index" :label="item.positionName" :value="item.superiorId"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="学校简介:">
+              <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 10 }" style="width: 400px;" v-model="from.schoolIntro"
+                placeholder="请输入学校简介"></el-input>
+            </el-form-item>
+            <el-form-item label="状态:" prop="schoolStatus">
+              <el-select v-model="from.schoolStatus" placeholder="状态" style="width: 400px;">
+                <el-option label="启用" value="1"></el-option>
+                <el-option label="禁用" value="0"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="学校封面:">
+              <!-- <el-input type="textarea" v-model="from.desc"></el-input> -->
+              <el-upload class="avatar-uploader" style="border: 1px dashed #D8DCE6;width:150px;height:150px; position: relative;"
+                :action=action :show-file-list="false"  :on-change="changeUpload"
+                :before-upload="beforeAvatarUpload">
+                <img v-if="imgUrl != ''" :src="imgUrl" class="avatar" style="width:150px;height:150px;">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+              <div style="color:#909399;font-size: 12px; position: absolute;left:170px;top:8px; line-height: 22px;">
+                <p>上传尺寸要求宽高相等</p>
+                <p>推荐最佳尺寸为600*600，最小尺寸应大于300*300</p>
+                <p>图片须小于1MB</p>
+                <p>图片支持格式jpeg、jpg、png</p>
+              </div>
+            </el-form-item>
+  
+          </div>
+        </el-form>
+  
+  
+      </div>
+      <div class="btn">
+        <el-button @click="submitForm('from')">提交</el-button>
+      </div>
+    </div>
+  
+    <div v-show="box2" class="password-admin">
+      <p style="font-size: 16px; margin-bottom: 100px;">{{ box2Text }}</p>
+      <div class="btn">
+        <el-button @click="goSchoolManagement()" style="margin-right: 0;">完成</el-button>
+      </div>
+    </div>
+    <template>
+      <el-dialog title="提示" :visible.sync="dialogVisible" width="50%" height="500px;">
+        <span>确认提交?</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="submit()" size="mini">确定</el-button>
+          <el-button @click="dialogVisible = false" size="mini"> 取消</el-button>
+        </span>
+      </el-dialog>
+    </template>
+      <!-- 图片裁剪 -->
+  <template>
+    <el-dialog title="图片剪裁" :visible.sync="dialogVisibleImg" append-to-body>
+      <div class="cropper-content">
+        <div class="cropper" style="text-align:center">
+          <vueCropper ref="cropper" :img="option.img" :outputSize="option.size" :outputType="option.outputType" :info="true"
+            :full="option.full" :canMove="option.canMove" :canMoveBox="option.canMoveBox" :original="option.original"
+            :autoCrop="option.autoCrop" :canScale="option.canScale" :fixed="option.fixed" :fixedNumber="option.fixedNumber"
+            :centerBox="option.centerBox" :infoTrue="option.infoTrue" :fixedBox="option.fixedBox"></vueCropper>
+
+
+        </div>
+        <!-- @realTime="realTime" -->
+      </div>
+      <div slot="footer" class="dialog-footer">
+
+        <el-button type="primary" @click="finish">确认</el-button>
+        <el-button @click="dialogVisibleImg = false">取 消</el-button>
+      </div>
+    </el-dialog>
+
+  </template>
+  </div>
+  
+  </div>
+  

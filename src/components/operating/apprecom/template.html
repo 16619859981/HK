@@ -1,0 +1,334 @@
+<div>
+
+    <!-- 内容管理头 -->
+    <div class="header-header">
+        <!-- <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button> -->
+        <br>
+        <span style="margin-right: 20px;margin-top:10px;" class="active_title">App-推荐页</span>
+    </div>
+
+
+    <div class="content" style="margin-top: 20px;">
+        <div class="left"  v-loading="loading" >
+            <p style="width: 100%;position: relative;"> APP展示编辑   <el-button size="mini" class="btnMin" @click="fresh()" style="float: right;">刷新</el-button></p>
+            <div class="con">
+
+                <div class="one" style=" border:1px solid #D5D5D5;padding-left: 10px;padding-right:10px;">
+                    <div class="title">
+                        <p style="
+                        font-size:16px;
+                        font-family:PingFangSC-Regular;
+                        color:rgba(52,52,52,1);">Banner</p>
+                    </div>
+
+                    <div class="center">
+                        <div class="pic" style="width: 100%;text-align: center">
+                            <img src="../../../../static/images/im.png" style="height:90px;width:180px;margin-top: 5px;" alt="">
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="four" v-for="item in leftData" :key="item.homeModuleId" style="margin-top:0px;;">
+                    <div class="box-right-bottom-top" v-if="item.homeModuleModel==4">
+                        <div class="opera" style="position: absolute;right: 0px;top:0px;">
+                            <a v-if="item.homeModuleSort==1" style="color:#ccc; font-size:12px;" href="javaScript:;">上移</a>
+
+                            <a v-else href="javaScript:;" @click="orderUp(item.homeModuleId,item.homeModuleSort)" style="color:#409eff;font-size:12px;">上移</a>
+                            <a href="javaScript:;" @click="orderDown(item.homeModuleId,item.homeModuleSort)" style="color:#409eff;font-size:12px;">下移</a>
+                            <a href="javaScript:;" @click="hideSchool(item.homeModuleId,item.homeModuleIsup)" v-if="item.homeModuleIsup==2" id="hidden"
+                                style="color:#409eff;font-size:12px;">显示</a>
+                            <a href="javaScript:;" @click="hideSchool(item.homeModuleId,item.homeModuleIsup)" v-if="item.homeModuleIsup==1" id="hidden"
+                                style="color:#409eff;font-size:12px;">隐藏</a>
+
+                        </div>
+                    </div>
+                    <div class="box-right-bottom-top" v-if="item.homeModuleModel==1||item.homeModuleModel==2||item.homeModuleModel==3">
+                        <div class="opera" style="position: absolute;right: 0px;top:0px;">
+                            <a href="javaScript:;" @click="orderUp(item.homeModuleId,item.homeModuleSort)" style="color:#409eff;font-size:12px;">上移</a>
+                            <a href="javaScript:;" @click="orderDown(item.homeModuleId,item.homeModuleSort)" style="color:#409eff;font-size:12px;">下移</a>
+                            <a href="javaScript:;" @click="hideSchool(item.homeModuleId,item.homeModuleIsup)" v-if="item.homeModuleIsup==2" id="hidden"
+                                style="color:#409eff;font-size:12px;">显示</a>
+                            <a href="javaScript:;" @click="delModels(item.homeModuleId)" v-if="item.homeModuleIsup==1" id="hidden" style="color:#409eff;font-size:12px;">移除</a>
+
+                        </div>
+                    </div>
+                    <div class="box-right-bottom-bottom" v-if="item.homeModuleModel==4" style="border:1px solid #D5D5D5;height:275px;padding:15px 10px;">
+                        <div class="label">
+                            <p>{{item.homeModuleName}}
+
+                            </p>
+                        </div>
+                        <div class="model1">
+
+                            <div class="pic" style="width: 100%;text-align: center">
+                                <img src="../../../../static/images/im.png" style="height:90px;width:180px;margin-top: 5px;" alt="">
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <div class="box-right-bottom-bottom" v-if="item.homeModuleModel==1" style="border:1px solid #D5D5D5;height:275px;padding:15px 10px;">
+                        <div class="label">
+                            <p>{{item.homeModuleName}}
+                                <span style="font-size: 14px;color:#D5D5D5">更多 > </span>
+                            </p>
+                        </div>
+                        <div class="model1">
+                            <div v-for="(row,index) in item.modelData" :key="index">
+                                <div class="pic">
+                                    <img :src="row.fileId" style="width: 60px;height:60px;;margin-right: 10px;" alt="">
+
+                                </div>
+                                <div class="word" style="margin-top: 8px;width: 62px; overflow: hidden;
+                                text-overflow: ellipsis;
+                                display: -webkit-box;
+                                -webkit-line-clamp:2;
+                                -webkit-box-orient: vertical;" :title="row.title">
+                                    {{row.title}}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div v-if="item.homeModuleModel==2" style="border:1px solid #D5D5D5;height:285px;padding:15px 10px;">
+                        <div class="title">
+                            <p>{{item.homeModuleName}}</p>
+                        </div>
+                        <div class="center">
+                            <ul v-for="(row,index) in item.modelData" :key="index">
+                                <li style="width: 100%;margin-top: 10px;">
+                                    <a href="javaScript:;" class="le">
+                                        <img :src="row.fileId" style="height:60px;width:60px;margin-right: 10px;" alt="">
+                                    </a>
+                                    <a href="javaScript:;" class="ri">
+                                        <span style="display: inline-block;width:130px;overflow:hidden;
+                                        text-overflow:ellipsis;
+                                        white-space:nowrap" :title="row.title">{{row.title}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <a href="javaScript:;" style="margin-left:80px;display: block;margin-top: 10px;color:#D5D5D5;">查看更多……</a>
+                        </div>
+                    </div>
+                    <div v-if="item.homeModuleModel==3" style="border:1px solid #D5D5D5;height:275px;padding:15px 10px;">
+                        <div class="title">
+                            <p>{{item.homeModuleName}}
+                                <span style="float: right;font-size: 14px;color:#D5D5D5">更多 ></span>
+                            </p>
+
+
+                        </div>
+                        <div class="center">
+                            <ul v-for="(row,index) in item.modelData" :key="index">
+                                <li style="width: 100%;margin-top: 10px;">
+                                    <a href="javaScript:;" class="le">
+                                        <img :src="row.fileId" style="height:60px;width:60px;margin-right: 10px;" alt="">
+
+                                    </a>
+                                    <a href="javaScript:;" class="ri">
+                                        <span style="display: inline-block;width:130px;overflow:hidden;
+                                        text-overflow:ellipsis;
+                                        white-space:nowrap" :title="row.title">{{row.title}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="box-right" v-loading="loading1">
+            <div class="box-right-top">
+                <span>可配置模块</span>
+            
+                <el-button plain style="padding: 7px 19px; font-size: 12px; float: right;" @click="dialogVisible=true">创建模块</el-button>
+            </div>
+
+
+
+            <div class="box-right-bottom">
+                <ul>
+                    <li v-for="item in modelDatas" :key="item.homeModuleId">
+                        <div>
+                            <div class="box-right-bottom-top">
+                                <div class="opera">
+                                        <a href="javaScript:;" v-if="item.homeModuleIsmore==1" style="color:#409eff;font-size:12px;" @click="addError()">添加</a>
+
+                                    <a href="javaScript:;" v-if="item.homeModuleIsmore==2" style="color:#409eff;font-size:12px;" @click="addModel(item.homeModuleModel,item.homeModuleName,item.homeModuleId,item.homeModuleType,item.homeModuleIsup)">{{item.homeModuleIsup}}</a>
+                                    <a href="javaScript:;" @click="edit(item.homeModuleId,item.homeModuleType)" style="color:#409eff;font-size:12px;">编辑</a>
+                                    <a href="javaScript:;" @click="delModel(item.homeModuleId)" style="color:#409eff;font-size:12px;">删除</a>
+
+                                </div>
+                            </div>
+                            <div class="box-right-bottom-bottom" v-if="item.homeModuleModel==1">
+                                <div class="label">
+                                    <p>{{item.homeModuleName}}
+                                        <span>更多 > </span>
+                                    </p>
+                                </div>
+                                <div class="model1" v-for="row in item.modelData" :key="row.id">
+                                    <div>
+                                        <div class="pic" v-loading="loading2">
+                                            <img   :src="row.fileId" style="width:60px;height: 60px;;" alt="">
+                                            <!-- <img v-else src="../../../../static/images/model.png" style="width:50px;height: 50px;;" alt=""> -->
+
+                                        </div>
+                                        <div class="word" style="margin-top: 8px;width: 62px; overflow: hidden;
+                                            text-overflow: ellipsis;
+                                            display: -webkit-box;
+                                            -webkit-line-clamp:2;
+                                            -webkit-box-orient: vertical;" :title="row.title">
+                                            {{row.title}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box-right-bottom-bottom" v-if="item.homeModuleModel==2">
+                                <div class="label">
+                                    <p>{{item.homeModuleName}}</p>
+                                </div>
+                                <div class="model2">
+                                    <div v-for="row in item.modelData" :key="row.id">
+                                        <span  v-loading="loading3" style="width: 60px; height: 60px; display: inline-block;">
+
+                                            <img :src="row.fileId" style="width:60px;height: 60px;;" alt="">
+                                        </span>
+                                        <span style="margin-left: 10px; display: inline-block;width:130px;overflow:hidden;
+                                                        text-overflow:ellipsis;
+                                                        white-space:nowrap" :title="row.title">{{row.title}}</span>
+                                    </div>
+
+
+
+                                    <div style="text-align: center;">
+                                        <a style="color:#D5D5D5;">查看更多……</a>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="box-right-bottom-bottom" v-if="item.homeModuleModel==3">
+                                <div class="label">
+                                    <p>{{item.homeModuleName}}
+                                        <span>更多 > </span>
+                                    </p>
+                                </div>
+                                <div class="model3">
+                                    <div v-for="row in item.modelData" :key="row.id">
+                                        <span v-loading="loading4" style="width: 60px; height: 60px; display: inline-block;">
+                                            <img :src="row.fileId" style="width:60px;height: 60px;;" alt="">
+                                        </span>
+                                        <span style="margin-left: 10px; display: inline-block;width:130px;overflow:hidden;
+                                                    text-overflow:ellipsis;
+                                                    white-space:nowrap" :title="row.title">{{row.title}}</span>
+                                    </div>
+
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <el-pagination @current-change="handleCurrentChange" style="text-align: center;margin-top: 10px;margin-bottom: 10px;" :currentPage="currentPage"
+                    :page-size="9" layout="total, prev, pager, next, jumper" :total="total">
+                </el-pagination>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <el-dialog title="创建模板" :visible.sync="dialogVisible" width="70%">
+        <el-form>
+            <div class="one">
+                <span>一：选择样式</span>
+                <div v-model="form.model" style="text-align: center;" class="modelModel">
+                    <span @click="select1()" id="span1" style="width: 260px;height: 300px;border:1px solid #ccc;display: inline-block; text-align: center;line-height: 300px;">
+                        <img src="../../../../static/images/model3.png" alt="">
+                    </span>
+                    <span @click="select2()" id="span2" style="width: 260px;height: 300px;border:1px solid #ccc;display: inline-block; text-align: center;line-height: 300px;">
+                        <img src="../../../../static/images/model1.png" alt="">
+                    </span>
+                    <span @click="select3()" id="span3" style="width: 260px;height: 300px;border:1px solid #ccc;display: inline-block; text-align: center;line-height: 300px;">
+                        <img src="../../../../static/images/model2.png" alt="">
+                    </span>
+
+
+
+
+                </div>
+
+            </div>
+            <div class="two" style="margin-top: 20px;">
+                <span>二：标题名称</span>
+
+                <el-input v-model="form.name" placeholder="请输入标题名称，最多6个字" style="width: 213px;margin-left: 48px;;"></el-input>
+
+            </div>
+            <div class="three" style="margin-top: 20px;">
+                <span>三：选择内容类型</span>
+                <el-select v-model="form.type" placeholder="请选择分类" style="margin-left: 20px;">
+                    <el-option v-for="item in options" :key="item.code" :label="item.value" :value="item.code">
+                    </el-option>
+                </el-select>
+
+            </div>
+
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="submitModel()">确 定</el-button>
+
+            <el-button @click="dialogVisible = false">取 消</el-button>
+
+        </span>
+    </el-dialog>
+
+
+
+
+    <!-- 确定提交模板 -->
+
+    <template>
+        <el-dialog title="提示" :visible.sync="dialogVisibleModel" width="50%" height="500px;">
+            <span>确认创建模板?</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="modelsData()" size="mini">确定</el-button>
+                <el-button @click="dialogVisibleModel = false" size="mini"> 取消</el-button>
+            </span>
+        </el-dialog>
+    </template>
+    <!-- 确定隐藏学校-->
+
+    <template>
+        <el-dialog title="提示" :visible.sync="dialogVisibleHideSchool" width="50%" height="500px;">
+            <span>确认修改学校模板状态?</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="HideSchool()" size="mini">确定</el-button>
+                <el-button @click="dialogVisibleHideSchool = false" size="mini"> 取消</el-button>
+            </span>
+        </el-dialog>
+    </template>
+    <!-- 确定移除此模板-->
+    <template>
+        <el-dialog title="提示" :visible.sync="dialogVisibleDelModel" width="50%" height="500px;">
+            <span>确认移除此模板?</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="DEL()" size="mini">确定</el-button>
+                <el-button @click="dialogVisibleDelModel = false" size="mini"> 取消</el-button>
+            </span>
+        </el-dialog>
+    </template>
+
+
+</div>

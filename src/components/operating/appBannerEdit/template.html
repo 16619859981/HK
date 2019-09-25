@@ -1,0 +1,74 @@
+<div>
+    <!-- 头部 -->
+    <div class="header-header">
+        <h3>运营管理-App-Banner
+        </h3>
+        <span style="margin-right: 20px;" class="active_title">编辑Banner</span>
+
+        <!-- <span>创建视频专辑</span> -->
+
+    </div>
+    <!-- 创建专辑的内荣 -->
+    <div class="albumContent">
+        <div class="msg">
+            <div class="title">
+                <i></i>
+                <span>Banner信息</span>
+            </div>
+
+            <el-form :model="ruleForm" ref="ruleForm" :rules="rules" label-width="150px" class="demo-ruleForm">
+                <div class="top">
+                    <el-form-item label="banner标题:" prop="title">
+                            <el-input v-model="ruleForm.title" class="inp"></el-input>
+     
+                    </el-form-item>
+                    <el-form-item label="页面:" prop="pages">
+                            <el-input v-model="ruleForm.pages" class="inp"></el-input>
+
+                    </el-form-item>
+
+                    <el-form-item label="链接类型:" prop="linkType">
+                            <el-input v-model="ruleForm.linkType" class="inp"></el-input>
+   
+
+                    </el-form-item>
+            
+                    <el-form-item label="链接:" prop="link">
+                            <el-input v-model="ruleForm.link" class="inp"></el-input>
+                 
+
+                    </el-form-item>
+                    <el-form-item label="创建人:" prop="name">
+                            <el-input v-model="ruleForm.name" class="inp"></el-input>
+                 
+
+                    </el-form-item>
+                    <el-form-item label="创建时间:">
+                            <el-input v-model="ruleForm.createTime" class="inp"></el-input>
+                      
+
+                    </el-form-item>
+                    <el-form-item label="Banner图片:">
+                            <el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-success="handleAvatarSuccess"
+                            :before-upload="beforeAvatarUpload">
+                            <img v-if="ruleForm.imageUrl" :src="ruleForm.imageUrl" class="avatar">
+                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                        </el-upload>
+                     
+
+                    </el-form-item>
+                </div>
+
+            </el-form>
+
+
+        </div>
+
+    </div>
+
+
+
+
+</div>
+
+</div>

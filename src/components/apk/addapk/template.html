@@ -1,0 +1,90 @@
+<div>
+    <div class="breadcrumb">
+        <a href="#">app管理</a>
+        <a href="#" class="active">新增安装包</a>
+      </div>
+    <!-- 创建专辑的内容 -->
+    <div class="albumContent">
+     <div class="msg" >
+       <!--  <div class="title">
+
+          <span></span>
+        </div> -->
+  
+        <el-form :model="ruleForm"   :rules="rules" ref="ruleForm" label-width="130px" class="ruleForm">
+          <div class="top">
+            <el-form-item label="版本号:" prop="version">
+              <el-input v-model="ruleForm.version" placeholder="请输入版本号" class="inp"  style="width: 400px;"></el-input>
+         
+            </el-form-item>
+            <el-form-item label="版本名:">
+              <el-input v-model="ruleForm.versionName" placeholder="请输入版本名" class="inp" style="width: 400px;"></el-input>
+     
+            </el-form-item>
+            <el-form-item label="应用类型:">
+              <el-input v-model="ruleForm.types" placeholder="红广少年" class="inp"  style="width: 400px;"></el-input>
+       
+            </el-form-item>
+            <el-form-item label="更新类型:" prop="uType">
+              <el-select v-model="ruleForm.uType" placeholder="请输入更新类型" class="inp"  style="width: 400px;">
+                  <el-option label="普通更新" value='1'></el-option>
+                  <el-option label="推荐更新" value="2"></el-option>
+                  <el-option label="强制更新" value="3"></el-option>
+              </el-select>
+
+            </el-form-item>
+            <el-form-item label="更新日志:" prop="log">
+              <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 10 }" style="width: 400px;" v-model="ruleForm.log" placeholder="请输入更新日志，最多可输入50个字"></el-input>
+            </el-form-item>
+       
+            <el-form-item v-if="ruleForm.environment==1" label="选择安装包文件:" prop="url">
+                <el-button @click="upload()" style="padding: 12px 15px; font-size: 12px;background-color: #409eff;color:#fff;">添加安装包</el-button>
+              <p v-if="ruleForm.name!=''">已上传文件：<span>{{ruleForm.name}}</span></p>
+             
+            </el-form-item>
+  
+          </div>
+        </el-form>
+  
+  
+      </div>
+      <div class="btn">
+        <el-button @click="submit()">提交</el-button>
+        <el-button @click="cancel">
+          取消
+        </el-button>
+      </div>
+    </div>
+    <!-- 上传文件 -->
+    <template>
+        <el-dialog title="上传apk" :visible.sync="dialogVisibleUpload" width="50%" height="500px;">
+          <el-upload class="upload-demo" drag action="/file/ihongka_files/uploadAPK" style="width: 400px; margin: 0 auto;"
+            :on-success="fn" :file-list="fileList" :before-upload="beforeImageUpload" ref="upload">
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">将文件拖到此处，或
+              <em>点击上传</em>
+            </div>
+    
+          </el-upload>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisibleUpload = false" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+            <el-button @click="cancel2" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+          </span>
+        </el-dialog>
+      </template>
+  <!-- 提交弹窗 -->
+    <template>
+      <el-dialog title="提示" :visible.sync="dialogVisible" width="50%" height="500px;">
+        <span>确认提交?</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="submitData(ruleForm)" size="mini">确定</el-button>
+          <el-button @click="dialogVisible = false" size="mini"> 取消</el-button>
+        </span>
+      </el-dialog>
+    </template>
+  
+  
+  </div>
+  
+  </div>
+  

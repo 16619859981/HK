@@ -1,0 +1,137 @@
+<div>
+
+    <!-- 内容管理头 -->
+    <div class="header-header">
+        <!-- <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button> -->
+        <br>
+   
+        <span style="margin-right: 20px;margin-top:10px;" class="active_title" @click="appActive()">推荐活动</span>
+        <span style="margin-right: 20px;margin-top:10px;" @click="thematicActive()" class="xiaoshou">专题活动</span>
+
+        <!-- <span style="margin-right: 20px;margin-top:10px;" @click="thematicActive()" class="xiaoshou">专题活动</span> -->
+        <!-- 
+    
+        <span style="margin-right: 20px;" @click="thematicActive()">专题活动</span> -->
+
+
+    </div>
+    <div class="content" style="margin-top: 20px;">
+        <div class="left" v-loading="loading">
+            <div class="title">
+                <!-- <i></i> -->
+                <p> APP展示列表</p>
+                <a href="javaScript:;" @click="dialogVisibleDel=true" class="xiaoshou">清除列表</a>
+            </div>
+            <div class="con">
+                <ul>
+                    <li v-for="item in leftList" :key="item.id" style="margin-top: 30px;;">
+                        <span>{{item.sort}}</span>
+                        <!-- <img src="../../../../static/im.png" alt=""> -->
+                    <img :src="item.fileId" style="width:80px;height: 50px; ;" alt="">
+                  
+
+
+                        <div>
+                            <div id="div" :title="item.title">{{item.title}}</div>
+                            <p>
+                                    <a v-if ="item.sort==1" style="color:#ccc; margin-right: 5px;;"  href="javaScript:;">上移</a>
+                                <a v-else href="javaScript:;"  @click="changeSortUp(item.id,item.sort)">上移</a>
+                                <a href="javaScript:;" @click="changeSortDown(item.id,item.sort)">下移</a>
+                                <a v-if ="item.sort==1" style="color:#ccc; margin-right: 5px;;"  href="javaScript:;">已置顶</a>
+                                <a v-else href="javaScript:;" @click="changeTopList(item.id,item.sort,item.title)">{{item.istop}}</a>
+                                <a href="javaScript:;" @click="delStatusList(item.id,item.title)">移除</a>
+                            </p>
+                        </div>
+                    </li>
+              
+                </ul>
+            </div>
+        </div>
+        <div class="right" v-loading="loading1">
+            <div class="title">
+                <!-- <i></i> -->
+                <p>全部活动</p>
+            </div>
+            <div class="right_con">
+                <div class="search">
+                    <el-input placeholder="请输入内容" v-model="searchItem.keyValue" clearable style="width:60%">
+                    </el-input>
+                    <el-button class="search-button btnMin"  @click ="handelList2()"style="padding: 12px 25px;
+                          font-size: 12px;
+                          background-color: #409eff;
+                          color: #fff;
+                          margin-left: 20px;s
+                      ">搜索</el-button>
+                </div>
+                <div class="list">
+                    <div class="albumMsg" v-for="item in tableData" :key="item.id">
+                        <div style="width: 100%;height:150px;border:1px solid #ccc;">
+       <!-- <img src="../../../../static/im.png" style="width:130px;height: 80px;margin-top: 20px; ;" alt=""> -->
+       <img :src="item.fileId" style="width:128px;height: 80px;margin-top: 20px; ;" alt="">
+       <div style="width: 130px;margin: 0 auto; text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;"
+           :title="item.name">{{item.name}}</div>
+       <p style="position: absolute;right:17px;top:-3px;">
+           <a href="javaScript:;" @click="changeStatus(item.isup,item.id)" style="color:#409eff">{{item.isup}}</a>
+       </p>
+                        </div>
+                 
+
+                    </div>
+                </div>
+                <!-- 分页 -->
+                <el-pagination @current-change="handleCurrentChange" :currentPage="currentPage" :page-size="12" layout="total, prev, pager, next, jumper" :total="total"
+                    style="text-align: center;margin-top: 10px;margin-bottom: 10px;">
+                </el-pagination>
+            </div>
+
+        </div>
+
+
+
+    </div>
+ <!-- 清除弹框 -->
+ <el-dialog
+ title="提示"
+ :visible.sync="dialogVisibleDel"
+ width="30%"
+
+ >
+ <span>确定要清除列表么？</span>
+ <span slot="footer" class="dialog-footer">
+   <el-button @click="delListStatus()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+   <el-button  @click="dialogVisibleDel = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+ </span>
+</el-dialog>
+ <!-- 置顶弹框 -->
+ <el-dialog
+ title="提示"
+ :visible.sync="dialogVisibleTop"
+ width="30%"
+
+ >
+ <span>将以下活动设置置顶</span>
+ <br>
+ <span style="color:#409eff">{{topTitle}}</span>
+ <span slot="footer" class="dialog-footer">
+   <el-button @click="changeTop()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+   <el-button  @click="dialogVisibleTop = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+ </span>
+</el-dialog>
+ <!-- 移除弹框 -->
+ <el-dialog
+ title="提示"
+ :visible.sync="dialogVisibleDelList"
+ width="30%"
+
+ >
+ <span>是否确认移除以下活动？</span>
+ <br>
+ <span style="color:#409eff">{{delTitle}}</span>
+ <span slot="footer" class="dialog-footer">
+   <el-button @click="delStatus()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+   <el-button  @click="dialogVisibleDelList = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+ </span>
+</el-dialog>
+
+</div>
+</div>

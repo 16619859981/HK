@@ -1,0 +1,427 @@
+<div>
+  <div class="breadcrumb">
+    <a href="#">运营管理</a>
+    <a href="#" onClick="window.history.go(-1)">首页运营</a>
+    <a href="#" class="active" v-if="isEdit==0">查看页面</a>
+    <a href="#" class="active" v-else>编辑页面</a>
+
+  </div>
+
+  <!-- 创建专辑的内容 -->
+  <div class="albumContent">
+    <div class="msg">
+
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="ruleForm">
+      
+          <h3>
+            板块设置
+          </h3>
+          <div class="top" style="margin-top:20px;">
+          <el-form-item label="名称:" prop="name" v-if="listType==1">
+            <el-input v-model="ruleForm.name" placeholder="每日必听" class="inp" :disabled=disabled style="width: 400px;"></el-input>
+          </el-form-item>
+          <!-- <el-form-item label="名称:" prop="albumName" v-if="listType==1">
+            <el-input v-model="ruleForm.albumName" placeholder="每日必听" class="inp"  style="width: 400px;"></el-input>
+          </el-form-item> -->
+          <el-form-item label="名称:" prop="name" v-else>
+            <el-input v-model="ruleForm.name" placeholder="不在APP显示，作为后台记录，最多6个字" :disabled=disabled class="inp"
+        style="width: 400px;"></el-input>
+          </el-form-item>
+     
+          <el-form-item label="首页feed位置:" prop="location">
+            <el-input v-model="ruleForm.location"  placeholder="1-100数值" class="inp" :disabled=disabled  style="width: 400px;" @blur="checkNumber(ruleForm.location)"></el-input>
+            
+            <br/><span class="tips">请输入数字1-100，1为首页置顶位置，如果置顶位已有模块，这次再选择1则已有模块会顺延到2</span>
+          
+          </el-form-item>
+         
+          <el-form-item label="上架时间:" v-if="listType==1">
+            <el-date-picker v-model="ruleForm.upTime" type="date" value-format="timestamp"
+              :picker-options="pickerOptions0" placeholder="开始日期" :disabled=disabled>
+            </el-date-picker>
+            至
+            <el-date-picker v-model="ruleForm.downTime" value-format="timestamp" :picker-options="pickerOptions0"
+              type="date" placeholder="结束日期" :disabled=disabled>
+            </el-date-picker>
+          
+            <br/>
+            <span class="tips" v-if="listType==1">说明：1月1日当天展示，请选择开始时间1.1结束时间1.1</span>
+            <br/>
+            <span class="tips" v-if="listType==1">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;1月1日至1月2日展示，请选择开始时间1.1结束时间1.2</span>
+         
+          </el-form-item>
+       </div>
+          <h3>
+
+            {{textTile}}
+          </h3>
+          <div class="top">
+          <div style="margin-left:10px;margin-bottom: 20px;;">
+            <div class="add" v-for="(item,index) in AddData">
+              <div class="addimg" style="margin-bottom:10px;height:80px;" v-if="listType==3">
+              <el-upload class="avatar-uploader"
+                  style="border: 1px dashed #D8DCE6;width:200px;height:80px; position: relative;background-color: #fff;"
+                  action="" :auto-upload="false" :show-file-list="false" :on-change="changeUpload"
+                  :before-upload="beforeAvatarUpload" v-if="isEdit==1" >
+                  <img v-if="item.headFileUrl" @click=getuploadImgIndex(index) :src="item.headFileUrl" class="avatar" style="width:200px;height:80px;"
+                >
+                 
+                   <i v-else class="el-icon-plus avatar-uploader-icon" @click=getuploadImgIndex(index)></i> 
+                </el-upload> 
+                <img v-if="item.headFileUrl&&isEdit==0" :src="item.headFileUrl" class="avatar" style="width:200px;height:80px;"
+                >
+                <div style="color:#909399;font-size: 12px; position: absolute;left:250px;top:38px; line-height: 22px;">
+                  <p>推荐最佳尺寸为750*300</p>
+                  <p>图片须小于300k</p>
+                  <p>图片支持格式jpeg、jpg、png</p>
+                </div>
+              </div>
+              <div class="addleft" v-if="item.name==''" @click="checkMsg(index)">
+                <img src="./audio.png" v-if="listType==1"
+                  style="width:20px;height:20px;margin-right: 10px;" alt=""> <span
+                  v-if="listType==1">{{textTile}}</span>
+                  <img src="./red.png" v-if="listType==2"
+                  style="width:20px;height:20px;margin-right: 10px;" alt=""> <span
+                  v-if="listType==2">{{textTile}}</span>
+                 <img src="./link.png" v-if="listType==3"
+                  style="width:20px;height:20px;margin-right: 10px;" alt=""> <span v-if="listType==3">添加跳转链接</span>
+              </div>
+              <div class="addleft" v-else>
+                <span >{{item.name}}</span>
+                <span style="float:right;" v-if="isEdit==0"></span>
+
+                <span style="float:right;cursor: pointer;" v-if="isEdit==1" @click="delName(index)" >×</span>
+              </div>
+              <div v-if="listType==2">
+                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="80px"
+                  style="text-align: -webkit-auto;margin-left: -10px;">
+                  <el-form-item >
+                    <el-date-picker v-model="item.upTime" type="date" value-format="timestamp"
+                      :picker-options="pickerOptions0" placeholder="开始日期" style="width:140px;" :disabled=disabled>
+                    </el-date-picker>
+                    至
+                    <el-date-picker v-model="item.downTime" value-format="timestamp" style="width:140px;"
+                      :picker-options="pickerOptions0" type="date" placeholder="结束日期" :disabled=disabled>
+                    </el-date-picker>
+                  </el-form-item>
+                </el-form>
+              </div>
+              <div v-if="listType==3">
+                <el-form   label-width="80px"
+                  style="text-align: -webkit-auto;margin-left: -10px;">
+                  <el-form-item label="上架时间:" v-if="isEdit==0">
+                    <el-date-picker v-model="item.upTime" type="date" value-format="timestamp"
+                      :picker-options="pickerOptions0" disabled placeholder="开始日期" style="width:140px;">
+                    </el-date-picker>
+                    至
+                    <el-date-picker v-model="item.downTime" value-format="timestamp" style="width:140px;"
+                      :picker-options="pickerOptions0" disabled type="date" placeholder="结束日期">
+                    </el-date-picker>
+                  </el-form-item>
+                  <el-form-item label="上架时间:" v-if="isEdit==1">
+                    <el-date-picker v-model="item.upTime" type="date" value-format="timestamp"
+                      :picker-options="pickerOptions0" placeholder="开始日期" style="width:140px;">
+                    </el-date-picker>
+                    至
+                    <el-date-picker v-model="item.downTime" value-format="timestamp" style="width:140px;"
+                      :picker-options="pickerOptions0" type="date" placeholder="结束日期">
+                    </el-date-picker>
+                  </el-form-item>
+                </el-form>
+              </div>
+              <!-- <el-input clearable style="width:300px;" v-model="item.name"></el-input>  -->
+              <div class="toolImg">
+           
+                <img src="./del.png" alt="" class="toolImg-img" v-if="isEdit==1" @click="divDel(index)">
+                <img src="./top.png" alt="" class="toolImg-img" v-if="isEdit==1" @click="divTop(index)">
+                <img src="./bottom.png" alt="" class="toolImg-img" v-if="isEdit==1" @click="divBottom(index)">
+              </div>
+
+            </div>
+            <div class="addbtn" @click="add()" v-if="isEdit==1">
+              <p>+添加{{AddDataLength}}/{{maxLength}}</p>
+            </div>
+
+          </div>
+
+          <!-- </div> -->
+
+        </div>
+      </el-form>
+
+
+    </div>
+    <div class="btn" v-if="isEdit==1">
+      <el-button @click="getFeed1()">预览</el-button>
+      <el-button @click="submitData()">发布</el-button>
+      <el-button @click="dialogVisibleDel = true">
+        取消
+      </el-button>
+    </div>
+  </div>
+  <!-- 信息预览 -->
+  <template>
+    <el-dialog title="查看信息" :visible.sync="dialogVisibleMsg" width="50%" height="500px;">
+      <div style="height:325px;" class="LOOKMSG">
+        <el-tabs v-model="activeName" style="margin-top:-30px;" @tab-click="handleClick">
+          <el-tab-pane label="音频节目" name="2" v-if="listType==1">
+            <div style="text-align: center;" >
+              <el-input clearable size="mini" placeholder="请输入节目ID" v-model="search.id"
+                style="width:300px;display:inline-block"></el-input>
+              <el-button size="mini" style="background-color:#409eff;color:#fff;height: 30px; border:none;" @click="searchData(activeName)">搜索</el-button>
+              <div style="margin-top: 20px;" v-if="bool==1">
+                <p style="text-align:left;">节目信息：</p>
+                <audio :src="MsgData.fileUrl1" controls></audio>
+                <br>
+                <el-input placeholder="" v-model="MsgData.materialName" size="mini" style="width:300px;margin-bottom: 20px;;"></el-input>
+                <br>
+                <span>所属专辑：{{MsgData.materialAlbumName}}</span>
+                <span>创建人：{{MsgData.materialPublisherName}}</span>
+                <span>创建时间：{{MsgData.materialCtime}}</span>
+  
+              </div>
+              <div style="margin-top: 20px;" v-if="bool==2">
+                <span>未查到信息</span>
+              </div>
+            </div>
+  
+          </el-tab-pane>
+          <el-tab-pane label="红广号" name="4" v-if="listType==2">
+            <div style="text-align: center;" >
+              <el-input clearable size="mini" placeholder="请输入红广号ID" v-model="search.id"
+                style="width:300px;display:inline-block"></el-input>
+              <el-button size="mini" style="background-color:#409eff;color:#fff;height: 30px; border:none;"  @click="searchData(activeName)">搜索</el-button>
+              <div class="redMark" v-if="bool==1">
+                <img :src="MsgData.logo"
+                style="width:100px;height:100px;border-radius:25px;margin-top: -15px;margin-left: 55px;" alt="">
+
+              <div class="msg">
+                <p style="color:black;font-size: 20px;margin-top: 20px;">{{MsgData.name }}</p>
+                <p style="color:#909399;font-size: 16px;margin-bottom: 60px;">更多感兴趣</p>
+
+             
+              </div>
+                <div class="bottom">
+                  <span style="margin-right: 137px;">8活动</span>
+                  <span>13专辑</span>
+                </div>
+              </div>
+              <div style="margin-top: 20px;" v-if="bool==2">
+                <span>未查到信息</span>
+              </div>
+            </div>
+  
+          </el-tab-pane>
+        </el-tabs>
+        <el-tabs v-model="activeName" style="margin-top:-20px;" @tab-click="handleClick" v-if="listType==3">
+          <el-tab-pane label="专辑" name="1">
+            <div style="text-align: center;" >
+              <el-input clearable size="mini" placeholder="请输入专辑ID" v-model="search.id"
+                style="width:300px;display:inline-block"></el-input>
+              <el-button size="mini" style="background-color:#409eff;color:#fff;height: 30px; border:none;"  @click="searchData(activeName)">搜索</el-button>
+              <div style="margin-top: 20px;" v-if="bool==1">
+                
+                <img :src="MsgData.fileUrl" style="width:150px;height:150px;"></img>
+                <br>
+                <p>专辑名称：{{MsgData.albumName}}</p>
+       
+                <span>节目数：{{MsgData.albumUpcount}}</span>
+                <span>发布人：{{MsgData.albumPersonName}}</span>
+                <span>发布时间：{{MsgData.albumCtime}}</span>
+  
+              </div>
+              <div style="margin-top: 20px;" v-if="bool==2">
+                <span>未查到信息</span>
+              </div>
+            </div>
+  
+          </el-tab-pane>
+          <el-tab-pane label="节目" name="2">
+            <div style="text-align: center;">
+              <el-input clearable size="mini" placeholder="请输入节目ID" v-model="search.id"
+                style="width:300px;display:inline-block"></el-input>
+              <el-button size="mini" style="background-color:#409eff;color:#fff;height: 30px; border:none;" @click="searchData(activeName)">搜索</el-button>
+              <div style="margin-top: 20px;" v-if="bool==1">
+           
+                <audio :src="MsgData.fileUrl1" controls v-if="MsgData.materialType==1"></audio>
+                <video :src="MsgData.fileUrl1" style="width:300px;height:150px;"  v-if="MsgData.materialType==2" controls></video>
+  
+                <br>
+                <p>节目名称：@{{MsgData.materialName}}</p>
+       
+                <span>所属专辑：{{MsgData.materialAlbumName}}</span>
+                <span>创建人：{{MsgData.materialPublisherName}}</span>
+                <span>创建时间：{{MsgData.materialCtime}}</span>
+  
+              </div>
+              <div style="margin-top: 20px;" v-if="bool==2">
+                <span>未查到信息</span>
+              </div>
+            </div>
+  
+          </el-tab-pane>
+          <el-tab-pane label="活动" name="3">
+            <div style="text-align: center;">
+              <el-input clearable size="mini" placeholder="请输入活动ID" v-model="search.id"
+                style="width:300px;display:inline-block"></el-input>
+              <el-button size="mini" style="background-color:#409eff;color:#fff;height: 30px; border:none;" @click="searchData(activeName)">搜索</el-button>
+              <div style="margin-top: 20px;" v-if="bool==1">
+               <img :src="MsgData.activityCover" style="width:256px;height:160px;" alt="">
+               <!-- <img src="" style="width:256px;height:160px;" alt=""> -->
+               <br>
+               <p>活动标题:{{MsgData.activityName}}</p>
+                <span>创建人：{{MsgData.userName}}</span>
+                <span>开始结束时间：{{MsgData.activityStime}}-{{MsgData.activityEtime}}</span>
+   
+  
+              </div>
+              <div style="margin-top: 20px;" v-if="bool==2">
+                <span>未查到信息</span>
+              </div>
+            </div>
+  
+          </el-tab-pane>
+          <el-tab-pane label="红广号" name="4" >
+            <div style="text-align: center;">
+              <el-input clearable size="mini" placeholder="请输入红广号ID" v-model="search.id"
+                style="width:300px;display:inline-block"></el-input>
+              <el-button size="mini" style="background-color:#409eff;color:#fff;height: 30px; border:none;" @click="searchData(activeName)">搜索</el-button>
+              <div class="redMark" v-if="bool==1">
+                <img :src="MsgData.logo"
+                  style="width:100px;height:100px;border-radius:25px;margin-top: -15px;margin-left: 55px;" alt="">
+  
+                <div class="msg">
+                  <p style="color:black;font-size: 20px;margin-top: 20px;">{{MsgData.name }}</p>
+                  <p style="color:#909399;font-size: 16px;margin-bottom: 60px;">更多感兴趣</p>
+
+               
+                </div>
+             
+              </div>
+              <div style="margin-top: 20px;" v-if="bool==2">
+                <span>未查到信息</span>
+              </div>
+            </div>
+  
+          </el-tab-pane>
+          <el-tab-pane label="H5" name="5" >
+            <div style="text-align: center;">
+              <el-input clearable size="mini" v-model="search.id" placeholder="请输入链接" 
+                style="width:300px;display:inline-block" ></el-input>
+        
+            </div>
+  
+          </el-tab-pane>
+        </el-tabs>
+  
+       
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="confirmMsg()" >确定</el-button>
+        <el-button @click="dialogVisibleMsg = false" size="mini"> 取消</el-button>
+      </span>
+    </el-dialog>
+  </template>
+  <template>
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="50%" height="500px;">
+      <span>确认提交?</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="mini" @click="submitData2()">确定</el-button>
+        <el-button @click="dialogVisible = false" size="mini"> 取消</el-button>
+      </span>
+    </el-dialog>
+  </template>
+  <template>
+    <el-dialog title="提示" :visible.sync="dialogVisibleDel" width="50%" height="500px;">
+      <span>确认取消提交?</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="cancel" size="mini">确定</el-button>
+        <el-button @click="dialogVisibleDel = false" size="mini"> 取消</el-button>
+      </span>
+    </el-dialog>
+  </template>
+  <!-- 图片裁剪 -->
+  <template>
+    <el-dialog title="图片剪裁" :visible.sync="dialogVisibleImg" append-to-body>
+      <div class="cropper-content">
+        <div class="cropper" style="text-align:center">
+          <vueCropper ref="cropper" :img="option.img" :outputSize="option.size" :outputType="option.outputType"
+            :info="true" :full="option.full" :canMove="option.canMove" :canMoveBox="option.canMoveBox"
+            :original="option.original" :autoCrop="option.autoCrop" :canScale="option.canScale" :fixed="option.fixed"
+            :fixedNumber="option.fixedNumber" :centerBox="option.centerBox" :infoTrue="option.infoTrue"
+            :fixedBox="option.fixedBox"></vueCropper>
+
+
+        </div>
+        <!-- @realTime="realTime" -->
+      </div>
+      <div slot="footer" class="dialog-footer">
+
+        <el-button type="primary" @click="finish">确认</el-button>
+        <el-button @click="dialogVisibleImg = false">取 消</el-button>
+      </div>
+    </el-dialog>
+
+  </template>
+
+  <template>
+      <el-dialog title="Feed流预览" :visible.sync="dialogVisibleFeed" width="50%" height="500px;">
+          <div  class="yulan" >
+              <div class="bgc">
+                  <div class="content" >
+                      <div v-for="(item,index) in feedData" :key="index">
+                          <div class="feed" v-if="item.frontText!=''">
+                              <p>{{item.frontText}}</p>
+                            </div>
+                            <div class="bar" v-if="item.frontText!=''"></div>
+                            <div class="pic" v-if="item.modelType==3" style="width:279px;height:115px; overflow: hidden;">
+                              <!-- <img src="./tupian.png" alt=""> -->
+                              <img :src="item2.headFileUrl"  alt="" style="width:279px;height:115px;display: inline;" v-for="(item2,index2) in item.dataJSON" :key="index2">
+                           </div>
+                            <div class="bar" v-if="item.modelType==3" ></div>
+                            <div class="audio" v-if="item.modelType==1" >
+                                <img src="./title.png" alt="" style="margin-bottom:8px;">
+                                <div v-for="(item2,index2) in item.dataJSON" :key="index2">
+                                  <img src="./bofang.png" alt="">
+                                  <span >
+                                   {{item2.name}}
+                                  </span>
+                                </div>
+                               
+            
+                            </div>
+                            <div class="bar" v-if="item.modelType==1"></div>
+                            <div class="red"  v-if="item.modelType==2">
+                                <img src="./titleRed.png" alt="" style="margin-bottom:8px;"> 
+                                <div class="red-box">
+                                    <div class="item" v-for="(item2,index2) in item.dataJSON"   :key="index2">
+                                      <img :src="item2.headFileUrl"  alt="" style="width:37px;height:37px;">
+                                      <p class="name">{{item2.name}}</p>
+                                      <p class="other">可能感兴趣的人</p>
+                                    </div>
+                                                
+                                  </div>
+                            </div>
+                            <div  class="bar"v-if="item.modelType==2"></div>
+                            <div class="feed" v-if="item.nextText">
+                                <p>{{item.nextText}}</p>
+                            </div>
+                            <div  class="bar"  v-if="item.nextText"></div>
+                      </div>
+                     
+                    </div>
+    
+    
+              </div>
+    
+          </div>
+        <span slot="footer" class="dialog-footer">
+          
+            190412013163520952750
+        </span>
+      </el-dialog>
+    </template>
+</div>
+<!-- 190413013154577429396 -->
+<!-- 190413013154577417238 -->
+</div>

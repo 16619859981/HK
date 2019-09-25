@@ -1,0 +1,145 @@
+<div>
+
+  <div class="breadcrumb">
+    <a href="javascript:;">运营管理</a>
+    <a href="#" class="active">推荐列表</a>
+  </div>
+
+  <div class="table-content">
+
+    <div class="table-search">
+      <div class="search-top">
+        <div class="search-title">
+          <p style="margin-left: 10px; font-size: 12px"></p>
+        </div>
+        <div class="search-list">
+          <el-form :inline="true" :model="searchItem" class="demo-form-inline">
+            <el-form-item>
+              <el-input v-model="searchItem.name" clearable placeholder="名称" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+
+            <el-form-item>
+              <el-select v-model="searchItem.upStatus" clearable placeholder="状态" size="mini" style="width:186px;">
+                <el-option label="全部" value='0'></el-option>
+                <el-option label="上线" value="1"></el-option>
+                <el-option label="未开始" value="3"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item >
+              <el-date-picker v-model="searchItem.upDate" type="date" placeholder="上线开始日期" size="mini"
+                style="width:186px;" value-format="timestamp">
+              </el-date-picker>
+              -
+              <el-date-picker v-model="searchItem.downDate" type="date" placeholder="上线结束日期" size="mini"
+                style="width:186px;" value-format="timestamp">
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item>
+              <el-button @click="renderList2()" style="padding: 8px 78px;
+                    font-size: 14px;
+                    background-color: #409EFF;
+                    color: #fff;
+                    margin-top: 6px; 
+                ">搜索</el-button>
+            </el-form-item>
+            <br>
+            <el-form-item>
+              <!-- <el-button v-show="styleTextBool" size="mini" @click="style()" style="padding: 8px 64px;
+                font-size: 14px;   
+                margin-top:6px; 
+                
+                ">{{styleText}}</el-button> -->
+              <!-- <div v-show="styleTextBool" @click="style()"
+                style="width: 186px; margin-left: 4px;margin-top: -10px; cursor: pointer;">
+                <img src="../../../../static/moreS.png" alt="">
+                <span style="color: #909399; margin-left: 5px; font-size: 12px;">更多条件</span>
+              </div> -->
+
+            </el-form-item>
+            <!-- </div> -->
+
+
+          </el-form>
+        </div>
+      </div>
+    </div>
+    <!-- 表格 -->
+    <div class="table-box">
+      <template>
+        <div class="details-Date">
+          <p>详细数据:</p>
+          <ul>
+              <li>
+                  <el-button size="mini" class="btnMin" style="background:#409EFF;color:#fff;" @click="create()">新建</el-button>
+                </li>
+            <li>
+              <el-button size="mini" class="btnMin" @click="historyApp()">历史</el-button>
+            </li>
+          </ul>
+        </div>
+        <!-- 表格 -->
+        <el-table  :data="tableData" :header-cell-style="getRowClass" style="width: 100%;"
+          :row-style="tabH" :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}">
+
+          <el-table-column prop="name" label="名称" header-align="center">
+            <template slot-scope="scope">
+              <span class="demo" @click="handleLook(scope.row.id)"
+                style="min-width: 100px;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden; text-align: center; color: #F56C6C; cursor: pointer;"
+                :title="scope.row.name">{{scope.row.name}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="upTime" label="上线时间" header-align="center">
+              <template slot-scope="scope">
+                  <span class="demo" >{{scope.row.upTime}}-{{scope.row.downTime}}</span>
+                </template>
+          </el-table-column>
+
+          <el-table-column prop="location" label="位置" header-align="center" sortable>
+          </el-table-column>
+          <el-table-column prop="showCount" label="查看次数" header-align="center" sortable>
+          </el-table-column>
+          <el-table-column prop="clickCount" label="点击次数" header-align="center" sortable>
+          </el-table-column>
+          <el-table-column prop="clickRate" label="点击率" header-align="center" sortable>
+          </el-table-column>
+          <el-table-column v-if="listType==2" prop="focusCount" label="关注人数" header-align="center" sortable>
+            </el-table-column>
+          <el-table-column prop="upStatus" label="状态" header-align="center">
+          </el-table-column>
+        
+          <el-table-column label="操作" header-align="center">
+            <template slot-scope="scope">
+              <a type="primary" plain size="small"
+                style="color:#F56C6C;padding: 4px 2px; font-size: 13px" @click="handleEdit(scope.row.id)">编辑</a>
+              <a type="primary" plain size="small"  v-if="scope.row.upStatus=='上线'||scope.row.upStatus=='未开始'"
+                style="color:#F56C6C;padding: 4px 2px; font-size: 13px" @click="editStatus(scope.row.id)">下线</a>
+                <!-- <a type="primary" plain size="small"
+                style="color:#F56C6C;padding: 4px 2px; font-size: 13px" @click="delStatus(scope.row.id)">删除</a> -->
+            </template>
+          </el-table-column>
+        </el-table>
+        <!-- 分页 -->
+        <el-pagination style="margin-top: 10px;margin-bottom: 10px;" @current-change="handleCurrentChange"
+          :currentPage="currentPage" :page-size="10" layout="total, prev, pager, next, jumper" :total="total">
+        </el-pagination>
+      </template>
+    </div>
+  </div>
+ 
+  <!-- 通过弹窗 -->
+  <template>
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="60%" height="500px;">
+      <span v-if="bool==1">确定下线该模块？</span>
+      <span v-if="bool==2">确定删除该模块？</span>
+
+
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="pass()">确定</el-button>
+        <el-button @click="dialogVisible = false">取消</el-button>
+
+      </span>
+    </el-dialog>
+  </template>
+
+</div>

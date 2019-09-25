@@ -1,0 +1,83 @@
+<div>
+
+  <!-- 内容管理头 -->
+  <div class="header-header">
+      <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+      <br>
+      <span style="margin-right: 20px;margin-top:10px;" class="active_title">查看PUSH</span>
+  
+     
+     
+    </div>
+  <div class="table-content">
+  
+    <div class="left">
+      <div class="top">
+        <div id="echarts" style="width: 600px;height:400px;"></div>
+      </div>
+      <div class="bottom">
+        <div class="title">
+          <p style="font-size: 20px;font-weight: 600;">送达率</p>
+        </div>
+        <el-table
+        :data="tableData"
+        border
+        style="width: 60%;margin: 0 auto;margin-top: 20px;;">
+        <el-table-column
+          prop="date"
+          label="送达率"
+          header-align="center"
+         >
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          label="人数"
+          header-align="center"
+         >
+        </el-table-column>
+        <el-table-column
+          prop="address"
+          label="百分比"
+          header-align="center"
+          >
+        </el-table-column>
+      </el-table>
+      </div>
+    </div>
+    <div class="right">
+      <div class="top">
+        <div id="echarts2" style="width: 600px;height:400px;"></div>
+      </div>
+      <div class="bottom">
+          <div class="title">
+              <p style="font-size: 20px;font-weight: 600;">打开率</p>
+            </div>
+        <el-table
+        :data="tableData"
+        border
+        style="width: 60%;margin: 0 auto;margin-top: 20px;">
+        <el-table-column
+          prop="date"
+          label="送达率"
+          header-align="center"
+         >
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          label="人数"
+          header-align="center"
+         >
+        </el-table-column>
+        <el-table-column
+          prop="address"
+          label="百分比"
+          header-align="center"
+          >
+        </el-table-column>
+      </el-table>
+      </div>
+    </div>
+
+                                                              
+  </div>
+</div>

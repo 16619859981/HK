@@ -1,0 +1,52 @@
+<div>
+  <div class="breadcrumb">
+    <a href="#">意见反馈</a>
+    <a href="#" onClick="window.history.go(-1)">反馈列表</a>
+
+    <a href="#" class="active">查看反馈</a>
+  </div>
+  <!-- 创建专辑的内荣 -->
+  <div class="albumContent">
+    <div class="msg">
+      <!-- <div class="title">
+
+      </div> -->
+
+      <el-form :model="tableData" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <div class="top">
+          <el-form-item label="反馈编号:">
+            <span>{{tableData.feedbackId}}</span>
+          </el-form-item>
+          <el-form-item label="反馈类型:">
+            <span>{{tableData.categoryString}}</span>
+          </el-form-item>
+          <el-form-item label="反馈时间:">
+            <span>{{tableData.feedbackCtime}}</span>
+          </el-form-item>
+          <el-form-item label="联系方式:">
+            <span>{{tableData.feedbackEmail}}</span>
+          </el-form-item>
+          <el-form-item label="问题描述:">
+            <span>{{tableData.feedbackContent}}</span>
+          </el-form-item>
+          <el-form-item label="反馈图片:">
+            <img :src="item" v-for="(item,index) in tableData.feedbackFileUrl" :key="index" alt="" style="width: 150px; height: 150px;margin-right: 15px;margin-bottom: 15px;;">
+          </el-form-item>
+
+        </div>
+
+      </el-form>
+
+
+
+    </div>
+
+  </div>
+
+
+
+
+
+</div>
+
+</div>

@@ -1,0 +1,180 @@
+<div>
+
+  <!-- 内容管理头 -->
+  <div class="header-header">
+      <h3>用户管理-平台用户
+      </h3>
+      <span style="margin-right: 20px;" class="active_title">查看专辑</span>
+  
+     
+     
+    </div>
+  <div class="table-content">
+    <!-- 搜索列表选项框 -->
+    <div class="table-search" style="margin-top: 20px;">
+      <div class="search-top">
+        <div class="search-title">
+          <i></i>
+          <p style="margin-left: 10px;"> 搜索</p>
+
+        </div>
+        <div class="search-list">
+          <el-form :inline="true" :model="formInline" class="demo-form-inline" >
+            <el-form-item label="专辑编号：" >
+              <el-input v-model="formInline.user" placeholder="审批人" size="mini"></el-input>
+            </el-form-item>
+            <el-form-item label="关键字：　" >
+              <el-input v-model="formInline.user" placeholder="审批人" size="mini" ></el-input>
+            </el-form-item>
+
+            <el-form-item label="地　　区：" >
+                <el-select v-model="formInline.region" placeholder="活动区域" size="mini" style="width:185px;">
+                  <el-option label="区域一" value="shanghai"></el-option>
+                  <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+
+
+
+            <el-form-item label="状　　态：" >
+              <el-select v-model="formInline.region" placeholder="活动区域" size="mini" style="width:185px;">
+                <el-option label="区域一" value="shanghai"></el-option>
+                <el-option label="区域二" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+
+            <el-form-item label="创建时间：" >
+              <el-date-picker
+                v-model="value1"
+                type="date"
+                placeholder="选择日期"
+                size="mini" style="width:185px;">
+              </el-date-picker>
+            </el-form-item>
+
+            <el-form-item label="操作时间：" >
+              <el-date-picker
+                v-model="value1"
+                type="date"
+                placeholder="选择日期"
+                size="mini" style="width:185px;">
+              </el-date-picker>
+            </el-form-item>
+
+           
+
+          </el-form>
+
+        </div>
+      </div>
+      <div class="search-button">
+        <el-button size="mini">搜索</el-button>
+      </div>
+    </div>
+    <!-- 表格 -->
+    <div class="table-box">
+      <template>
+        <div class="details-Date">
+          <i></i>
+          <p> 详情数据</p>
+          <ul style="float:right;">
+
+            <li>
+              <el-button size="mini">导出列表</el-button>
+            </li>
+            <li>
+              <el-button size="mini">全部导出</el-button>
+            </li>
+          </ul>
+
+        </div>
+        <!-- 表格 -->
+        <el-table :data="tableData" style="width: 100%" :default-sort="{prop: 'date', order: 'descending'}">
+          <el-table-column type="expand">
+            <template slot-scope="props">
+              <el-form label-position="left" inline class="demo-table-expand table">
+                <el-form-item label="专辑编号">
+                  <span>{{ props.row.serialNumber }}</span>
+                </el-form-item>
+                <el-form-item label="专辑名称">
+                  <span>{{ props.row.name }}</span>
+                </el-form-item>
+                <el-form-item label="节目数">
+                  <span>{{ props.row.number }}</span>
+                </el-form-item>
+                <el-form-item label="类型">
+                  <span>{{ props.row.type }}</span>
+                </el-form-item>
+                <el-form-item label="创建人">
+                  <span>{{ props.row.creator }}</span>
+                </el-form-item>
+                <el-form-item label="地区">
+                  <span>{{ props.row.creator }}</span>
+                </el-form-item>
+                <el-form-item label="作者">
+                  <span>{{ props.row.author }}</span>
+                </el-form-item>
+                <el-form-item label="创建时间">
+                  <span>{{ props.row.time }}</span>
+                </el-form-item>
+                <el-form-item label="状态">
+                  <span>{{ props.row.state }}</span>
+                </el-form-item>
+                <el-form-item label="操作人">
+                  <span>{{ props.row.operation }}</span>
+                </el-form-item>
+                <el-form-item label="操作时间">
+                  <span>{{ props.row.operationTime }}</span>
+                </el-form-item>
+              </el-form>
+            </template>
+          </el-table-column>
+          <el-table-column prop="serialNumber" label="专辑编号" width="180">
+          </el-table-column>
+          <el-table-column prop="name" label="专辑名称" width="180">
+          </el-table-column>
+          <el-table-column prop="number" label="节目数" sortable width="180">
+          </el-table-column>
+          <el-table-column prop="type" label="类型" width="180">
+          </el-table-column>
+          <el-table-column prop="creator" label="创建人" width="180">
+          </el-table-column>
+          <el-table-column prop="creator" label="地区" width="180">
+          </el-table-column>
+          <el-table-column prop="author" label="作者" width="180">
+          </el-table-column>
+          <el-table-column prop="time" label="创建时间" sortable width="180">
+          </el-table-column>
+          <el-table-column prop="state" label="状态" width="180">
+          </el-table-column>
+          <el-table-column prop="operation" label="操作人" width="180">
+          </el-table-column>
+          <el-table-column prop="operationTime" label="操作时间" sortable width="180">
+          </el-table-column>
+          <el-table-column  label="操作" width="150">
+            <template slot-scope="scope">
+              <el-button type="danger" plain size="small">查看</el-button>
+              <!-- <el-button type="danger" plain size="small">状态</el-button> -->
+              <el-button type="danger" plain size="small" @click="dialogVisible = true">状态</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <!-- 分页 -->
+        <el-pagination @current-change="handleCurrentChange" :page-size="100" layout="total, prev, pager, next, jumper" :total="1000">
+        </el-pagination>
+      </template>
+    </div>
+  </div>
+
+    <el-dialog
+      title="改变用户状态"
+      :visible.sync="dialogVisible"
+      width="30%"
+      style="text-align: center;">
+      <div style="width: 484px; height: 100px; line-height: 100px;">
+        <el-button type="danger" @click="dialogVisible = false" style="margin-right: 100px; width: 100px;">上架</el-button>
+        <el-button type="danger" @click="dialogVisible = false" style="width: 100px;">下架</el-button>
+      </div>
+    </el-dialog>
+</div>

@@ -1,0 +1,112 @@
+<div>
+  <div class="breadcrumb">
+    <a href="#">意见反馈</a>
+    <a href="#" class="active">反馈列表</a>
+  </div>
+ 
+  <div class="table-content">
+
+    <div class="table-search">
+      <div class="search-top">
+        <div class="search-title">
+  
+
+        </div>
+        <div class="search-list">
+          <el-form :inline="true" :model="formInline" class="demo-form-inline">
+            <el-form-item >
+              <el-input v-model="formInline.feedBackId"   @change="fushu" placeholder="反馈编号" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+            <el-form-item >
+                <!-- <el-input v-model="formInline.category"    placeholder="反馈类型" size="mini" style="width: 186px;"></el-input> -->
+              <!-- <el-select v-model="formInline.category" placeholder="反馈类型" size="mini" style="width: 186px;;">
+                <el-option label="全部" value="0"></el-option>
+                <el-option label="活动" value="2"></el-option>
+                <el-option label="评论" value="1"></el-option>
+              </el-select> -->
+              <el-cascader :options="options" v-model="formInline.category" :props="optionProps" placeholder="反馈类型" size="mini" style="width:186px;"></el-cascader>
+            
+            </el-form-item>
+     
+         
+            <el-form-item v-show="active">
+              <el-date-picker v-model="formInline.date" type="date" placeholder="反馈时间" size="mini" style="width: 186px;" value-format="timestamp">
+              </el-date-picker>
+              -
+              <el-date-picker v-model="formInline.date2" type="date" placeholder="反馈时间" size="mini" style="width: 186px;" value-format="timestamp">
+              </el-date-picker>
+
+
+            </el-form-item>
+            <el-form-item>
+              <el-button @click="albumReview2()" style="padding: 8px 78px;
+                      font-size: 14px;
+                      background-color: #409EFF;
+                      color: #fff;
+                      margin-top: 6px; 
+                  ">搜索</el-button>
+            </el-form-item>
+            <br>
+            <el-form-item>
+              <!-- <el-button v-show="styleTextBool" size="mini" @click="style()" style="padding: 8px 64px;
+                  font-size: 14px;   
+                  margin-top:6px; 
+                  
+                  ">{{styleText}}</el-button> -->
+              <div v-show="styleTextBool" @click="style()" style="width: 186px; margin-left: 4px;margin-top: -10px; cursor: pointer;">
+                <img src="../../../../static/moreS.png" alt="">
+                <span style="color: #909399; margin-left: 5px; font-size: 12px;">更多条件</span>
+              </div>
+
+            </el-form-item>
+            <!-- <el-button size="mini"  class="search-button btnMin" style="padding: 4px 8px; font-size: 12px" @click='albumReview()'>搜索</el-button> -->
+          </el-form>
+
+        </div>
+      </div>
+      <div class="search-button">
+        
+      </div>
+    </div>
+    <!-- 表格 -->
+    <div class="table-box">
+      <template>
+          <div class="details-Date">
+              <!-- <i></i> -->
+              <p>详细数据:</p>
+     
+            </div>
+   
+        <!-- 表格 -->
+        <el-table v-loading="loading"  :data="tableData" :header-cell-style="getRowClass" style="width: 100%" :row-style="tabH" :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}">
+
+
+
+          <el-table-column prop="feedbackId" label="反馈编号" width="195" header-align="center">
+          </el-table-column>
+          <el-table-column prop="categoryString" label="反馈分类" width="195" header-align="center">
+              <template slot-scope="scope">
+                  <span class="demo" @click="handleLook(scope.row.feedbackId)" style=" text-align: center; color: #F56C6C; cursor: pointer;"
+                    :title="scope.row.categoryString">{{scope.row.categoryString}}</span>
+                </template>
+          </el-table-column>
+
+          <el-table-column prop="feedbackCtime" label="反馈时间" header-align="center">
+          </el-table-column>
+
+        </el-table>
+
+        <!-- 分页 -->
+        <el-pagination @current-change="handleCurrentChange" style="margin-top: 10px;margin-bottom: 10px;" :currentPage="currentPage" :page-size="10" layout="total, prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
+      </template>
+    </div>
+  </div>
+
+
+
+
+
+
+</div>

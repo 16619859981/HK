@@ -1,0 +1,32 @@
+<div>
+
+  <!-- 内容管理头 -->
+  <div class="header-header">
+    <!-- <h3>运营管理-活动管理
+    </h3> -->
+    <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+    <br>
+    <span style="margin-right: 20px;margin-top:10px;" class="active_title" @click="lookParents()">查看投票统计图</span>
+
+
+
+
+  </div>
+  <div class="table-content">
+    <div class="msg" v-for="item in arr" :key="item.voterId">
+      <p class="topics">{{item.voterName}}</p>
+      <ul class="option" >
+        <li v-for="(row,index) in item.option" :key="row.id">
+          <p><span>选项{{Number(index+1)}}：</span>{{row.optionName}}</p>
+          <div id="div" 
+          :style="{width:row.count}">
+            <span>{{row.num}}</span>
+          </div>
+        </li>
+      
+      </ul>
+    </div>
+
+
+  </div>
+</div>

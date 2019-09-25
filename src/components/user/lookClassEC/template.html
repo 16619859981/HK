@@ -1,0 +1,88 @@
+<div>
+    <!-- 头部 -->
+    <div class="header-header">
+        <!-- <h3>用户管理-学校管理-编辑班级
+        </h3> -->
+        <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+        <br>
+        <span style="margin-right: 20px;margin-top:10px;" class="active_title">编辑班级</span>
+
+        <!-- <span>创建视频专辑</span> -->
+
+    </div>
+    <!-- 创建专辑的内容 -->
+    <div class="albumContent">
+        <div class="msg">
+            <div class="title">
+                <!-- <i></i> -->
+                <span></span>
+            </div>
+
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="ruleForm" :inline="true">
+                <div class="top">
+
+                    <!-- <el-form-item label="班级年级:" prop="classGrade">
+                        <el-select v-model="ruleForm.classGrade" placeholder="请选择班级年级" class="inp" :selected="value">
+                            <el-option label="一年级" value="1"></el-option>
+                             <el-option label="二年级" value="2"></el-option>
+                             <el-option label="三年级" value="3"></el-option>
+                             <el-option label="四年级" value="4"></el-option>
+                             <el-option label="五年级" value="5"></el-option>
+                             <el-option label="六年级" value="6"></el-option>
+
+                        </el-select>
+                    </el-form-item> -->
+
+                    <el-form-item label="班级别名:" prop="name">
+                        <el-input v-model="ruleForm.name" placeholder="请输入班级别名" class="inp"></el-input>
+                    </el-form-item>
+
+                    <!-- <div class="title">
+                        <i></i>
+                        <span>教师信息</span>
+                    </div>
+                    
+                    <el-form-item label="选择教师:" prop="adminAccount">
+                        <el-input v-model="ruleForm.name" placeholder="请输入管理员账号" class="inp"></el-input>
+                        <el-button type="danger" plain>查看密码</el-button>
+                    </el-form-item>
+                    <el-form-item label="选择角色:" prop="adminPassword">
+                        <el-input v-model="ruleForm.name" placeholder="请输入管理员密码" class="inp"></el-input>
+                        <el-button type="danger" plain>查看密码</el-button>
+                    </el-form-item> -->
+
+                    
+                </div>
+
+                
+                
+            </el-form>
+
+            
+
+            
+         
+           
+        </div>
+        <div class="btn">
+                <el-button @click=" dialogVisible = true " style="padding: 12px 24px; font-size: 12px">提交</el-button>
+                <el-button @click=" handelDel() " style="padding: 12px 24px; font-size: 12px">
+                    取消
+                </el-button>
+        </div>
+    </div>
+
+    <template>
+        <el-dialog title="提示" :visible.sync="dialogVisible" width="50%" height="500px;">
+          <span>确认提交?</span>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="submit()" size="mini"  style="background-color: rgb(87, 140, 252);">确定</el-button>
+            <el-button @click="dialogVisible = false" size="mini"> 取消</el-button>
+          </span>
+        </el-dialog>
+      </template>
+
+
+</div>
+
+</div>

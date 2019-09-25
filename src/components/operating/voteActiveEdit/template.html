@@ -1,0 +1,128 @@
+<div>
+    <!-- 头部 -->
+    <div class="header-header">
+        <h3>运营管理-活动管理
+        </h3>
+      
+        <span style="margin-right: 20px;" >编辑专题</span>
+
+    
+
+
+        <!-- <span>创建视频专辑</span> -->
+
+    </div>
+    <!-- 创建专辑的内荣 -->
+    <div class="albumContent">
+        <div class="msg">
+            <div class="title">
+                <i></i>
+                <span>专题信息</span>
+            </div>
+            <div class="picMsg">
+                <el-form :inline="true" :rules="rules" :model="ruleForm" class="demo-form-inline">
+                    <el-form-item label="专题名称：" prop="name">
+                        <el-input v-model="ruleForm.subjectName"  placeholder="活动" style="width:300px;"></el-input>
+                    </el-form-item>
+               
+                    <br>
+                    <el-form-item label="专题时间：" prop="time" style="width:600px;">
+                        <div class="block">
+
+                            <el-date-picker v-model="time" @change="" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+                            </el-date-picker>
+                        </div>
+                    </el-form-item>
+                    <br>
+                    <el-form-item label="专题简介：" prop="desc">
+                            <vue-ueditor-wrap v-model="ruleForm.subjectLabel" :config="myConfig" style="width: 800px;height:200px;"></vue-ueditor-wrap>
+                    </el-form-item>
+                    <br>
+                    <el-form-item label="专题封面：" prop="img">
+                        <el-upload class="avatar-uploader" :action=action  style="width: 150px;height:150px;border:1px solid #ccc;" :show-file-list="false" :on-success="handleAvatarSuccess"
+                            :before-upload="beforeAvatarUpload">
+                            <img v-if="imageUrl" :src="imageUrl" style="width:150px;height: 150px;" class="avatar">
+                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                        </el-upload>
+                    </el-form-item>
+                    <br>
+                    <el-form-item label="发布时间：" prop="radio">
+                            <template>
+                                <el-radio v-model="ruleForm.radio" label="1">审核后立即发布</el-radio>
+    
+                                <div class="block">
+                                    <el-radio v-model="ruleForm.radio" label="2">定时发布</el-radio>
+                                    <el-date-picker v-if='ruleForm.radio==2' v-model="upTime" type="datetime" value-format="timestamp" placeholder="选择日期时间">
+                                    </el-date-picker>
+                                </div>
+                            </template>
+    
+                        </el-form-item>
+ 
+                </el-form>
+            </div>
+            <!-- <div class="title">
+                <i></i>
+                <span>投票信息</span>
+            </div>
+            <div class="voteMsg">
+    
+                <el-form ref="form" :model="vote" label-width="120px" >
+   
+                    <el-form-item label="选项一：">
+                        <el-input v-model="vote.option1" style="width:300px;"></el-input>
+                      </el-form-item>
+                      <el-form-item label="选项二：">
+                        <el-input v-model="vote.option2" style="width:300px;"></el-input>
+                        <a href="" style="color:rgb(245, 93, 85);margin-left: 20px;">上移</a>
+                        <a href="" style="color:rgb(245, 93, 85);margin-left: 20px;">下移</a>
+                        <a href="" style="color:rgb(245, 93, 85);margin-left: 20px;">置顶</a>
+                        <a href="" style="color:rgb(245, 93, 85);margin-left: 20px;">删除</a>
+                      </el-form-item>
+                      <el-form-item label="选项三：">
+                        <el-input v-model="vote.option2" style="width:300px;"></el-input>
+                        <a href="" style="color:rgb(245, 93, 85);margin-left: 20px;">上移</a>
+                        <a href="" style="color:rgb(245, 93, 85);margin-left: 20px;">下移</a>
+                        <a href="" style="color:rgb(245, 93, 85);margin-left: 20px;">置顶</a>
+                        <a href="" style="color:rgb(245, 93, 85);margin-left: 20px;">删除</a>
+                      </el-form-item>
+                      <el-form-item label="选项四：">
+                        <el-input v-model="vote.option2" style="width:300px;"></el-input>
+                        <a href="" style="color:rgb(245, 93, 85);margin-left: 20px;">上移</a>
+                        <a href="" style="color:rgb(245, 93, 85);margin-left: 20px;">下移</a>
+                        <a href="" style="color:rgb(245, 93, 85);margin-left: 20px;">置顶</a>
+                        <a href="" style="color:rgb(245, 93, 85);margin-left: 20px;">删除</a>
+                      </el-form-item>
+                      <el-form-item label="投票模式：">
+                      
+                            <el-radio-group v-model="vote.btn">
+                              <el-radio label="单选"></el-radio>
+                         
+                              <el-radio label="多选">最多选择<input type="text" style="width:30px;height:30px;border:1px solid #ccc;margin: 0 10px;">项</el-radio>
+                            </el-radio-group>
+                          </el-form-item>
+     
+                </el-form>
+                <el-button @click="handleForm()" style="background-color: rgb(245, 93, 85);color:#fff;border:none;margin-top: 30px;padding:18px 25px;">添加选项</el-button>
+            </div> -->
+
+            <div class="btn">
+                <el-button @click="submit()">提交</el-button>
+                <el-button>
+                    取消
+                </el-button>
+            </div>
+        </div>
+        <template>
+                <el-dialog title="提示" :visible.sync="dialogVisible" width="50%" height="500px;">
+                  <span>确认提交?</span>
+                  <span slot="footer" class="dialog-footer">
+                    <el-button @click="submitData()" size="mini">确定</el-button>
+                    <el-button @click="dialogVisible = false" size="mini"> 取消</el-button>
+                  </span>
+                </el-dialog>
+              </template>
+
+    </div>
+
+</div>

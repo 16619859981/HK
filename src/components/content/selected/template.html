@@ -1,0 +1,194 @@
+<div>
+
+  <div class="breadcrumb">
+    <a href="#">内容管理</a>
+    <a href="#" class="active">我要精选</a>
+  </div>
+  <!-- 内容管理头 -->
+  <!-- <div class="header-header">
+  <br>
+  <span style="margin-right: 20px;margin-top:10px;" class="active_title">专辑管理</span>
+</div> -->
+  <div class="table-content">
+    <!-- 搜索列表选项框 -->
+    <div class="table-search">
+      <div class="search-top">
+        <div class="search-title">
+          <p style="margin-left: 10px; font-size: 12px"></p>
+        </div>
+        <div class="search-list">
+          <el-form :inline="true" :model="searchItem" class="demo-form-inline">
+            <!-- <div> -->
+
+
+
+            <!-- <el-form-item label="类　　型：">
+              <el-select v-model="searchItem.albumType" placeholder="请选择" size="mini" style="width:186px;">
+                <el-option label="全部" value="0"></el-option>
+                <el-option label="音频" value="1"></el-option>
+                <el-option label="视频" value="2"></el-option>
+              </el-select>
+            </el-form-item>
+             -->
+
+
+            <el-form-item>
+              <el-input v-model="searchItem.materialId" @change="fushu" placeholder="节目编号" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model="searchItem.materialName" placeholder="节目名称" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+            <!-- <el-form-item>
+              <el-input v-model="searchItem.key" placeholder="选送人" size="mini" style="width: 186px;"></el-input>
+            </el-form-item> -->
+            <el-form-item v-show="active">
+              <el-select v-model="searchItem.isChoice" placeholder="精选状态" size="mini" style="width:186px;">
+                <el-option label="全部" value='2'></el-option>
+                <el-option label="已精选" value="1"></el-option>
+                <el-option label="未精选" value="0"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item v-show="active">
+              <el-select v-model="searchItem.materialType" placeholder="类型" size="mini" style="width:186px;">
+                <el-option label="全部" value='0'></el-option>
+                <el-option label="音频" value="1"></el-option>
+                <el-option label="视频" value="2"></el-option>
+              </el-select>
+            </el-form-item>
+            <!-- <el-form-item v-show="active">
+              <el-select v-model="searchItem.applyOrgType" placeholder="组织类型" size="mini" style="width:186px;">
+                <el-option label="全部" value='0'></el-option>
+                <el-option label="平台/中少红卡" value="1"></el-option>
+                <el-option label="学校" value="2"></el-option>
+                <el-option label="班级" value="3"></el-option>
+                <el-option label="红广号/大咖" value="7"></el-option>
+                <el-option label="基地/少年宫" value="10"></el-option>
+
+              </el-select>
+            </el-form-item> -->
+            <el-form-item v-show="active">
+              <el-input v-model="searchItem.orgName" placeholder="发布人组织" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+            <el-form-item v-show="active">
+              <el-input v-model="searchItem.albumName" placeholder="所属专辑" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+            <el-form-item v-show="active">
+              <el-input v-model="searchItem.showRange" placeholder="可视范围" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button @click="renderList2()" style="padding: 8px 78px;
+                    font-size: 14px;
+                    background-color: #409EFF;
+                    color: #fff;
+                    margin-top: 6px; 
+                ">搜索</el-button>
+            </el-form-item>
+            <br>
+            <el-form-item>
+              <!-- <el-button v-show="styleTextBool" size="mini" @click="style()" style="padding: 8px 64px;
+                font-size: 14px;   
+                margin-top:6px; 
+                
+                ">{{styleText}}</el-button> -->
+              <div v-show="styleTextBool" @click="style()" style="width: 186px; margin-left: 4px;margin-top: -10px; cursor: pointer;">
+                <img src="../../../../static/moreS.png" alt="">
+                <span style="color: #909399; margin-left: 5px; font-size: 12px;">更多条件</span>
+              </div>
+
+            </el-form-item>
+            <!-- </div> -->
+
+
+          </el-form>
+        </div>
+      </div>
+    </div>
+    <!-- 表格 -->
+    <div class="table-box">
+      <template>
+        <div class="details-Date">
+          <p>详细数据:</p>
+          <ul>
+            <li>
+              <!-- <el-button size="mini" class="btnMin" @click="checkHistory()">操作记录</el-button> -->
+            </li>
+          </ul>
+        </div>
+        <!-- 表格 -->
+        <el-table v-loading="loading" :data="tableData" :header-cell-style="getRowClass" style="width: 100%;"
+          :row-style="tabH" :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}">
+          <el-table-column prop="materialId" label="节目编号" header-align="center">
+          </el-table-column>
+          <el-table-column prop="materialName" label="节目名称" header-align="center">
+            <template slot-scope="scope">
+              <span class="demo" @click="handleLook(scope.row.fileUrl,scope.row.materialType)" style="min-width: 100px;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden; text-align: center; color: #F56C6C; cursor: pointer;"
+                :title="scope.row.materialName">{{scope.row.materialName}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="materialType" label="类型" header-align="center">
+          </el-table-column>
+<el-table-column prop="albumName" label="所属专辑" header-align="center">
+          </el-table-column> 
+          <el-table-column prop="materialPublicshOrgName" label="发布人组织" header-align="center">
+            <template slot-scope="scope">
+                <span class="demo"  style="min-width: 100px;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden; text-align: center; color: #F56C6C; cursor: pointer;"
+                  :title="scope.row.materialPublicshOrgName">{{scope.row.materialPublicshOrgName}}</span>
+              </template>
+        </el-table-column>
+        <el-table-column prop="showRange" label="可视范围" header-align="center">
+            <template slot-scope="scope">
+                <span class="demo"  style="min-width: 100px;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden; text-align: center; color: #F56C6C; cursor: pointer;"
+                  :title="scope.row.showRange">{{scope.row.showRange}}</span>
+              </template>
+
+        </el-table-column>
+          <el-table-column prop="isChoice" label="精选状态" header-align="center">
+  
+          </el-table-column>
+
+          <el-table-column label="操作" header-align="center">
+            <template slot-scope="scope">
+              <a type="primary" v-if="scope.row.isChoice=='未精选'" plain size="small" @click="handlePass(scope.row.materialId)" style="color:#F56C6C;padding: 4px 2px; font-size: 13px">精选</a>
+              <a type="primary" v-if="scope.row.isChoice=='已精选'"  size="small"style="color:#F56C6C;padding: 4px 2px; font-size: 13px；color:rgb(85, 85, 85)">已精选</a>
+            </template>
+          </el-table-column>
+        </el-table>
+        <!-- 分页 -->
+        <el-pagination style="margin-top: 10px;margin-bottom: 10px;" @current-change="handleCurrentChange" :currentPage="currentPage"
+          :page-size="10" layout="total, prev, pager, next, jumper" :total="total">
+        </el-pagination>
+      </template>
+    </div>
+  </div>
+  <!-- 节目播放 -->
+  <template>
+    <el-dialog title="节目播放" :visible.sync="dialogVisiblePlay" @close="closeDialog" width="60%" height="500px;">
+      <div slot="footer" v-if="type=='音频'" style="width:480px;height:90px;margin: 0 auto;margin-top: -45px;margin-bottom: 20px;" class="div">
+        <audio id="media" controls="controls" autoplay style="width:480px;height:65px;" :src="url"></audio>
+    
+      </div>
+      <div slot="footer" v-if="type=='视频'"style="width:480px;height:320px;margin: 0 auto;margin-top: -45px;margin-bottom: 20px;" class="div">
+     
+        <video  id="media" controls="controls" autoplay style="width:480px;height:265px;" :src="url"></video>
+
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisiblePlay = false">确定</el-button>
+      </span>
+    </el-dialog>
+  </template>
+  <!-- 通过弹窗 -->
+  <template>
+    <el-dialog title="节目精选" :visible.sync="dialogVisiblePass" width="60%" height="500px;">
+     <span >确定节目精选？</span>
+     <!-- <span v-if="auditStatus == 4">确定不通过节目选送？</span> -->
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="pass()">确定</el-button>
+        <el-button @click="dialogVisiblePass = false">取消</el-button>
+
+      </span>
+    </el-dialog>
+  </template>
+
+</div>

@@ -1,0 +1,50 @@
+<div>
+    <!-- 头部 -->
+    <div class="header-header">
+        <h3>权限管理-公司后台
+        </h3>
+        <span style="margin-right: 20px;" class="active_title">管理员信息</span>
+
+        <!-- <span>创建视频专辑</span> -->
+
+    </div>
+    <!-- 创建专辑的内荣 -->
+    <div class="albumContent">
+        <div class="msg">
+            <div class="title">
+                <i></i>
+                <span>管理员信息</span>
+            </div>
+
+            <el-form :model="ruleForm"  ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                <div class="top">
+                    <el-form-item label="管理员姓名:" prop="name">
+                        <span>{{ruleForm.name}}</span>
+                    </el-form-item>
+                    <el-form-item label="创建人:" prop="type">
+                        <span>{{ruleForm.type}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="创建时间:" prop="type">
+                        <span>{{ruleForm.region}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="状态:" prop="type">
+                        <span>{{ruleForm.address}}</span>
+                    </el-form-item>
+
+                </div>
+                
+            </el-form>
+
+
+        </div>
+
+    </div>
+
+
+
+
+</div>
+
+</div>

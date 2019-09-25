@@ -1,0 +1,120 @@
+<div>
+        <!-- 头部 -->
+        <div class="header-header">
+          <!-- <h3>用户管理-企业管理
+                  </h3> -->
+          <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+          <br>
+          <span style="margin-right: 20px;" class="active_title">编辑身份</span>
+      
+          <!-- <span>创建视频专辑</span> -->
+      
+        </div>
+        <!-- 创建专辑的内容 -->
+        <div class="albumContent">
+          <div class="msg">
+            <div class="title">
+              <!-- <i></i> -->
+              <span></span>
+            </div>
+      
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="ruleForm" :inline="true">
+              <div class="top">
+                <el-form-item label="身份名称:" prop="personName">
+                  <el-input v-model="ruleForm.personName" placeholder="请输入身份名称" class="inp"></el-input>
+                </el-form-item>
+
+
+                <el-form-item label="身份性别:" prop="sex" v-if="ruleForm.personType == 7">
+                  <el-select v-model="ruleForm.personSex" placeholder="请选择身份性别" class="inp" :selected="value">
+                      <el-option label="男" value="0"></el-option>
+                      <el-option label="女" value="1"></el-option>
+                  </el-select>
+              </el-form-item>
+      
+                <!-- <el-form-item label="联系方式:" prop="phone">
+                  <el-input v-model="ruleForm.region" placeholder="请输入电话号码" class="inp"></el-input>
+                </el-form-item> -->
+      
+                <!-- <el-form-item label="身份类型：">
+                  <el-select v-model="ruleForm.region" placeholder="活动区域" class="inp">
+                    <el-option label="企业" value="0"></el-option>
+                    <el-option label="基地风采" value="1"></el-option>
+                    <el-option label="大V讲师" value="2"></el-option>
+                    <el-option label="名师" value="3"></el-option>
+                    <el-option label="主播" value="4"></el-option>
+                  </el-select>
+                </el-form-item> -->
+      
+                <br>
+                <el-form-item label="简介:" prop="personIntro">
+                  <el-input type="textarea" :autosize="{ minRows: 5, maxRows: 5 }" v-model="ruleForm.personIntro" placeholder="请输入身份简介" style="width: 400px;"></el-input>
+                </el-form-item>
+                <br>
+      
+      
+                <el-form-item label="头像LOGO:" prop="img">
+                  <el-upload class="avatar-uploader" style="border:1px solid #ccc;width:150px;height:150px; position: relative;" :action=action
+                    :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                    <img v-if="ruleForm.FIleUrl" :src="ruleForm.FIleUrl" class="avatar">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                  </el-upload>
+                  <div style="color:#ccc;font-size: 12px; position: absolute;left:170px;top:8px; line-height: 22px; width: 282px;">
+                    <p>上传尺寸要求宽高相等</p>
+                    <p>推荐最佳尺寸为600*600，最小尺寸应大于300*300</p>
+                    <p>图片须小于1MB</p>
+                    <p>图片支持格式jpeg、jpg、png、bmp</p>
+                  </div>
+                </el-form-item>
+              </div>
+      
+              <!-- <div class="title">
+                              <i></i>
+                              <span>管理员信息</span>
+                          </div> -->
+      
+              <!-- <el-form-item label="管理员账号:" prop="adminAccount">
+                <el-input v-model="ruleForm.name" placeholder="请输入管理员账号" class="inp"></el-input>
+              </el-form-item>
+              <el-form-item label="管理员密码:" prop="adminPassword">
+                <el-input v-model="ruleForm.name" placeholder="请输入管理员密码" class="inp"></el-input>
+              </el-form-item> -->
+      
+            </el-form>
+      
+      
+      
+      
+      
+      
+          </div>
+          <div class="btn">
+            <el-button @click="sub()" style="padding: 12px 24px; font-size: 12px;background-color: rgb(87, 140, 252);">提交</el-button>
+            <el-button @click="dialogVisibleDel = true " style="padding: 12px 24px; font-size: 12px; ">取消</el-button>
+          </div>
+        </div>
+      
+        <template>
+          <el-dialog title="提示" :visible.sync="dialogVisible" width="50%" height="500px;">
+            <span>确认提交?</span>
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="submitSchool(ruleForm)" size="mini" style="background-color: rgb(87, 140, 252);">确定</el-button>
+              <el-button @click="dialogVisible = false" size="mini"> 取消</el-button>
+            </span>
+          </el-dialog>
+        </template>
+      
+       
+        <template>
+          <el-dialog title="提示" :visible.sync="dialogVisibleDel" width="50%" height="500px;">
+            <span>确认取消提交?</span>
+            <span slot="footer" class="dialog-footer">
+              <el-button @click="del()" size="mini" style="background-color: rgb(87, 140, 252);">确定</el-button>
+              <el-button @click="dialogVisibleDel = false" size="mini"> 取消</el-button>
+            </span>
+          </el-dialog>
+        </template>
+      </div>
+      
+      </div>
+      

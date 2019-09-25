@@ -1,0 +1,126 @@
+<div>
+
+  <div class="breadcrumb">
+    <a href="#">活动管理</a>
+    <a href="#" @click="goActiveManagement()">活动列表</a>
+    <a href="#" class="active">活动数据</a>
+  </div>
+  <div class="table-content">
+    <!-- 搜索列表选项框 -->
+    <div class="table-search">
+      <div class="search-top">
+        <div class="search-title">
+          <p style="margin-left: 10px; font-size: 12px"> </p>
+        </div>
+        <div class="search-list">
+          <el-form :inline="true" :model="editFrom" class="demo-form-inline">
+            <el-form-item>
+              <el-date-picker v-model="editFrom.startDate" timestamp type="date" placeholder="开始日期" size="mini" style="width: 186px;">
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item>
+              <el-date-picker v-model="editFrom.endDate" timestamp type="date" placeholder="结束日期" size="mini" style="width: 186px;">
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item>
+              <el-button @click="renderList2()" size="mini" style="padding: 8px 78px;
+                  font-size: 14px;
+                  background-color: #409EFF;
+                  color: #fff;
+                  margin-top: 6px; 
+              ">搜索</el-button>
+            </el-form-item>
+            <br>
+            <br>
+            <el-form-item>
+              <div class="color-box">
+                <div class="color-boxBox color-boxBox-1">
+                  <span class="color-boxBox-span">收藏数</span>
+                  <p class="color-boxBox-p">{{ activityForm.collect }}</p>
+                </div>
+                <div class="color-boxBox color-boxBox-2">
+                  <span class="color-boxBox-span">参与人数</span>
+                  <p class="color-boxBox-p">{{ activityForm.participant }}</p>
+                </div>
+                <div class="color-boxBox color-boxBox-3">
+                  <span class="color-boxBox-span">打卡数</span>
+                  <p class="color-boxBox-p">{{ activityForm.card }}</p>
+                </div>
+                <div class="color-boxBox color-boxBox-4">
+                  <span class="color-boxBox-span">转发数</span>
+                  <p class="color-boxBox-p">{{ activityForm.share }}</p>
+                </div>
+                <div class="color-boxBox color-boxBox-5">
+                  <span class="color-boxBox-span">点赞数</span>
+                  <p class="color-boxBox-p">{{ activityForm.like }}</p>
+                </div>
+              </div>
+            </el-form-item>
+
+
+          </el-form>
+
+        </div>
+      </div>
+    </div>
+    <!-- 表格 -->
+    <!-- <div class="table-box">
+      <template>
+        <div class="details-Date">
+          <p>详细数据:</p>
+          <ul>
+            <li>
+              <el-button size="mini" @click="createActive()">创建活动</el-button>
+            </li>
+          </ul>
+
+        </div>
+
+        <el-table v-loading="loading" :data="tableData" style="width: 100%" :header-cell-style="getRowClass" :row-style="tabH"
+          :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}">
+          <el-table-column prop="activityName" label="活动名称" header-align="center">
+            <template slot-scope="scope">
+              <span @click="handleLook(scope.row.activityId)" class="demo" style="min-width: 100px;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden; text-align: center; color: #F56C6C; cursor: pointer;"
+                :title="scope.row.activityName">{{scope.row.activityName}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="likeCount" label="点赞" header-align="center">
+          </el-table-column>
+          <el-table-column prop="activityCommentCount" label="打卡" header-align="center">
+          </el-table-column>
+          <el-table-column prop="showRange" label="活动区域" header-align="center">
+            <template slot-scope="scope">
+              <span class="demo" style="min-width: 100px;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden; text-align: center; cursor: pointer;"
+                :title="scope.row.showRange">{{scope.row.showRange}}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column prop="activityEtime" label="状态" header-align="center">
+          </el-table-column>
+          <el-table-column label="操作" width="210" header-align="center">
+            <template slot-scope="scope">
+              <a v-show="scope.row.isup == 2" type="danger" plain size="small" @click="noTop(scope.row.activityId)"
+                style="color:#F56C6C;padding: 0px 2px; font-size: 12px">取消置顶</a>
+              <a v-show="scope.row.isup == 1" type="danger" plain size="small" @click="toTop(scope.row.activityId)"
+                style="color:#F56C6C;padding: 0px 2px; font-size: 12px">置顶</a>
+              <a v-show="scope.row.activityEtime=='已结束'" @click="jumpEditVote(scope.row.activityId)" type="danger"
+                size="small" style="color:#F56C6C;padding: 0px 2px; font-size: 12px">编辑</a>
+              <a size="small" @click="jumpEditVote(scope.row.activityId)" v-show="scope.row.activityEtime=='进行中'" style="color:#909399;padding: 0px 2px; font-size: 12px">编辑</a>
+              <a type="danger" @click="programData(scope.row.activityId)" plain size="small" style="color:#F56C6C;padding: 0px 2px; font-size: 12px">数据</a>
+              <a type="danger" v-if="scope.row.activityEtime=='已结束'" plain size="small" @click="goAct(scope.row.activityId)"
+                style="color:#F56C6C;padding: 0px 2px; font-size: 12px">开始</a>
+              <a type="danger" v-if="scope.row.activityEtime=='进行中'" plain size="small" @click="noGoAct(scope.row.activityId)"
+                style="color:#F56C6C;padding: 0px 2px; font-size: 12px">结束</a>
+              <a type="danger" plain size="small" @click="delAct(scope.row.activityId)" style="color:#F56C6C;padding: 0px 2px; font-size: 12px">删除</a>
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <el-pagination @current-change="handleCurrentChange" style="margin-top: 10px;margin-bottom: 10px;" :currentPage="currentPage"
+          :page-size="10" layout="total, prev, pager, next, jumper" :total="total">
+        </el-pagination>
+      </template>
+    </div> -->
+  </div>
+</div>
+</div>

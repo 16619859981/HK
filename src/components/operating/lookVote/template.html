@@ -1,0 +1,123 @@
+<div>
+  <div class="breadcrumb">
+    <a href="#">活动管理</a>
+    <a href="#" @click="goActiveManagement">活动列表</a>
+    <a href="#" class="active">活动详情</a>
+  </div>
+  <div class="top-box">
+    <div class="box-top">
+      <div class="box-title-1">
+        <span class="box-title-span-1">活动详情</span>
+        <span class="box-title-span" @click="goActiveDataVote()">评论详情</span>
+      </div>
+      <div class="box-title">
+        活动信息：
+      </div>
+      <div class="box-top-box">
+        <div class="box-top-left">
+          <img :src="from.activityCover" alt="">
+        </div>
+        <div class="box-top-right" v-if="from.activityType == '打卡'">
+          <p class="p-title">{{ from.activityName }}</p>
+          <el-tag style="margin-right: 10px; margin-bottom: 10px;">{{ from.activityType }}</el-tag>
+          <el-tag style="margin-right: 10px; margin-bottom: 10px;" v-if="val2!=''">{{ val2 }}</el-tag>
+          <el-tag style="margin-right: 10px; margin-bottom: 10px;" v-if="val1!=''">连续{{ val1 }}天</el-tag>
+          <el-tag style="margin-right: 10px; margin-bottom: 10px;" v-if="time3!=''">{{ time3 }} - {{ time4 }}</el-tag>
+          <el-tag style="margin-right: 10px; margin-bottom: 10px;">{{ from.category }}</el-tag>
+          <p class="p-p-p">打卡数：<span class="span-span">{{ from.activityCommentCount }}</span>点赞数：<span class="span-span">{{ from.likeCount}}</span>收藏数：<span class="span-span">{{ from.collectCount }}</span></p>
+          <p class="p-p">创建人：{{ from.userName }}({{ from.activityOrgName }},{{ from.activityAuthorType }})</p>
+          <p class="p-p">活动时间：{{ time1 }} - {{ time2 }}</p>
+          <p class="p-p">活动编号：{{ from.activityId }}</p>
+          <div class="box-top-right-bottom" v-if="from.medalId">
+            <img :src="from1.fileUrl" alt="" style="width: 40px; height: 40px;">
+            <span style="color: #606266; font-size: 13px;">{{ from1.medalLevel }}</span>
+          </div>
+        </div>
+        <div class="box-top-right" v-if="from.activityType == '闯关'">
+          <p class="p-title" style="margin-bottom: 15px;">{{ from.activityName }}</p>
+          <p class="p-p" style="margin-bottom: 15px;">创建人：{{ from.userName }}({{ from.activityOrgName }},{{ from.activityAuthorType }})</p>
+          <p class="p-p" style="margin-bottom: 15px;">活动时间：{{ time1 }} - {{ time2 }}</p>
+          <p class="p-p" style="margin-bottom: 15px;">活动编号：{{ from.activityId }}</p>
+          <div class="box-top-right-bottom">
+            <img :src="from1.fileUrl" alt="" style="width: 40px; height: 40px;">
+            <span style="color: #606266; font-size: 13px;">{{ from1.medalLevel }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="box-bottom">
+    <div class="box-title">活动详情：</div>
+    <div v-for="(item, index) in from.activityIntro" :key="index">
+      <div v-if="item.type == 'text'" class="preview-box-bottom-content-text">
+        <pre> {{ item.areaText }}</pre>
+       
+      </div>
+      <div v-if="item.type == 'img'" class="preview-box-bottom-content-img">
+        <img :src="item.imgSrc" alt="" width="320px">
+      </div>
+      <div v-if="item.type == 'mp3'" class="preview-box-bottom-content-mp3">
+        <audio   @play="playaudio(item.mp3Url)" controls="controls" :src="item.mp3Url" style="width: 333px; height: 55px;"></audio>
+
+      </div>
+      <div v-if="item.type == 'mp4'" class="preview-box-bottom-content-mp4">
+        <video @play="playvideo(item.mp4Url)" controls="controls" :src="item.mp4Url" width="320px" height="180px"></video>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="box-bottom" v-if="from.activityType == '闯关'">
+    <div class="box-title-1-1">闯关信息：</div>
+    <div v-for="(item, index1) in from.activityTaskSubJoins" :key="index1">
+      <div class="preview-box-bottom-content-pass">
+        <div v-if="item.sort == 1" style="line-height: 40px;">
+          <span class="chuangguan">第一关：{{ item.title }}</span>
+          <el-tag style="margin-right: 10px; margin-bottom: 10px;" v-if="item.restrictionType != '不限'">{{ item.restrictionType }}</el-tag>
+          <el-tag style="margin-right: 10px; margin-bottom: 10px;" v-if="item.restriction != '0'">{{ item.restriction }}s</el-tag>
+          <el-tag style="margin-right: 10px; margin-bottom: 10px;" v-if="item.extraRestrictionType != '无'">{{ item.extraRestrictionType }}{{ item.extraRestriction }}</el-tag>
+        </div>
+        <div v-if="item.sort == 2" style="line-height: 40px;">
+          <span class="chuangguan">第二关：{{ item.title }}</span>
+          <el-tag style="margin-right: 10px; margin-bottom: 10px;" v-if="item.restrictionType != '不限'">{{ item.restrictionType }}</el-tag>
+          <el-tag style="margin-right: 10px; margin-bottom: 10px;" v-if="item.restriction != '0'">{{ item.restriction }}s</el-tag>
+          <el-tag style="margin-right: 10px; margin-bottom: 10px;" v-if="item.extraRestrictionType != '无'">{{ item.extraRestrictionType }}{{ item.extraRestriction }}</el-tag>
+        </div>
+        <div v-if="item.sort == 3" style="line-height: 40px;">
+          <span class="chuangguan">第三关：{{ item.title }}</span>
+          <el-tag style="margin-right: 10px; margin-bottom: 10px;" v-if="item.restrictionType != '不限'">{{ item.restrictionType }}</el-tag>
+          <el-tag style="margin-right: 10px; margin-bottom: 10px;" v-if="item.restriction != '0'">{{ item.restriction }}s</el-tag>
+          <el-tag style="margin-right: 10px; margin-bottom: 10px;" v-if="item.extraRestrictionType != '无'">{{ item.extraRestrictionType }}{{ item.extraRestriction }}</el-tag>
+        </div>
+        <div v-if="item.sort == 4" style="line-height: 40px;">
+          <span class="chuangguan">第四关：{{ item.title }}</span>
+          <el-tag style="margin-right: 10px; margin-bottom: 10px;" v-if="item.restrictionType != '不限'">{{ item.restrictionType }}</el-tag>
+          <el-tag style="margin-right: 10px; margin-bottom: 10px;" v-if="item.restriction != '0'">{{ item.restriction }}s</el-tag>
+          <el-tag style="margin-right: 10px; margin-bottom: 10px;" v-if="item.extraRestrictionType != '无'">{{ item.extraRestrictionType }}{{ item.extraRestriction }}</el-tag>
+        </div>
+        <div v-if="item.sort == 5" style="line-height: 40px;">
+          <span class="chuangguan">第五关：{{ item.title }}</span>
+          <el-tag style="margin-right: 10px; margin-bottom: 10px;" v-if="item.restrictionType != '不限'">{{ item.restrictionType }}</el-tag>
+          <el-tag style="margin-right: 10px; margin-bottom: 10px;" v-if="item.restriction != '0'">{{ item.restriction }}s</el-tag>
+          <el-tag style="margin-right: 10px; margin-bottom: 10px;" v-if="item.extraRestrictionType != '无'">{{ item.extraRestrictionType }}{{ item.extraRestriction }}</el-tag>
+        </div>
+        <div v-for="(item1, index2) in item.detailJSONs" :key="index2">
+          <div v-if="item1.type == 'text'" class="chuangguanText">{{ item1.areaText }}</div>
+          <div v-if="item1.type == 'mp3'" class="chuangguanMp3">
+            <p>{{ item1.name }}</p>
+            <audio  @play="playaudio(item1.mp3Url)" controls="controls" :src="item1.mp3Url" style="width: 333px; height: 55px;"></audio>
+          </div>
+          <div v-if="item1.type == '1'" class="chuangguanText">
+            <p style="margin-bottom: 10px;">问题{{ index2+1 }}：{{ item1.title }}</p>
+            <div v-for="(item2, index3) in item1.questions" :key="index3">
+              <p style="margin-bottom: 10px;">{{ item2.topic }}：{{ item2.content }}</p>
+            </div>
+            <p>正确答案：{{ item1.result }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="box-box">
+  <div class="breadcrumb">
+    <a href="#">活动管理</a>
+    <a href="#" class="active">新建活动</a>
+  </div>
+  <div class="box-top">
+    <el-steps :active="active" finish-status="success">
+      <el-step title="创建活动"></el-step>
+      <el-step title="选择类型"></el-step>
+      <!-- <el-step title="打卡选项"></el-step> -->
+      <el-step title="活动详情"></el-step>
+      <el-step title="奖章(选填)"></el-step>
+      <el-step title="发布活动"></el-step>
+    </el-steps>
+    <!-- <el-button style="margin-top: 12px;" @click="next">下一步</el-button> -->
+  </div>
+  <div class="box-bottom">
+    <div class="box-one" @click="card">
+      <p class="p-title">经典模式</p>
+      <p class="p-p">评论可以全天打卡评论，也可以限时打卡评论；</p>
+      <p class="p-p">举例1：7-9点早读计划</p>
+      <p class="p-p">举例2：21天养成读书的好习惯</p>
+      <img src="./Group 2.png" alt="" class="Group2">
+    </div>
+    <!-- <div class="box-two" @click="emigrated">
+      <p class="p-title">红广小记者</p>
+      <p class="p-p">从第一关开始打卡，每个人都有自己的进度</p>
+      <p class="p-p">必须逐关打卡，打卡完一关方可解锁下一关</p>
+      <p class="p-p">不可跳过关卡，最少两个闯关任务</p>
+      <img src="./Group 1.png" alt="" class="Group1">
+    </div> -->
+  </div>
+</div>

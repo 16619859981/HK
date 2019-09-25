@@ -1,0 +1,182 @@
+<div>
+  <div class="breadcrumb">
+    <a href="#">首页</a>
+    <a href="#" onClick="window.history.go(-1)">消息通知</a>
+    <a href="#" class="active">查看评论</a>
+
+  </div>
+  <!-- 内容管理头 -->
+  <div class="header-header">
+    <!-- <el-input style="width:193px;margin-top:10px;height:32px;"> 排序</el-input> -->
+    <!-- <span style="margin-right: 20px;margin-top:10px;" class="active_title">评论</span> -->
+
+
+
+  </div>
+  <div class="table-content">
+
+    <div class="comment" style="position: relative;">
+      <div class="left">
+        <img src="../1.3.png" alt="">
+      </div>
+      <div class="center">
+        <p class="name">林夕<span>(连续4天打卡)</span></p>
+        <p class="school">黄城根小学三年纪二班</p>
+        <p class="msg" @click="detail()">乡路上两个放学的孩童把书包顶在头上回家水塘的一只青蛙喊。乡路上两个放学的孩童把书包顶在头上回家水塘的一只青蛙喊。</p>
+        <div class="content">
+          <div>
+            <!-- <img src="../1.3.png" alt=""> -->
+            <video src="../../../../static/哆啦A梦香甜美梦_高清.mp4" controls></video>
+          </div>
+          <div>
+            <!-- <img src="../1.3.png" alt=""> -->
+            <video src="../../../../static/哆啦A梦香甜美梦_高清.mp4" controls></video>
+          </div>
+          <div>
+            <!-- <img src="../1.3.png" alt=""> -->
+            <video src="../../../../static/哆啦A梦香甜美梦_高清.mp4" controls></video>
+          </div>
+          <div>
+            <!-- <img src="../1.3.png" alt=""> -->
+            <video src="../../../../static/哆啦A梦香甜美梦_高清.mp4" controls></video>
+          </div>
+          <div>
+            <!-- <img src="../1.3.png" alt=""> -->
+            <video src="../../../../static/哆啦A梦香甜美梦_高清.mp4" controls></video>
+          </div>
+          <div>
+            <img src="../1.3.png" alt="">
+          </div>
+          <div>
+            <img src="../1.3.png" alt="">
+          </div>
+
+          <div>
+            <img src="../1.3.png" alt="">
+          </div>
+          <div>
+            <img src="../1.3.png" alt="">
+          </div>
+
+
+        </div>
+        <p style="color:#909399;font-size: 12px;margin-top: 2px;margin-bottom: 5px;">刚刚</p>
+        <div>
+          <div class="icon">
+            <img src="../dianzan.png" alt=""><span>100</span>
+          </div>
+          <div class="icon">
+            <img src="../pinlun.png" alt=""><span>200</span>
+          </div>
+
+          <div class="icon">
+            <img src="../zhuanfa.png" alt="" ><span>50</span>
+          </div>
+
+
+
+        </div>
+      </div>
+      <div class="right" style="position: absolute;right:20px;top:0px;">
+        <el-button @click="rate()">点评</el-button>
+        <el-button @click="reply()">查看二级评论</el-button>
+
+        <el-button>删除</el-button>
+
+      </div>
+    </div>
+    <div class="comment" style="position: relative;">
+        <div class="left">
+          <img src="../1.3.png" alt="">
+        </div>
+        <div class="center">
+          <p class="name">林夕<span>(连续4天打卡)</span></p>
+          <p class="school">黄城根小学三年纪二班</p>
+          <p class="msg" @click="detail()">乡路上两个放学的孩童把书包顶在头上回家水塘的一只青蛙喊。乡路上两个放学的孩童把书包顶在头上回家水塘的一只青蛙喊。</p>
+          <div class="content">
+            <div>
+              <!-- <img src="../1.3.png" alt=""> -->
+              <video src="../../../../static/哆啦A梦香甜美梦_高清.mp4" controls></video>
+            </div>
+            <div>
+              <!-- <img src="../1.3.png" alt=""> -->
+              <video src="../../../../static/哆啦A梦香甜美梦_高清.mp4" controls></video>
+            </div>
+            <div>
+              <!-- <img src="../1.3.png" alt=""> -->
+              <video src="../../../../static/哆啦A梦香甜美梦_高清.mp4" controls></video>
+            </div>
+            <div>
+              <!-- <img src="../1.3.png" alt=""> -->
+              <video src="../../../../static/哆啦A梦香甜美梦_高清.mp4" controls></video>
+            </div>
+            <div>
+              <!-- <img src="../1.3.png" alt=""> -->
+              <video src="../../../../static/哆啦A梦香甜美梦_高清.mp4" controls></video>
+            </div>
+            <div>
+              <img src="../1.3.png" alt="">
+            </div>
+            <div>
+              <img src="../1.3.png" alt="">
+            </div>
+  
+            <div>
+              <img src="../1.3.png" alt="">
+            </div>
+            <div>
+              <img src="../1.3.png" alt="">
+            </div>
+  
+  
+          </div>
+          <p style="color:#909399;font-size: 12px;margin-top: 2px;margin-bottom: 5px;">刚刚</p>
+          <div>
+            <div class="icon">
+              <img src="../dianzan.png" alt=""><span>100</span>
+            </div>
+            <div class="icon">
+              <img src="../pinlun.png" alt=""><span>200</span>
+            </div>
+  
+            <div class="icon">
+              <img src="../zhuanfa.png" alt="" ><span>50</span>
+            </div>
+  
+  
+  
+          </div>
+        </div>
+        <div class="right" style="position: absolute;right:20px;top:0px;">
+          <el-button @click="rate()">点评</el-button>
+          <el-button @click="reply()">查看二级评论</el-button>
+  
+          <el-button>删除</el-button>
+  
+        </div>
+      </div>
+
+  </div>
+<!-- 点评 -->
+<template>
+    <el-dialog title="点评" :visible.sync="dialogVisibleRate" width="30%">
+        <el-rate v-model="rateNum" show-text :texts="text">
+          </el-rate>
+          <el-input
+          type="textarea"
+          :rows="2"
+          placeholder="请输入内容"
+          v-model="tareText"
+          style="margin-top:10px;">
+        </el-input>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisibleRate = false" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+          <el-button @click="dialogVisibleRate = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+        </span>
+      </el-dialog>
+</template>
+</div>
+
+
+
+</div>

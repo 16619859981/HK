@@ -1,0 +1,173 @@
+<div>
+
+  <!-- 内容管理头 -->
+  <div class="header-header">
+    <!-- <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button> -->
+    <br>
+    <span style="margin-right: 20px;margin-top:10px;" class="active_title">任务列表</span>
+
+
+
+  </div>
+  <div class="table-content">
+    <!-- 搜索列表选项框 -->
+    <div class="table-search">
+      <div class="search-top">
+        <div class="search-title">
+          <!-- <i></i> -->
+          <!-- <p style="margin-left: 10px;"> 搜索</p> -->
+
+        </div>
+        <div class="search-list">
+          <el-form :inline="true" :model="deviceForm" class="demo-form-inline">
+            <el-form-item label="任务编号：">
+              <el-input @change="fushu"   v-model="deviceForm.id" placeholder="请输入任务编号" size="mini" style="width:140px;"></el-input>
+            </el-form-item>
+            <el-form-item label="关键字：　">
+              <el-input v-model="deviceForm.key" placeholder="请输入关键字" size="mini" style="width:140px;"></el-input>
+            </el-form-item>
+
+            <el-form-item label="地　　区：">
+              <el-select v-model="value1" placeholder="请选择省份" size="mini" @change="valu1(value1)" style="width:140px;">
+                <el-option label="全国" :value="9999"></el-option>
+                <el-option v-for="item in options1" :key="item.areaNumber" :label="item.areaName" :value="item.areaNumber">
+                </el-option>
+              </el-select>
+              <el-select v-model="value2" placeholder="请选择城市" size="mini" @change="valu2(value2)" style="width:140px;">
+                <el-option v-for="item in options2" :key="item.areaNumber" :label="item.areaName" :value="item.areaNumber">
+                </el-option>
+              </el-select>
+            </el-form-item>
+
+            <el-form-item label="数据类型：">
+              <el-select v-model="deviceForm.type" placeholder="请选择" size="mini" style="width:140px;">
+                <el-option label="全部" value="0"></el-option>
+                <el-option label="音频" value="1"></el-option>
+                <el-option label="视频" value="2"></el-option>
+                <el-option label="图文" value="3"></el-option>
+              </el-select>
+            </el-form-item>
+
+            <el-form-item label="任务类型：">
+              <el-select v-model="deviceForm.type1" placeholder="请选择" size="mini" style="width:140px;">
+                <el-option label="全部" value="0"></el-option>
+                <el-option label="阅读任务" value="1"></el-option>
+                <el-option label="完成任务" value="2"></el-option>
+              </el-select>
+            </el-form-item>
+
+            <el-form-item label="状　　态：">
+              <el-select v-model="deviceForm.status" placeholder="请选择" size="mini" style="width:140px;">
+                <el-option label="全部" value="0"></el-option>
+                <el-option label="上架" value="1"></el-option>
+                <el-option label="下架" value="2"></el-option>
+
+                <!-- <el-option label="下架" value="2"></el-option> -->
+                <el-option label="待上架" value="3"></el-option>
+              </el-select>
+            </el-form-item>
+
+            <el-form-item label="发布时间：" style="margin-right: 65px;">
+              <el-date-picker v-model="deviceForm.pubTime" value-format="timestamp" type="date" placeholder="选择日期" size="mini" style="width:140px;">
+              </el-date-picker>
+              -
+              <el-date-picker v-model="deviceForm.pubTime2" value-format="timestamp" type="date" placeholder="选择日期" size="mini" style="width:140px;">
+              </el-date-picker>
+            </el-form-item>
+
+            <el-button class="search-button btnMin" size="mini" @click="handleList2()" style="padding: 7px 19px;
+                  font-size: 12px;
+                  background-color: #409eff;
+                  color: #fff;
+              ">搜索</el-button>
+
+
+          </el-form>
+        
+        </div>
+      </div>
+    </div>
+    <!-- 表格 -->
+    <div class="table-box">
+      <template>
+        <div class="details-Date">
+          <!-- <i></i> -->
+          <!-- <p> 详情数据</p> -->
+          <ul style="float:right;">
+            <!-- <li>
+                    <el-button size="mini" @click="deviceVisible=true">新建硬件</el-button>
+                  </li> -->
+            <li>
+              <el-button size="mini" @click="cTask()">创建任务</el-button>
+            </li>
+            <!-- <li>
+              <el-button size="mini" @click="download()">导出本页数据</el-button>
+            </li> -->
+
+          </ul>
+
+        </div>
+        <!-- 表格 -->
+        <el-table v-loading="loading" :data="tableData" style="width: 100%" :header-cell-style="getRowClass" :row-style="tabH" :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}">
+          <el-table-column prop="medalId" label="任务编号" header-align="center" width="195">
+          </el-table-column>
+          <el-table-column prop="medalName" label="任务名称" header-align="center" width="80">
+            <template slot-scope="scope">
+              <span class="demo" style="width: 60px;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;" :title="scope.row.medalName">{{scope.row.medalName}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="medalRangeName" label="发布范围" header-align="center" width="180">
+              <template slot-scope="scope">
+                  <span class="demo" style="width: 160px;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;" :title="scope.row.medalRangeName">{{scope.row.medalRangeName}}</span>
+                </template>
+          </el-table-column>
+          <el-table-column prop="medalUsetype" label="任务类型" header-align="center">
+          </el-table-column>
+          <el-table-column prop="medalType" label="数据类型" header-align="center">
+          </el-table-column>
+          
+          <el-table-column prop="medalUserName" label="发布人" header-align="center">
+          </el-table-column>
+          <el-table-column prop="medalPublishtime" label="发布时间" width="180" header-align="center">
+          </el-table-column>
+          <el-table-column prop="medalStatus" label="状态" header-align="center">
+          </el-table-column>
+
+          <el-table-column label="操作" width="200" header-align="center">
+            <template slot-scope="scope">
+              <a @click="handleLook(scope.row)" type="danger" plain size="small" style="color:#409eff;padding: 4px 8px; font-size: 12px">查看</a>
+              <a  v-if ="scope.row.medalType=='图文'"@click="handleEditPic(scope.row)" type="danger"  size="small" style="color:#409eff;padding: 4px 8px; font-size: 12px">编辑</a>
+
+              <a @click="handleEdit(scope.row)" type="danger" plain size="small" style="color:#409eff;padding: 4px 8px; font-size: 12px">数据</a>
+              <!-- <el-button type="danger" plain size="small">排序</el-button> -->
+              <a v-if="scope.row.medalStatus =='上架'" plain size="small" @click="statueTrue (scope.row)" style="color:#409eff;padding: 4px 8px; font-size: 12px">下架</a>
+              <a v-if=" scope.row.medalStatus =='待上架'" plain size="small" @click="statueTrue (scope.row)" style="color:#409eff;padding: 4px 8px; font-size: 12px">发布</a>
+
+            </template>
+          </el-table-column>
+
+        </el-table>
+
+        <!-- 分页 -->
+        <el-pagination @current-change="handleCurrentChange" :currentPage="currentPage" :page-size="10" layout="total, prev, pager, next, jumper"
+          :total="total" style="margin: 10px 0px;">
+        </el-pagination>
+      </template>
+    </div>
+  </div>
+
+
+  <!-- 弹框 -->
+  <el-dialog
+ title="修改状态"
+ :visible.sync="dialogVisibleStatus"
+ width="30%"
+
+ >
+ <span>确定要改变状态么？</span>
+ <span slot="footer" class="dialog-footer">
+   <el-button @click="editStatUs()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+   <el-button  @click="dialogVisibleStatus = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+ </span>
+</el-dialog>
+</div>

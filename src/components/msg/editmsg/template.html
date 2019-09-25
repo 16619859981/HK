@@ -1,0 +1,80 @@
+<div>
+    <!-- 头部 -->
+    <div class="header-header">
+ 
+        <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+        <br>
+        <span style="margin-right: 20px;margin-top:10px;" class="active_title">创建通知</span>
+    
+       
+        <!-- <span>创建视频专辑</span> -->
+
+    </div>
+    <!-- 创建专辑的内容 -->
+    <div class="albumContent">
+        <div class="msg">
+            <div class="title">
+                <!-- <i></i> -->
+                <!-- <span>Banner信息</span> -->
+            </div>
+
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="ruleForm">
+                <div class="top">
+                    <el-form-item label="通知标题:" prop="title">
+                        <el-input v-model="ruleForm.messageTitle" placeholder="请输入名称，最多20个字" class="inp"></el-input>
+                    </el-form-item>
+                    <el-form-item label="通知内容:" prop="content">
+                        <vue-ueditor-wrap v-model="ruleForm.messageContent" :config="myConfig" style="width:800px;height:150px;" class="bjq"></vue-ueditor-wrap>
+                     
+                      </el-form-item>
+                      <el-form-item label="发布对象：" prop="range">
+
+                            <el-select v-model="ruleForm.messageRange" placeholder="请选择" style="width:500px;">
+                              <el-option v-for="item in per" :key="item.value" :label="item.label" :value="item.value">
+                              </el-option>
+                            </el-select>
+                          </el-form-item>
+             
+                     <el-form-item label="发布时间：" prop="messagePublishType">
+                      <template>
+                          <el-radio v-model="ruleForm.messagePublishType"  label="1">立即发布</el-radio>
+
+                          <div class="block">
+                              <el-radio v-model="ruleForm.messagePublishType"  label="2">定时发布</el-radio>
+                              <el-date-picker v-if='ruleForm.messagePublishType==2' :picker-options="pickerOptions0" v-model="ruleForm.messagePtime" type="datetime" value-format="timestamp" placeholder="选择日期时间">
+                              </el-date-picker>
+                          </div>
+                      </template>
+
+                  </el-form-item>
+                </div>
+            </el-form>
+
+
+        </div>
+        <div class="btn">
+            <el-button @click ="subimt()" style="background-color: rgb(87, 140, 252);">提交</el-button>
+            <el-button @click=" del() ">
+                取消
+            </el-button>
+        </div>
+    </div>
+
+<!-- 提交弹框 -->
+
+<template>
+        <el-dialog title="通知信息" :visible.sync="dialogVisibleSub" width="30%" height="500px;">
+         
+        <span>确认修改信息？</span>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="submitData()" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+            <el-button @click="dialogVisibleSub = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+          </span>
+        </el-dialog>
+    
+      </template>
+
+    
+
+</div>
+

@@ -1,0 +1,365 @@
+.header-header {
+  width: 100%;
+  height: 58px;
+  padding-left: 20px;
+  /* border-bottom: 1px solid #ccc; */
+  /* margin-bottom: 20px; */
+  position: relative;
+}
+
+.header-header h3 {
+  font-size: 14px;
+
+}
+
+.header-header span {
+  font-size: 14px;
+  display: inline-block;
+}
+
+.active_title {
+  border-bottom: 2px solid #409eff;
+  color: #409eff;
+  cursor: pointer;
+
+}
+
+
+.table-content {
+  padding: 10px;
+  margin: 20px;
+  background-color: #fff;
+}
+
+
+/* 表格 */
+.el-table {
+  text-align: center;
+  border: 1px solid rgba(235, 238, 245, 1);
+}
+
+.el-table td,
+.el-table th.is-leaf {
+  text-align: center;
+}
+
+.demo-table-expand {
+  text-align: left;
+}
+
+.el-tabs__item {
+  padding: 0 10px;
+  height: 40px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  line-height: 40px;
+  display: inline-block;
+  list-style: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: #303133;
+  position: relative;
+}
+
+.breadcrumb {
+  display: inline-block;
+  box-shadow: 0 0 13px -5px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  border-radius: 5px;
+  counter-reset: flag;
+  position: fixed;
+  top: 22px;
+  z-index: 2000;
+  left: 179px;
+}
+
+.breadcrumb a {
+  text-decoration: none;
+  outline: none;
+  display: block;
+  float: left;
+  font-size: 12px;
+  line-height: 32px;
+  color: #409eff;
+  padding: 0 10px 0 60px;
+  background: #fff;
+  background: linear-gradient(#fff, #fff);
+  position: relative;
+}
+
+.breadcrumb a:first-child {
+  padding-left: 46px;
+  border-radius: 5px 0 0 5px;
+}
+
+.breadcrumb a:first-child:before {
+  left: 14px;
+}
+
+.breadcrumb a:last-child {
+  border-radius: 0 5px 5px 0;
+  padding-right: 20px;
+  background: #409eff;
+  background: linear-gradient(#409eff, #409eff);
+  color: #fff;
+}
+
+
+.breadcrumb a.active,
+  {
+  background: #fff;
+  background: linear-gradient(#fff, #fff);
+  color: #409eff;
+
+}
+
+.breadcrumb a.active:after,
+  {
+  background: #fff;
+  background: linear-gradient(135deg, #fff, #fff);
+  color: #409eff;
+
+}
+
+.breadcrumb a:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -16px;
+  width: 32px;
+  height: 32px;
+  transform: scale(0.707) rotate(45deg);
+  z-index: 1;
+  background: #fff;
+  background: linear-gradient(135deg, #fff, #fff);
+  box-shadow: 2px -2px 0 -1px rgba(0, 0, 0, 0.1), 3px -3px 0 2px rgba(255, 255, 255, 0.1);
+  border-radius: 0 5px 0 50px;
+}
+
+.breadcrumb a:last-child:after {
+  content: none;
+}
+
+.breadcrumb a:before {
+  content: counter(flag);
+  counter-increment: flag;
+  /*some styles now*/
+  border-radius: 100%;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  margin: 6px 0;
+  position: absolute;
+  top: 0;
+  left: 30px;
+  background: #409eff;
+  background: linear-gradient(#409eff, #409eff);
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+}
+
+.breadcrumb a:last-child:before {
+  background: #fff;
+  background: linear-gradient(#fff, #fff);
+  color: #409eff;
+}
+
+.el-date-editor.el-input,
+.el-date-editor.el-input__inner {
+  width: 215px;
+  height: 32px !important;
+  line-height: 32px !important;
+  text-align: center;
+  /* margin-left: -15px; */
+}
+
+.page .el-input__inner {
+  height: 32px !important;
+}
+
+.page .el-input__icon {
+
+  line-height: 32px !important;
+}
+
+.el-range-separator {
+  margin-top: -6px !important;
+}
+
+.el-date-editor .el-range__icon {
+  font-size: 12px !important;
+  margin-left: -5px;
+  color: #c0c4cc;
+  float: left;
+  line-height: 40px;
+  margin-top: -6px !important;
+}
+
+.el-range-editor.el-input__inner {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 3px 3px !important;
+}
+
+.el-date-editor .el-range-input,
+.el-date-editor .el-range-separator {
+  height: 100%;
+  margin: 0;
+  text-align: center;
+  display: inline-block;
+  font-size: 12px !important;
+}
+
+.el-input__icon .el-range__close-icon {}
+
+.el-date-editor .el-range__close-icon {
+  font-size: 14px;
+  color: #c0c4cc;
+  width: 25px;
+  display: inline-block;
+  float: right;
+  line-height: 40px;
+  margin-top: -6px !important;
+}
+
+.TypeIcon {
+  width: 500px;
+  margin: 0 auto;
+  display: flex;
+}
+
+.TypeIcon div {
+  flex: 1;
+  text-align: center;
+  padding: 20px;
+  cursor: pointer;
+}
+
+.TypeIcon div img {
+  width: 100px;
+  height: 100px;
+}
+
+.TypeIcon div p {
+  color: #909399;
+  font-size: 18px;
+  margin-top: 15px;
+}
+
+.yulan {
+  width: 399px;
+  height: 737px;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.bgc {
+  width: 399px;
+  height: 737px;
+  background-image: url("./iphone678-2.png");
+  position: relative;
+}
+
+.content {
+  width: 296px;
+  height: 435px;
+  /* background-color: #ccc;; */
+  position: absolute;
+  top: 145px;
+  left: 53px;
+  overflow-y: auto;
+}
+
+.content .feed {
+  width: 278px;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 4px;
+  margin: 0 auto;
+  margin-bottom: 8px;
+  ;
+  text-align: center;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.25);
+  line-height: 40px;
+}
+
+.content div {
+  margin-bottom: 8px;
+  ;
+  text-align: center;
+}
+
+.content .bar {
+  height: 300px;
+  height: 6px;
+  background: #F7F7F7;
+}
+
+.content .audio div {
+  text-align: left;
+  margin-left: 10px;
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+
+.content .audio div span {
+  display: inline-block;
+  letter-spacing: 1px;
+}
+
+.content::-webkit-scrollbar {
+  width: 4px;
+  /*高宽分别对应横竖滚动条的尺寸*/
+  height: 4px;
+}
+
+/* 红广号 */
+.red-box::-webkit-scrollbar {
+  display: none;
+}
+
+.red-box {
+  display: -webkit-box;
+  overflow-x: scroll;
+  /* -webkit-overflow-scrolling: touch; */
+}
+
+.red-box .item {
+  width: 119px;
+  height: 83px;
+  background-image: url("./bgc.png");
+  margin-top: 10px;
+  text-align: left !important;
+  padding-left: 20px;
+
+}
+.item img {
+  width: 37px;
+  height:37px;
+  border-radius: 6px;
+  /* margin-left: 10px; */
+  margin-top: -8px;
+  margin-bottom: 5px;
+
+}
+.item .name {
+  color:rgba(52,52,52,1);
+  font-size:10px;
+  font-weight:450;
+  margin-bottom: 5px;
+
+}
+.item .other {
+  color:rgba(141,141,141,1);
+  font-size:10px;
+}
+
+
+.content::-webkit-scrollbar {
+  display: none;
+}

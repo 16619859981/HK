@@ -1,0 +1,71 @@
+<div>
+    <!-- 头部 -->
+    <div class="header-header">
+        <h3>用户管理-学校管理-编辑班级
+        </h3>
+        <span style="margin-right: 20px;" class="active_title">编辑班级</span>
+
+        <!-- <span>创建视频专辑</span> -->
+
+    </div>
+    <!-- 创建专辑的内容 -->
+    <div class="albumContent">
+        <div class="msg">
+            <div class="title">
+                <i></i>
+                <span>班级信息</span>
+            </div>
+
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="ruleForm" :inline="true">
+                <div class="top">
+
+                    <el-form-item label="班级年级:" prop="name">
+                        <el-select v-model="ruleForm.region" placeholder="请选择班级年级" class="inp" :selected="value">
+                            <el-option label="区域一" value="shanghai"></el-option>
+                             <el-option label="区域二" value="beijing"></el-option>
+                        </el-select>
+                    </el-form-item>
+
+                    <el-form-item label="班级名称:" prop="name">
+                        <el-input v-model="ruleForm.name" placeholder="请输入班级名称" class="inp"></el-input>
+                    </el-form-item>
+
+                    <!-- <div class="title">
+                        <i></i>
+                        <span>教师信息</span>
+                    </div>
+                    
+                    <el-form-item label="选择教师:" prop="adminAccount">
+                        <el-input v-model="ruleForm.name" placeholder="请输入管理员账号" class="inp"></el-input>
+                        <el-button type="danger" plain>查看密码</el-button>
+                    </el-form-item>
+                    <el-form-item label="选择角色:" prop="adminPassword">
+                        <el-input v-model="ruleForm.name" placeholder="请输入管理员密码" class="inp"></el-input>
+                        <el-button type="danger" plain>查看密码</el-button>
+                    </el-form-item> -->
+
+                    
+                </div>
+
+                
+                
+            </el-form>
+
+            
+
+            
+         
+           
+        </div>
+        <div class="btn">
+                <el-button>提交</el-button>
+                <el-button>
+                    取消
+                </el-button>
+        </div>
+    </div>
+
+
+</div>
+
+</div>

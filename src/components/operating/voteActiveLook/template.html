@@ -1,0 +1,90 @@
+<div>
+    <!-- 头部 -->
+    <div class="header-header">
+
+        <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+        <br>
+        <span style="margin-right: 20px;margin-top:10px;" class="active_title">查看专题</span>
+  
+
+
+        <!-- <span>创建视频专辑</span> -->
+
+    </div>
+    <!-- 创建专辑的内荣 -->
+    <div class="albumContent">
+        <div class="msg">
+            <div class="title">
+                <!-- <i></i> -->
+                <span>专题信息</span>
+            </div>
+            <div class="picMsg">
+                <el-form :inline="true"  :model="ruleForm" class="demo-form-inline" label-width="120px">
+                    <el-form-item label="专题名称：" prop="name">
+                        <!-- <el-input v-model=""  placeholder="活动" style="width:300px;"></el-input> -->
+                        <span>{{ruleForm.subjectName}}</span>
+                    </el-form-item>
+               
+                    <br>
+                    <el-form-item label="专题时间：" style="width:600px;">
+                        <div class="block">
+
+                            <!-- <el-date-picker v-model="ruleForm.time" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+                            </el-date-picker> -->
+                            <span>{{ruleForm.subjectCtime}}</span>
+                            <span style="margin-left: 10px;margin-right: 10px;">至</span>
+                            <span>{{ruleForm.subjectEtime}}</span>
+
+                        </div>
+                    </el-form-item>
+                    <br>
+                    <el-form-item label="专题简介：">
+                        <div  id="main" style="width: 800px;">
+                            
+                        </div>
+                          
+                            <!-- <vue-ueditor-wrap v-model="ruleForm.subjectLabel" readonly :config="myConfig" style="width: 800px;height:200px;"></vue-ueditor-wrap> -->
+                        <!-- <span v-html="ruleForm.subjectLabel"></span> -->
+                            <!-- <vue-ueditor-wrap v-model="ruleForm.msg" :config="myConfig" style="width: 1300px;height:200px;"></vue-ueditor-wrap> -->
+                    </el-form-item>
+                    <br>
+                    <el-form-item label="专题封面：">
+                        <!-- <el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-success="handleAvatarSuccess"
+                            :before-upload="beforeAvatarUpload"> -->
+                            <!-- <img v-if="ruleForm.subjectFileUrl" :src="ruleForm.subjectFileUrl" class="avatar"> -->
+                            <!-- <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                        </el-upload> -->
+                        <el-popover placement="right" height="500" trigger="click" style="padding:0;border:none">
+                                <img :src="ruleForm.subjectFileUrl" class="avatar" style="width:500px;height:500px;">
+                                <el-button slot="reference" style="padding:0;border:none">
+                                    <img :src="ruleForm.subjectFileUrl" class="avatar">
+                                </el-button>
+    
+                            </el-popover>
+                    </el-form-item>
+                    <br>
+                    <el-form-item label="发布时间：" prop="radio">
+                            <template>
+                                <!-- <el-radio v-model="ruleForm.radio" label="1">审核后立即发布</el-radio> -->
+                                <span>{{ruleForm.subjectUptime}}</span>
+    
+                                <!-- <div class="block">
+                                    <el-radio v-model="ruleForm.radio" label="2">定时发布</el-radio>
+                                    <el-date-picker v-if='ruleForm.radio==2' v-model="upTime" type="datetime" value-format="timestamp" placeholder="选择日期时间">
+                                    </el-date-picker>
+                                </div> -->
+                            </template>
+    
+                        </el-form-item>
+ 
+                </el-form>
+            </div>
+      
+
+     
+        </div>
+
+
+    </div>
+
+</div>

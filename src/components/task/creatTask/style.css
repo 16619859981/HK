@@ -1,0 +1,91 @@
+.box-box {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    
+}
+
+.header-header {
+    width: 100%;
+    height: 26px;
+    padding-left:15px;
+    /* border-bottom: 1px solid #ccc; */
+    position: relative;
+    box-sizing: border-box;
+    /* padding-top: 4px; */
+  }
+  
+  .header-header h3 {
+    font-size: 14px;
+
+  }
+  
+  .header-header span{
+    font-size: 14px;
+    display: inline-block;
+    margin-top: 4px;
+ 
+  }
+  .active_title {
+    border-bottom:2px solid #409eff;
+    color:#409eff;
+    cursor: pointer;
+  }
+.box {
+    /* margin-top: 60px; */
+position: relative;
+/* width: 1000px; */
+/* text-align: center; */
+justify-content: center; /*子元素水平居中*/
+            align-items: center; /*子元素垂直居中*/
+            display: -webkit-flex;
+            margin-top: 10%;
+
+  
+}
+.box>div {
+ 
+   width: 300px;
+   height:300px;
+    border:1px solid #ccc;
+    text-align: center;
+ display: inline-block;
+
+}
+.box .audio {
+    margin-right: 30px;
+
+}
+
+.box .audio:hover {
+    cursor: pointer;
+}
+
+.box .video:hover {
+    cursor: pointer;
+}
+.box .audio .top,.box .video .top  {
+    margin-top: 16px;
+    color:#ccc;
+    font-size: 16px;
+    letter-spacing: 2px;
+}
+
+.pC {
+    color:rgba(37, 38, 43);
+}
+.box .audio .bottom,.box .video .bottom {
+    color:#ccc;
+    font-size: 12px;
+    margin-top: 20px;
+    line-height: 18px;
+    letter-spacing: 2px;
+}
+
+a {
+    cursor: pointer;
+}
+
+a:hover {
+    color: #409eff;
+}

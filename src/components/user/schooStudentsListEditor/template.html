@@ -1,0 +1,84 @@
+<div>
+    <!-- 头部 -->
+    <div class="header-header">
+        <h3>用户管理-学校管理-学生列表
+        </h3>
+        <span style="margin-right: 20px;" class="active_title">编辑学生</span>
+
+        <!-- <span>创建视频专辑</span> -->
+
+    </div>
+    <!-- 创建专辑的内容 -->
+    <div class="albumContent">
+        <div class="msg">
+            <div class="title">
+                <i></i>
+                <span>班级学生</span>
+            </div>
+
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="ruleForm" :inline="true">
+                <div class="top">
+
+                    <el-form-item label="学生姓名:">
+                        <el-input v-model="ruleForm.studentName" placeholder="请输入学生姓名" class="inp"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="手机号:">
+                        <el-input v-model="ruleForm.studentPhone" placeholder="请输入手机号" class="inp"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="学生性别:">
+                        <el-select v-model="ruleForm.studentSex" placeholder="请选择学生性别" class="inp">
+                            <el-option label="男" value="0"></el-option>
+                            <el-option label="女" value="1"></el-option>
+                        </el-select>
+                    </el-form-item>
+
+                    <!-- <el-form-item label="设备号:">
+                        <el-input v-model="ruleForm.name" placeholder="请输入设备号" class="inp"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="绑定人:">
+                        <el-input v-model="ruleForm.name" placeholder="请输入绑定人" class="inp"></el-input>
+                    </el-form-item> -->
+                    
+
+                    <!-- <div class="title">
+                        <i></i>
+                        <span>教师信息</span>
+                    </div>
+                    
+                    <el-form-item label="选择教师:" prop="adminAccount">
+                        <el-input v-model="ruleForm.name" placeholder="请输入管理员账号" class="inp"></el-input>
+                        <el-button type="danger" plain>查看密码</el-button>
+                    </el-form-item>
+                    <el-form-item label="选择角色:" prop="adminPassword">
+                        <el-input v-model="ruleForm.name" placeholder="请输入管理员密码" class="inp"></el-input>
+                        <el-button type="danger" plain>查看密码</el-button>
+                    </el-form-item> -->
+
+                    
+                </div>
+
+                
+                
+            </el-form>
+
+            
+
+            
+         
+           
+        </div>
+        <div class="btn">
+                <el-button @click=" submit() ">提交</el-button>
+                <el-button @click=" del() ">
+                    取消
+                </el-button>
+        </div>
+    </div>
+
+
+</div>
+
+</div>

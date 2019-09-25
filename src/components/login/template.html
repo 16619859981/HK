@@ -1,0 +1,109 @@
+<div class="login-wrap">
+  <!-- <div class="logo">
+    <img src="./1366/LOGO Copy.png" alt="" style="position: absolute;top:50%; margin-top: -30px;">
+  </div> -->
+  <!-- <img src="./bg1.png" alt="" style="position: absolute; top: 0; left: 0; z-index: 999"> -->
+  <!-- <img src="./bg2.png" alt="" style="position: absolute; top: 0; right: 0;z-index: 999"> -->
+  <div class="bg" id="bannerBgc">
+      <div class="w" >
+          
+        <div class="bg-img">
+          <!-- <img src="./1366/bg.png" alt="" class="img"> -->
+       
+
+          <div class="login-from" v-show="bool == 0">
+            <div style="margin-bottom: 30px; font-size: 22px; color: #424C64;">{{loginTitle}}</div>
+
+            <el-form :model="d" status-icon :rules="loginFormRule" ref="d" class="demo-ruleForm">
+                <el-form-item prop="a">
+                  <el-input type="text" style="margin-bottom: 5px;"  v-model="d.a" auto-complete="off" placeholder="用户名/手机号"></el-input>
+                </el-form-item>
+                <el-form-item prop="b">
+                  <el-input type="password" v-model="d.b" auto-complete="off" placeholder="请输入密码"></el-input>
+                </el-form-item>
+                <!-- <el-form-item prop="c">
+                    <el-input type="text" auto-complete="off" v-model="d.c" placeholder="请输入验证码"></el-input>
+                      <img :src="imgUrl" alt="" style="position: absolute; top: 5px; right: 6px;cursor: pointer;" @click="kanbuqing">
+                    
+                </el-form-item> -->
+                <el-form-item prop="d">
+                  <el-input type="text" auto-complete="off" v-model="d.d" placeholder="请输入手机验证码"></el-input>
+                    <!-- <img :src="imgUrl" alt="" style="position: absolute; top: 5px; right: 6px;cursor: pointer;" @click="kanbuqing"> -->
+                    <!-- <el-button style="background-color:rgb(86, 139, 252);color:#fff;border:none;    padding: 10px 22px;position: absolute; top: 3px; right: 5px;cursor: pointer;" @click="sendPhone()">获取验证码</el-button>     -->
+                    <el-button class="button" style="position: absolute; top: 4px;bottom:4px; right: 4px;padding:8px 20px;background-color:rgb(86, 139, 252);color:#fff;" :class="{disabled: !this.canClick}" @click="huoquyzm()">{{ content }}</el-button>
+
+              </el-form-item>
+                <el-form-item>
+                  <div style="width: 73px; display: inline; float: left;" >
+                      <input v-model="checked" type="checkbox" name="" style="width: 15px; height: 15px;    vertical-align: middle;"><span style="color:#B6B6B6; font-size: 12px; margin-left: 6px;">记住密码</span>
+                  </div>
+                  <!-- <a href="javascript:;" @click="chongzhi()" style="color: rgb(86, 139, 252); float: right ;">重置密码</a> -->
+                </el-form-item>
+                <el-form-item  >
+                 
+                  <el-button style="background-color:rgb(86, 139, 252);color:#fff;border:none;    padding: 13px 117px;" @click="handleLogin('d')">立即登录</el-button>
+                 
+                </el-form-item>
+            </el-form>
+
+          </div>
+
+          <!-- <div class="login-from" v-show="bool == 1">
+              <div style="margin-bottom: 30px; font-size: 22px; color: #424C64;">重置密码</div>
+  
+              <el-form :model="Form" status-icon :rules="FormRule" ref="Form" class="demo-ruleForm">
+                  <el-form-item prop="mobile">
+                    <el-input type="text" style="margin-bottom: 5px;"  v-model="Form.mobile" auto-complete="off" placeholder="请输入手机号"></el-input>
+                  </el-form-item>
+                  <el-form-item prop="code">
+                    <el-input type="text" v-model="Form.code" auto-complete="off" placeholder="请输入验证码"></el-input>
+                    <el-button class="button" style="position: absolute; top: 0; right: 0;background-color:rgb(86, 139, 252);color:#fff;" :class="{disabled: !this.canClick}" @click="huoquyzm()">{{ content }}</el-button>
+                  </el-form-item>
+                  <el-form-item prop="password">
+                      <el-input type="password" v-model="Form.password" auto-complete="off" placeholder="请输入新密码"></el-input>
+                  </el-form-item>
+                  <el-form-item prop="password1">
+                      <el-input type="password" v-model="Form.password1" auto-complete="off" placeholder="请再次输入新密码"></el-input>
+                  </el-form-item>
+                  <el-form-item  >
+                   
+                    <el-button style="background-color:rgb(86, 139, 252);color:#fff;border:none; float: left;width: 128px; height: 40px;" @click="handle('Form')">确认</el-button>
+                    <el-button style="background-color:#BCBCBC;color:#fff;border:none;  float: right;width: 128px; height: 40px;" @click="fanhui()">返回</el-button>
+                   
+                  </el-form-item>
+              </el-form>
+  
+          </div> -->
+
+          
+        </div>
+  
+        
+      </div>
+  </div>
+  <el-dialog
+
+  v-if="isShowChromeTip"
+  :visible.sync="dialogVisible"
+  width="50%"
+  class="tips"
+
+ >
+ <img src="./wujiaoxing.png" style="margin-top: -20px;"/>
+ <div style="text-align: center;margin-left: 260px;margin-top: -138px;color: #606266;font-size:19px;">
+  <p>为了您的顺畅体验</p>
+  <p>推荐您使用Google Chrome浏览器</p>
+ </div>
+  
+
+  <span slot="footer" class="dialog-footer">
+
+    <el-button type="primary" @click="down()" style="margin-right:30px;">下载</el-button>
+    <el-button @click="dialogVisible = false">取 消</el-button>
+  </span>
+</el-dialog>
+
+
+  <p class="ppp">© 2018 hongkazhijia 京ICP备17074163号</p>
+
+  </div>

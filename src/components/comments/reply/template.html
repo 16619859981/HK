@@ -1,0 +1,99 @@
+<div>
+  <div class="breadcrumb">
+    <a href="#" @click="home()">首页</a>
+    <a href="#" onClick="window.history.go(-1)">消息通知</a>
+    <a href="#" class="active">查看评论</a>
+
+  </div>
+  <!-- 内容管理头 -->
+ 
+  <div class="table-content">
+    <div class="header-header">
+
+      <span style="margin-right: 20px;margin-top:10px;" class="active_title">评论</span>
+  
+  
+  
+    </div>
+    <div class="comment" style="position: relative;">
+      <div class="left">
+        <img :src="msgData.fileId" alt="">
+      </div>
+      <div class="center">
+        <p class="name">{{msgData.personName}}<span>(连续{{msgData.clockCount}}天打卡)</span></p>
+        <p class="school">{{msgData.schoolName}}</p>
+        <p class="msg">{{msgData.content}}</p>
+        <div class="content">
+          <div v-for="(item,index) in contentData" :key="index" style="display:inline-block;"> 
+              <!-- <div  v-if="item.type==2&&contentData.length==1">
+              
+                  <video :src="item.url" controls class="video" ></video>
+                </div>
+                <div  v-if="item.type==2&&contentData.length==2">
+                
+                    <video :src="item.url" controls class="video" ></video>
+                  </div>
+                  <div  v-if="item.type==2&&contentData.length==4">
+                  
+                      <video :src="item.url" controls class="video" ></video>
+                    </div> -->
+              <div  v-if="item.type==2" :style="styleObj" class="div9">
+                  <!-- <img src="../1.3.png" alt=""> -->
+                  <video :src="item.url" controls class="video" @play="playvideo(item.url)"></video>
+                </div>
+                <div v-if="item.type==1" :style="styleObj" class="div9">
+                  <img v-show="num=='1'" src="./play.png" alt="" @click="playAudio()" class="img">
+                  <img v-show="num=='2'" src="./audio.gif" alt="" @click="playAudio()" class="img">
+                  
+                  <audio :src="item.url" class="audio" ></audio>
+                </div>
+                <div v-if="item.type==3" :style="styleObj" class="div9">
+                  <img :src="item.url" alt="">
+                </div>
+      
+          </div>
+        
+
+        </div>
+        <p style="color:#909399;font-size: 12px;margin-top: 2px;margin-bottom: 5px;">{{msgData.ctime}}</p>
+        <div>
+          <div class="icon">
+            <img src="../dianzan.png" alt=""><span>{{msgData.awesomeCount}}</span>
+          </div>
+          <div class="icon">
+            <img src="../pinlun.png" alt=""><span>{{msgData.commentCount}}</span>
+          </div>
+
+          <div class="icon">
+            <img src="../zhuanfa.png" alt=""><span>{{msgData.shareCount}}</span>
+          </div>
+
+
+
+        </div>
+      </div>
+      <div class="reply" v-if="replyData.length>0" style="width: 330px; margin-left: 70px;margin-top: 10px;height:100%;background-color:#F5F7FA;">
+        <div v-for = "(item,index ) in replyData" :key="index">
+
+      
+        <p  v-if="item.replyType==1">
+          <span class="name">{{item.commentatorName}}：</span><span class="text">{{item.replyContent}}</span>
+          <!-- <a href="#">删除</a> -->
+        </p>
+        <p v-if="item.replyType==2">
+          <span class="name">{{item.commentatorName}} <span class="text">回复</span> {{item.commenteeName}}</span><span class="text">{{item.replyContent}}</span>
+          <!-- <a href="#">删除</a> -->
+        </p>
+      </div>
+      </div>
+
+    </div>
+
+
+  </div>
+
+</div>
+
+
+
+</div>

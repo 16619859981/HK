@@ -1,0 +1,163 @@
+<div>
+
+  <!-- 内容管理头 -->
+  <div class="header-header">
+      <h3>
+        <!-- <a @click="a()">内容管理</a>-<a @click="b()">音视频审核</a> -->
+      </h3>
+      <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+      <br>
+
+      <span style="margin-right: 20px;margin-top:10px;" class="active_title">历史记录</span>
+
+  
+     
+     
+    </div>
+  <div class="table-content">
+    <!-- 搜索列表选项框 -->
+    <div class="table-search">
+      <div class="search-top">
+        <div class="search-title">
+          <!-- <i></i> -->
+          <!-- <p style="margin-left: 10px;" @click = "checkHistory()"> 搜索</p> -->
+
+        </div>
+        <div class="search-list">
+          <el-form :inline="true" :model="formInline" class="demo-form-inline" >
+            <el-form-item label="节目编号：" >
+              <el-input v-model="formInline.id"   @change="fushu" placeholder="节目编号" size="mini" style="width:140px;"></el-input>
+            </el-form-item>
+            <el-form-item label=" 关 键 字:" >
+              <el-input v-model="formInline.key" placeholder="请输入关键字" size="mini" style="width:140px;"></el-input>
+            </el-form-item>
+            <el-form-item label="类　　型：">
+              <el-select v-model="formInline.type" placeholder="请选择" size="mini" style="width:140px;">
+                  <el-option label="全部" value="0"></el-option>
+                
+                <el-option label="音频" value="1"></el-option>
+                <el-option label="视频" value="2"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="状　　态：">
+                <el-select v-model="formInline.status" placeholder="请选择" size="mini" style="width:140px;">
+                <el-option label="全部" value="0"></el-option>
+                 
+                  <el-option label="通过" value="1"></el-option>
+                  <el-option label="不通过" value="2"></el-option>
+                </el-select>
+              </el-form-item>
+            <el-form-item label="创建时间：">
+                <el-date-picker
+                v-model="formInline.startTime"
+                type="date"
+                placeholder="选择日期"
+                size="mini" style="width:140px;"
+                value-format="timestamp"
+                >
+              </el-date-picker>
+              -
+              <el-date-picker
+                v-model="formInline.endTime"
+                type="date"
+                placeholder="选择日期"
+                size="mini" style="width:140px;"
+                value-format="timestamp"
+                >
+              </el-date-picker>             
+            </el-form-item>
+            <el-form-item label="审核时间："  style="margin-right: 65px;">
+                <el-date-picker
+                v-model="formInline.checkStartTime"
+                type="date"
+                placeholder="选择日期"
+                size="mini" style="width:140px;"
+                value-format="timestamp"
+                >
+              </el-date-picker>
+              -
+              <el-date-picker
+                v-model="formInline.checkEndTime"
+                type="date"
+                placeholder="选择日期"
+                size="mini" style="width:140px;"
+                value-format="timestamp"
+                >
+              </el-date-picker>             
+            </el-form-item>
+      
+            <el-button class="search-button btnMin" size="mini" @click="checkHistory2()" style="padding: 7px 19px;
+            font-size: 12px;
+            background-color: #409eff;
+            color: #fff;
+        ">搜索</el-button>
+
+            <!-- <el-button size="mini" class="search-button btnMin" style="padding: 4px 8px; font-size: 12px" @click ='checkHistory()'>搜索</el-button> -->
+
+          </el-form>
+
+        </div>
+      </div>
+      <!-- <div class="search-button">
+        
+      </div> -->
+    </div>
+    <!-- 表格 -->
+    <div class="table-box">
+      <template>
+        <div class="details-Date">
+          <!-- <i></i> -->
+          <!-- <p> 历史节目</p> -->
+          <ul style="float:right;">
+            
+      
+          
+            <!-- <li>
+              <el-button size="mini" class="btnMin" @click="download()">导出本页数据</el-button>
+            </li> -->
+          </ul>
+
+        </div>
+        <!-- 表格 :header-cell-style="{color:'#495B82'}"-->
+        <el-table v-loading="loading"  :data="tableData" :header-cell-style="getRowClass" style="width: 100%;margin-top: 20px;" :row-style="tabH" :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}">
+     
+
+ 
+
+          <el-table-column prop="auditAlbumId" label="节目编号"  header-align="center" width="195">
+          </el-table-column>
+          <el-table-column prop="auditProgramName" label="节目名称" width="180" header-align="center">
+          </el-table-column>
+ 
+          <el-table-column prop="auditProgramType" label="类型" header-align="center">
+          </el-table-column>
+          <el-table-column prop="auditAlbum" label="所属专辑" width="180" header-align="center">
+          </el-table-column>
+        
+          <el-table-column prop="auditCreateName" label="创建人"  header-align="center">
+          </el-table-column>
+          <el-table-column prop="auditCtime" label="创建时间"  width="180" header-align="center">
+          </el-table-column>
+          <el-table-column prop="auditName" label="审核人"  header-align="center">
+            </el-table-column>
+            <el-table-column prop="auditTime" label="审核时间"  width="180" header-align="center">
+            </el-table-column>
+          <el-table-column prop="auditStatus" label="审核状态" header-align="center">
+            </el-table-column>
+
+          <el-table-column  label="操作" header-align="center">
+            <template slot-scope="scope">
+
+              <a @click="handleClick(scope.row)" style="color:#409eff;">查看</a>
+             
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <!-- 分页 -->
+        <el-pagination style="margin-top: 10px;margin-bottom: 10px;" @current-change="handleCurrentChange" :currentPage="currentPage" :page-size="10" layout="total, prev, pager, next, jumper" :total="total">
+        </el-pagination>
+      </template>
+    </div>
+  </div>
+</div>

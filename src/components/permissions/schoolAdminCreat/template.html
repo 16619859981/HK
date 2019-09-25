@@ -1,0 +1,145 @@
+<div>
+        <!-- 头部 -->
+        <div class="header-header">
+            <h3>权限管理-学校后台
+            </h3>
+            <span style="margin-right: 20px;" class="active_title">创建管理员</span>
+    
+            <!-- <span>创建视频专辑</span> -->
+    
+        </div>
+        <!-- 创建专辑的内容 -->
+        <div class="albumContent">
+            <div class="msg">
+                <div class="title">
+                    <i></i>
+                    <span>管理员信息</span>
+                </div>
+    
+                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="ruleForm" :inline="true"  label-position="left">                                       
+                    <el-form-item label="管理员账号:" prop="adminAccount">
+                        <el-input v-model="ruleForm.name" placeholder="请输入管理员账号" class="inp"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="管理员密码:" prop="adminPassword">
+                        <el-input v-model="ruleForm.name" placeholder="请输入管理员密码" class="inp"></el-input>
+                        <el-button type="danger" plain>查看密码</el-button>
+                    </el-form-item>
+
+                    <el-form-item label="管理员姓名:" prop="adminAccount">
+                        <el-input v-model="ruleForm.name" placeholder="请输入管理员账号" class="inp"></el-input>
+                    </el-form-item>
+
+                    <el-form-item label="管理员状态:" prop="adminAccount">
+                        <el-select v-model="ruleForm.region" placeholder="请选择管理员状态" class="inp" :selected="value">
+                            <el-option label="启用" value="shanghai"></el-option>
+                             <el-option label="禁用" value="beijing"></el-option>
+                        </el-select>
+                    </el-form-item>
+
+                    <div class="title">
+                        <i></i>
+                        <span>权限设置</span>
+                    </div>
+
+                    <el-form-item label="首页" label-width="300px" style="border-bottom: 1px solid #ccc; "> 
+                        <span style="display: inline-block; width: 300px;" >实时指标</span>
+                        <el-checkbox v-model="radio" label="1" style="width: 232px;">查看</el-checkbox>
+                    </el-form-item>
+
+                    <el-form-item label="内容管理" label-width="300px" style="border-bottom: 1px solid #ccc">
+                        <span style="display: inline-block; width: 300px;">专辑管理</span>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">查看</el-checkbox>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">管理</el-checkbox>
+                        <br>
+                        <span style="display: inline-block; width: 300px;">专辑审核</span>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">查看</el-checkbox>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">管理</el-checkbox>
+                    </el-form-item>
+
+                    <el-form-item label="运营管理" label-width="300px" style="border-bottom: 1px solid #ccc">
+                        <span style="display: inline-block; width: 300px;">活动管理</span>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">查看</el-checkbox>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">管理</el-checkbox>
+                        <br>
+                        <span style="display: inline-block; width: 300px;">活动审核</span>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">查看</el-checkbox>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">管理</el-checkbox>
+                    </el-form-item>
+
+                    <el-form-item label="硬件管理" label-width="300px" style="border-bottom: 1px solid #ccc">
+                        <span style="display: inline-block; width: 300px;">硬件列表</span>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">查看</el-checkbox>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">管理</el-checkbox>
+                        <br>
+                        <span style="display: inline-block; width: 300px;">硬件解绑</span>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">查看</el-checkbox>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">管理</el-checkbox>
+                    </el-form-item>
+
+                    <el-form-item label="学校管理" label-width="300px" style="border-bottom: 1px solid #ccc">
+                        <span style="display: inline-block; width: 300px;">学校信息</span>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">查看</el-checkbox>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">管理</el-checkbox>
+                        <br>
+                        <span style="display: inline-block; width: 300px;">全部班级</span>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">查看</el-checkbox>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">管理</el-checkbox>
+                        <br>
+                        <span style="display: inline-block; width: 300px;">全部教师</span>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">查看</el-checkbox>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">管理</el-checkbox>
+                        <br>
+                        <span style="display: inline-block; width: 300px;">全部学生</span>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">查看</el-checkbox>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">管理</el-checkbox>
+                        <br>
+                        <span style="display: inline-block; width: 300px;">全部家长</span>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">查看</el-checkbox>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">管理</el-checkbox>
+                    </el-form-item>
+
+                    <el-form-item label="消息管理" label-width="300px" style="border-bottom: 1px solid #ccc; "> 
+                        <span style="display: inline-block; width: 300px;" >消息列表</span>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">查看</el-checkbox>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">管理</el-checkbox>
+                    </el-form-item>
+
+                    <el-form-item label="权限管理" label-width="300px" style="border-bottom: 1px solid #ccc">
+                        <span style="display: inline-block; width: 300px;">管理员管理</span>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">查看</el-checkbox>
+                        <el-checkbox v-model="radio" label="1" style="width: 100px;">管理</el-checkbox>
+                    </el-form-item>
+                    
+                </el-form>                                                          
+            </div>
+            <!-- <div class="msg" style="margin-top: 10px;">
+                <div class="title">
+                    <i></i>
+                    <span>管理员信息</span>
+                </div>
+
+                <el-form ref="form" :model="form" label-width="80px"  :inline="true">
+                    <el-form-item label="首页">
+                        <div>实时指标</div>
+                        <el-checkbox-group v-model="form.type">
+                            <el-checkbox label="查看" name="type"></el-checkbox>
+                            <el-checkbox label="地推活动" name="type"></el-checkbox>
+                            <el-checkbox label="线下主题活动" name="type"></el-checkbox>
+                            <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
+                        </el-checkbox-group>
+                    </el-form-item>
+
+
+                </el-form>
+
+            </div> -->
+            <div class="btn">
+                    <el-button>提交</el-button>
+            </div>
+        </div>
+    
+    
+    </div>
+    
+    </div>

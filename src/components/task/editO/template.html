@@ -1,0 +1,169 @@
+<div>
+  <!-- 头部 -->
+  <div class="header-header">
+    <h3>
+      <!-- 运营管理-活动管理-创建活动 -->
+    </h3>
+    <!-- <el-button  style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+        <span style="margin-right: 20px;margin-left: 20px;" class="active_title" @click="createPic()">创建图文活动</span>
+        <span style="margin-right: 20px;" @click="createVoice()" >创建语音活动</span>
+
+        <span style="margin-right: 20px;" @click="createVote()">创建投票活动</span> -->
+    <el-button style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+    <br>
+    <span style="margin-right: 20px;margin-top:10px;" class="active_title" @click="createPic()">编辑图文任务</span>
+
+
+    <!-- <span>创建视频专辑</span> -->
+
+  </div>
+  <!-- 创建专辑的内容 -->
+  <div class="albumContent">
+    <div class="msg">
+      <div class="title">
+      </div>
+      <div class="picMsg">
+        <el-form :inline="true" :rules="rules" v-loading="loading" :model="form" class="demo-form-inline">
+          <el-form-item label="任务名称：" prop="medalName">
+            <el-input v-model="form.medalName" placeholder="请输入任务名称" style="width:300px;"></el-input>
+          </el-form-item>
+          <br>
+          <el-form-item label="任务类型：" prop="sub">
+
+            <span>图文完成任务</span>
+          </el-form-item>
+          <br>
+          <el-form-item label="任务简介：" prop="medalIntro" v-show="form.medalType == 3">
+            <el-input type="textarea" :autosize="{ minRows: 5, maxRows: 5 }" v-model="form.medalIntro" placeholder="请输入任务简介"
+              style="width: 400px;"></el-input>
+            <el-button @click="uploadImg()" style="padding: 12px 15px; font-size: 12px;background-color: #409eff; color: #fff;">添加图片</el-button>
+            <br>
+            <div style="width: 600px; margin-top: 20px;">
+              <img v-for="item in urlArr" :src="item" alt="" style="width: 150px; height: 150px; margin-right:50px; margin-bottom: 50px;">
+              <el-button @click="delImg()" style="padding: 12px 15px; font-size: 12px;background-color: #409eff; color: #fff;"
+                v-show="urlArr.length != 0">删除图片</el-button>
+            </div>
+          </el-form-item>
+          <br>
+
+
+          <el-form-item label="任务LOGO:" prop="img">
+            <!-- <el-input type="textarea" v-model="ruleForm.desc"></el-input> -->
+            <el-upload class="avatar-uploader" style="border:1px solid #ccc;width:150px;height:150px; position: relative;margin-left: 10px;"
+              :action=action :show-file-list="false" :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload">
+            <img v-if="fileUrl" :src="fileUrl" class="avatar" style="width:150px;height:150px; ">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+            <div style="color:#ccc;font-size: 12px; position: absolute;left:186px;top:28px; line-height: 22px;width: 300px;">
+              <p>上传尺寸要求宽高相等</p>
+              <p>推荐最佳尺寸为360*360</p>
+              <p>图片须小于1MB</p>
+              <p>图片支持格式jpeg、jpg、png、bmp</p>
+            </div>
+          </el-form-item>
+          <br>
+
+          <el-form-item label="发布对象：" prop="area">
+            <span class="activityAreaName">{{ form.medalRangeName }}</span>
+            <el-button style="background-color: #409eff; color: #fff;margin-left: 10px;" @click="more()" v-show="activityAreaNum == 0">增加发布对象</el-button>
+          </el-form-item>
+          <br>
+          <el-form-item label="增加发布对象：" prop="area" v-show="activityAreaNum == 1">
+
+            <el-select v-model="range" multiple filterable allow-create default-first-option placeholder="请选择发布对象"
+              style="width:300px;"  @change="val1(range)">
+              <el-option v-for="(item,index) in per" :key="index" :label="item.name" :value="item.id">
+              </el-option>
+            </el-select>
+            <el-button style="background-color: #409eff; color: #fff;" @click="noMore()" v-show="activityAreaNum == 1">清除</el-button>
+
+          </el-form-item>
+          <br>
+
+          <el-form-item label="发布时间：" v-if="type==2">
+            <template>
+              
+              <el-radio v-model="type2" label="1">立即发布</el-radio>
+
+              <div class="block" style="display: inline; margin-left: 50px;">
+                <el-radio v-model="type" label="2">定时发布</el-radio>
+                <el-date-picker v-if='type == 2' :picker-options="pickerOptions0" value-format="timestamp" v-model="form.medalPublishtime"
+                  type="datetime" placeholder="选择日期时间">
+                </el-date-picker>
+              </div>
+            </template>
+
+          </el-form-item>
+          <el-form-item label="发布时间：" v-if="type==1">
+             <span>立即发布({{form.medalPublishtime}})</span>
+  
+            </el-form-item>
+            <el-form-item label="发布时间：" v-if="type==3">
+              <span>定时发布({{form.medalPublishtime}})</span>
+   
+             </el-form-item>
+        </el-form>
+
+
+      </div>
+
+
+    </div>
+
+    <!-- 提交的弹框 -->
+    <template>
+      <el-dialog title="提示" :visible.sync="dialogVisible" width="50%" height="500px;">
+        <span>确认提交?</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="handleForm()" size="mini" style="background-color: #409eff;">确定</el-button>
+          <el-button @click="dialogVisible = false" size="mini"> 取消</el-button>
+        </span>
+      </el-dialog>
+    </template>
+
+   <!-- 取消的弹框 -->
+   <template>
+    <el-dialog title="提示" :visible.sync="dialogVisibleDel" width="50%" height="500px;">
+      <span>确认取消提交?</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="cancel" size="mini" style="background-color: #409eff;">确定</el-button>
+        <el-button @click="dialogVisibleDel = false" size="mini"> 取消</el-button>
+      </span>
+    </el-dialog>
+  </template>
+
+
+
+  </div>
+
+  <div class="btn">
+    <el-button @click="submit()" style="background-color: #409eff;">提交</el-button>
+    <el-button @click="dialogVisibleDel = true">
+      取消
+    </el-button>
+  </div>
+
+
+
+  <template>
+    <el-dialog title="导入图片" :visible.sync="dialogVisibleUpImg" width="50%" height="500px;">
+      <el-upload :limit="lim" class="upload-demo" drag :action=action multiple style="width: 400px; margin: 0 auto;"
+        :on-success="fn1" :before-upload="beforeImageUpload1" ref="upload">
+        <i class="el-icon-upload"></i>
+        <div class="el-upload__text">将文件拖到此处，或
+          <em>点击上传</em>
+        </div>
+
+      </el-upload>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisibleUpImg = false" style="padding: 12px 24px; font-size: 12px;background-color: #409eff;">确定</el-button>
+        <el-button @click="dialogVisibleUpImg=false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+      </span>
+    </el-dialog>
+  </template>
+
+
+
+
+</div>

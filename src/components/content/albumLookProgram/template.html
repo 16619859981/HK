@@ -1,0 +1,153 @@
+<div>
+    <!-- 头部 -->
+    <div class="header-header">
+        <h3>
+            <!-- <a @click="a()">内容管理</a>-<a @click="a()">音视频审核</a>-<a @click="b()">历史记录</a> -->
+        </h3>
+        <el-button style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+        <br>
+        <span style="margin-right: 20px;margin-top:10px;" class="active_title">查看审核</span>
+
+
+        <!-- <span>创建视频专辑</span> -->
+
+    </div>
+    <!-- 创建专辑的内荣 -->
+    <div class="albumContent">
+        <div class="msg" >
+           
+
+         
+            
+                
+                <!-- <div class="bottom" style="margin-top: 15px;">
+         
+                    <el-table :data="programData" style="width: 100%" :row-style="tabH" :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}">
+                            <el-table-column prop="materialSort" label="序号" width="60" header-align="center">
+                            </el-table-column>
+                            <el-table-column v-if="fnn()" prop="fileUrl
+                            " label="视频封面" width="100" header-align="center">
+                            <template slot-scope="scope">
+                                    <img :src="scope.row.fileUrl" alt="" style="width:50px;height:50px;">
+                                  </template>
+                            </el-table-column>
+    
+                            <el-table-column prop="materialId" label="节目编号" width="100" header-align="center">
+                            </el-table-column>
+                            <el-table-column prop="materialName" label="节目名称" width="180" header-align="center">
+                            </el-table-column>
+                            <el-table-column prop="materialPublisher" label="创建人" width="100" header-align="center">
+                            </el-table-column>
+                            <el-table-column prop="materialAuthor" label="作者" width="100" header-align="center">
+                            </el-table-column>
+                            <el-table-column prop="materialType" label="类型" width="60" header-align="center">
+                            </el-table-column>
+                            <el-table-column prop="materialCtime" label="创建时间" width="180" header-align="center">
+                            </el-table-column>
+                            <el-table-column prop="materialIscheck" label="审核状态" width="100" header-align="center">
+                            </el-table-column>
+                  
+                            <el-table-column  v-if="fnn2()" label="播放" width="330" header-align="center" class="audio">
+                                <template slot-scope="scope"  >
+                                        <audio controls="controls" @play = "audioPlay(scope.row,$event)" @ended = "audioEnd(scope.row,$event)"  :src="scope.row.fileUrl1" style="width: 260px;height:65px;"></audio>
+                                </template>
+                                    
+                            </el-table-column>
+                            <el-table-column  v-if="fnn()" label="操作" header-align="center">
+                                <template slot-scope="scope"  width="100" header-align="center">
+    
+                                        <a v-if="fnn()"  style="color:#FB5A41;padding: 4px 2px; font-size: 12px" @click="play(scope.row.fileUrl1)">播放
+                                        </a>
+                            
+    
+                                </template>
+                            </el-table-column>
+    
+                        </el-table>
+    
+                </div> -->
+        
+
+
+                <el-form label-width="120px" >
+
+
+                    <!-- <i style="width: 100%;height:1px;display: inline-block;background-color: #ccc;margin-top: 30px;margin-bottom: 40px;"></i> -->
+                    <el-form-item label="节目名称：" style="border:none">
+                      <span  readonly style="width:300px;border:none">{{programData.auditAlbum}}</span>
+                    </el-form-item>
+             
+                    <el-form-item label="创建人：">
+                      <span  readonly style="width:300px;">{{programData.auditCreateName}}</span>
+                    </el-form-item>
+                    <el-form-item label="创建时间：">
+                      <span>          
+                        <div type="textarea"  readonly style="width:300px;overflow:hidden;
+                      text-overflow:ellipsis;
+                      white-space:nowrap"
+               >{{programData.auditCtime}}</div>                                                                 
+                      <!--  -->
+                      </span>
+                    </el-form-item>
+                    <el-form-item label="审核状态：">
+                        <span  readonly style="width:300px;">{{programData.auditStatus}}</span>
+                      </el-form-item>
+                      <el-form-item v-if="programData.auditStatus    =='审核失败'" label="原因：">
+                        <span  readonly style="width:300px;">{{programData.auditReason}}</span>
+                      </el-form-item>
+
+                    <el-form-item   v-if="programData.auditProgramType=='音频'"label="节目时长：">
+                      <span readonly style="width:300px;">{{programData.auditDuration}}</span>
+                    </el-form-item>
+                    <!-- <el-form-item v-if="checkMsg.materialType==1" label="节目时长:" >
+                      <span v-if="checkMsg.materialType==1">{{checkMsg.materialDuration}}</span>
+                    </el-form-item> -->
+                    <el-form-item label="节目内容：" style="position: relative;width:500px;">
+            
+                      <audio v-if="programData.auditProgramType=='音频'" controls="controls" :src="programData.auditFile1" id="media"
+                      />
+                      <video v-if="programData.auditProgramType=='视频'" controls="controls" style="width:300px;height:200px;" id="media" :src="programData.auditFile1"
+                      />
+                    </el-form-item>
+            
+                    <el-form-item v-if="programData.auditProgramType=='视频'" label="视频封面:" style="position: relative;margin-top: 20px;width:500px;"></el-form-item>
+                    <el-popover v-if="programData.auditProgramType=='视频'" placement="right" height="500" trigger="click" style="padding:0;border:none">
+                      <img v-if="programData.auditProgramType=='视频'" :src="programData.auditFile
+                      " class="avatar" style="width:500px;height:500px;">
+                      <el-button slot="reference" v-if="programData.auditProgramType=='视频'" style="padding:0;border:none; margin-left: 120px; width: 150px; height: 150px;margin-top: -30px;">
+                        <img v-if="programData.auditProgramType=='视频'" :src="programData.auditFile
+                        " class="avatar" style="width: 100%;height:100%;">
+                      </el-button>
+            
+                    </el-popover>
+            
+            
+                    <!-- <img  v-if="checkMsg.materialType==2" :src="checkMsg.fileUrl" style="width: 300px;height:200px; margin-left: 120px;" alt="">     -->
+                    </el-form-item>
+            
+                  </el-form>
+       
+            </div>
+
+    </div>
+        <!-- 播放的弹框 -->
+        <template>
+                <el-dialog title="视频播放" :visible.sync="dialogVisiblePlay" width="50%" height="500px;" @close="closeDialog">
+                    <div style="width:500px;height:300px;margin: 0 auto;">
+                            <video id ="media" controls="controls" style="width:500px;height:300px;" :src="Url
+                            "></video>
+                    </div>
+                      
+                    <span slot="footer" class="dialog-footer">
+                        <el-button @click="dialogVisiblePlay = false">确定</el-button>
+                        <!-- <el-button type="primary" @click="dialogVisible = false">取消</el-button> -->
+                    </span>
+                </el-dialog>
+            </template>
+    
+
+
+
+</div>
+
+</div>

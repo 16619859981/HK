@@ -1,0 +1,111 @@
+<div>
+  <!-- 头部 -->
+  <div class="header-header">
+    <h3>
+      <!-- <a @click=" a() ">内容管理</a>- -->
+      <!-- <a @click=" a() ">专辑管理</a> -->
+    </h3>
+    <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+    <br>
+    <span style="margin-right: 20px;margin-top:10px;" class="active_title">查看完成类任务</span>
+
+
+    <!-- <span>创建视频专辑</span> -->
+
+  </div>
+  <!-- 创建专辑的内荣 -->
+  <div class="albumContent">
+    <div class="msg">
+      <div class="title">
+        <!-- <i></i> -->
+        <!-- <span>专辑信息</span> -->
+      </div>
+
+      <el-form :model="tableData" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <div class="top">
+          <el-form-item label="任务名称:">
+
+            <span>{{tableData.medalName}}</span>
+          </el-form-item>
+          <!-- <el-form-item label="发布范围:">
+
+              <span>{{tableData.medalRangeName}}</span>
+            </el-form-item> -->
+          <el-form-item label="数据类型:">
+
+            <span>{{tableData.medalType}}</span>
+          </el-form-item>
+
+
+          <el-form-item label="任务类型:">
+
+            <span>{{tableData.medalUsetype}}</span>
+          </el-form-item>
+     
+
+          <el-form-item label="任务简介:" v-if=" leixing == '图文' ">
+            <span id="span"></span>
+          </el-form-item>
+
+          <el-form-item label="任务图片:" v-if=" leixing == '图文' && tableData.downFileUrl != null" style="width: 700px;">
+            <img v-for=" item in tableData.downFileUrl " :src="item" alt="" style="width: 150px; height: 150px; margin-right: 50px; margin-bottom: 50px;">
+          </el-form-item>
+
+          <el-form-item label="任务视频:" v-if=" leixing == '视频' ">
+              <!-- <video id="media" controls="controls" style="width:500px;height:300px;" :src="tableData.medalIntro"></video> -->
+              <div style="width:500px;height:300px;">
+                <!-- <video id="media" controls="controls" style="width:500px;height:300px;" :src="Url"></video> -->
+                <video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width="500" height="300"
+                   data-setup="{}">
+                  <source :src="tableData.medalIntro" type="video/mp4">
+                  <source :src="tableData.medalIntro" type="video/webm">
+                  <source :src="tableData.medalIntro" type="video/ogg">
+                  <track kind="captions" src="../shared/example-captions.vtt" srclang="en" label="English">
+                  </track>
+                  <!-- Tracks need an ending tag thanks to IE9 -->
+                  <track kind="subtitles" src="../shared/example-captions.vtt" srclang="en" label="English">
+                  </track>
+                  <!-- Tracks need an ending tag thanks to IE9 -->
+                  <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser
+                    that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+                </video>
+              </div>
+          </el-form-item>
+
+          <el-form-item label="任务LOGO:">
+            <!-- :src="checkMsg.fileUrl" -->
+            <el-popover placement="right" height="500" trigger="click" style="padding:0;border:none">
+              <img :src="tableData.medalFileUrl" class="avatar" style="width:500px;height:500px;">
+              <el-button slot="reference" style="padding:0;border:none">
+                <img :src="tableData.medalFileUrl" class="avatar" style="width: 150px; height: 150px">
+              </el-button>
+
+            </el-popover>
+
+
+
+          </el-form-item>
+          <el-form-item label="发布范围:">
+              <span>{{tableData.medalRangeName}}</span>
+  
+            </el-form-item>
+            <el-form-item label="发布时间:">
+                <span>{{tableData.medalPublishtime}}</span>
+    
+              </el-form-item>
+        </div>
+
+      </el-form>
+
+
+    </div>
+
+  </div>
+
+
+
+
+
+</div>
+
+</div>

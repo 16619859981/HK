@@ -1,0 +1,151 @@
+<div>
+    <!-- 头部 -->
+    <div class="header-header">
+            <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+            <br>
+            <span style="margin-right: 20px;margin-top:10px;" class="active_title">审核活动</span>
+
+
+        <!-- <span>创建视频专辑</span> -->
+
+    </div>
+    <!-- 创建专辑的内荣 -->
+    <div class="albumContent">
+        <div class="msg">
+           
+            <div class="picMsg">
+                <el-form :inline="true" :model="ruleForm" class="demo-form-inline">
+                    <el-form-item label="活动名称：">
+                        <span>{{ruleForm.activityName}}</span>  
+                    </el-form-item>
+                    <el-form-item label="归属专题："  style="margin-left: 100px;">        
+                        <span>{{ruleForm.activitySubjectName}}</span>
+                    </el-form-item>
+                    <br>
+                    <el-form-item label="活动时间：" style="width:600px;">
+                        <div class="block">
+                            <span>{{ruleForm.activityCtime}}</span>
+                            <span style="margin-left: 10px;margin-right: 10px;">至</span>
+                            <span>{{ruleForm.activityEtime}}</span>
+                        </div>
+                    </el-form-item>
+                    <br>
+                    <el-form-item label="活动地区：" prop="name" style="width:600px;">
+                            <div class="block">
+                      
+                                <span>{{ruleForm.activityAreaName }}</span>
+                                <!-- <el-date-picker v-model="time" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+                                </el-date-picker> -->
+                            </div>
+                        </el-form-item>
+                        <br>
+                    <el-form-item label="活动简介：">
+                            <!-- <vue-ueditor-wrap v-model="ruleForm.activityIntro" readonly  :config="myConfig" style="width: 800px;height:200px;"></vue-ueditor-wrap> -->
+                            <div id="main" style="width: 800px;">
+
+                                </div> 
+                    </el-form-item>
+                    <br>
+                    <el-form-item label="活动封面：" >
+                        <el-popover placement="right" height="500" trigger="click" style="padding:0;border:none">
+                            <img :src="ruleForm.activityFileUrl" class="avatar" style="width:500px;height:500px;">
+                            <el-button slot="reference" style="padding:0;border:none">
+                              <img :src="ruleForm.activityFileUrl" class="avatar">
+                            </el-button>
+              
+                          </el-popover>
+                    </el-form-item>
+                    <br>
+                </el-form>
+            </div>
+
+
+
+
+
+
+
+
+            <div class="title">
+                <i></i>
+                <span>投票信息</span>
+            </div>
+            <div class="voteMsg">
+    
+                    <el-form  v-for="(item,index) in vote"  label-width="80px"  :key="index">
+                        <el-form-item :label="'选题' + Number(index+1)" style="position: relative;">
+                          <el-input style="width:300px;margin-right: 30px;"disabled v-model="item.activityVoterName"></el-input>
+
+
+
+
+                          <span style="position: absolute;left:340px;top:0px;display: inline;width:50px;">{{item.activityVoterIssingle}}</span>
+            
+                        </el-form-item>
+                        <el-form-item v-for="(row,smallIndex) in item.activityVoterOptions" :label="'选项' + Number(smallIndex+1)" :key="smallIndex" style="width:300px;" >
+                            <el-input  style="width:300px;"   disabled v-model="row.value"></el-input>
+                          </el-form-item>
+         
+                         
+                    </el-form>
+              
+                   
+            </div>
+            
+    
+             
+        </div>
+
+
+        <template>
+            <el-dialog title="审核" :visible.sync="dialogVisiblePass" width="50%" height="500px;">
+              <span>确认要通过此活动的审核?</span>
+        
+              <span slot="footer" class="dialog-footer">
+                <el-button @click="pass()" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+                <el-button @click="dialogVisiblePass = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+              </span>
+            </el-dialog>
+        
+          </template>
+        
+          <!-- 不通过弹框 -->
+          <template>
+            <el-dialog title="审核" :visible.sync="dialogVisiblenoPass" width="50%" height="500px;">
+              <span>确认不通过此活动的审核?</span>
+        
+              <span slot="footer" class="dialog-footer">
+                <el-button @click="noPassSubmit()" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+                <el-button @click="dialogVisiblenoPass = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+              </span>
+            </el-dialog>
+        
+          </template>
+        
+            <!-- 原因 -->
+            <template>
+                <el-dialog title="原因" :visible.sync="dialogVisibleReason" width="50%" height="500px;">
+                    <el-form>
+                        <el-form-item label="不通过理由:">
+                          <el-input v-model="reason" type="textarea" :autosize="{ minRows: 3, maxRows: 3 }" style="width:370px;">{{reason}}</el-input>
+                        </el-form-item>
+                      </el-form>
+            
+                  <span slot="footer" class="dialog-footer">
+                    <el-button @click="reasonSubmit()" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+                    <el-button @click="dialogVisibleReason = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+                  </span>
+                </el-dialog>
+            
+              </template>
+
+
+    </div>
+    <div class="btn">
+        <el-button @click="Pass()" style="background-color: rgb(87, 140, 252);">通过</el-button>
+        <el-button  @click="nopass(ruleForm.activityId)">
+            驳回
+        </el-button>
+    </div>
+
+</div>

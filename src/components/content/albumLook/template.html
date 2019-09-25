@@ -1,0 +1,126 @@
+<div style="margin: 20px;">
+  <div class="breadcrumb">
+    <a href="#">内容管理</a>
+    <a href="#" onClick="window.history.go(-1)">专辑列表</a>
+    <a href="#" class="active">专辑详情</a>
+  </div>
+  <!-- 创建专辑的内容 -->
+  <div class="albumContent">
+    <div class="msg">
+      <div class="top">
+        <div>
+          <span class="msgTitle">
+            专辑信息：
+          </span>
+        </div>
+
+        <div class="msg-bigBox">
+          <div class="msg-bigBox-logo">
+            <!-- <a :href="tableData.fileUrl" target="_self" download> -->
+            <img :src="tableData.fileUrl" class="avatar" >
+          <!-- </a> -->
+          </div>
+
+          <div class="msg-bigBox-msgBox">
+            <div class="msg-bigBox-msgbBox-tool">
+              <span class="sColor-a">{{tableData.albumName}}</span>
+            </div>
+            <div class="msg-bigBox-msgbBox-tool">
+              <el-tag v-for="(item,index) in tableData.albumLabel" :key="index">
+                {{ item }}
+              </el-tag>
+            </div>
+            <div class="msg-bigBox-msgbBox-tool">
+              <span class="see sColor-a">观看：<span class="seeS sColor-a">{{ tableData.albumOpencount }}</span></span>
+              <span class="see sColor-a">观众人数：<span class="seeS sColor-a">{{ tableData.albumPersoncount }}</span></span>
+              <span class="see sColor-a">收藏：<span class="seeS sColor-a">{{ tableData.albumCollectciunt }}</span></span>
+            </div>
+            <div class="msg-bigBox-msgbBox-tool">
+              <span class="sColor">创建人：</span><span class="sColor">{{ tableData.albumPersonName }}({{ tableData.orgName }} , {{ tableData.albumAuthorType }})</span>
+            </div>
+            <div class="msg-bigBox-msgbBox-tool">
+              <span class="sColor">创建时间：</span><span class="sColor">{{ tableData.albumCtime }}</span>
+            </div>
+            <div class="msg-bigBox-msgbBox-tool">
+              <span class="sColor">专辑编号：</span><span class="sColor">{{ tableData.albumId }}</span>
+            </div>
+            <div class="msg-bigBox-msgbBox-tool">
+              <span class="sColor">简介：</span><span class="sColor">{{ tableData.albumIntro }}</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <i></i>
+
+      <div class="bottom">
+        <div class="title-bottom">
+          <span style="color: #606266;
+                font-size: 14px;
+                font-weight: 400;">节目信息：</span>
+        </div>
+        <!-- 表格 -->
+        <el-table :data="programData" :header-cell-style="getRowClass" style="width: 100%" :row-style="tabH"
+          :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}">
+          <el-table-column prop="materialSort" label="序号" header-align="center">
+          </el-table-column>
+          <el-table-column v-if="albumType=='视频'"  prop="fileUrl
+                            " label="视频封面" width="100" 
+            header-align="center">
+            <template slot-scope="scope">
+              <img :src="scope.row.fileUrl" height="50" width="80">
+            </template>
+          </el-table-column>
+          <el-table-column prop="materialId" label="节目编号" header-align="center">
+          </el-table-column>
+          <el-table-column prop="materialName" label="节目名称" header-align="center">
+            <template slot-scope="scope">
+              <span class="demo" style="min-width: 100px;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden; text-align: center; cursor: pointer;"
+                :title="scope.row.materialName">{{scope.row.materialName}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="materialType" label="类型" header-align="center">
+          </el-table-column>
+          <el-table-column prop="materialDuration" label="时长" header-align="center">
+          </el-table-column>
+          <el-table-column prop="materialIscheck" label="状态" header-align="center">
+          </el-table-column>
+          <el-table-column label="操作" header-align="center">
+            <template slot-scope="scope" width="100" header-align="center">
+              <a v-if="scope.row.materialTranscodingStatus == 1" style="color: #F56C6C;" @click="play(scope.row.fileUrl1,scope.row.materialType)">播放
+              </a>
+
+              <a v-if="scope.row.materialTranscodingStatus == 2" style="color:#F56C6C;margin-right: 15px;">转码中
+              </a>
+            </template>
+          </el-table-column>
+        </el-table>
+        <!-- 分页 -->
+        <el-pagination @current-change="handleCurrentChange" :page-size="10" layout="total, prev, pager, next, jumper"
+          :total="total" style="margin-top: 10px;margin-bottom: 10px;">
+        </el-pagination>
+      </div>
+      </el-form>
+    </div>
+  </div>
+  <!-- 节目播放 -->
+  <template>
+    <el-dialog title="节目播放" :visible.sync="dialogVisiblePlay" @close="closeDialog" width="60%" height="500px;">
+      <div slot="footer" v-if="type=='音频'" style="width:480px;height:90px;margin: 0 auto;margin-top: -45px;margin-bottom: 20px;"
+        class="div">
+        <audio id="media" controls="controls" autoplay style="width:480px;height:65px;" :src="url"></audio>
+
+      </div>
+      <div slot="footer" v-if="type=='视频'" style="width:480px;height:320px;margin: 0 auto;margin-top: -45px;margin-bottom: 20px;"
+        class="div">
+
+        <video id="media" controls="controls" autoplay style="width:480px;height:265px;" :src="url"></video>
+
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisiblePlay = false">确定</el-button>
+      </span>
+    </el-dialog>
+  </template>
+</div>
+</div>

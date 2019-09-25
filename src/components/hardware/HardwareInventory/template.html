@@ -1,0 +1,136 @@
+<div>
+
+  <div class="breadcrumb">
+    <a href="#">硬件管理</a>
+    <a href="#" class="active">硬件入库</a>
+  </div>
+  <div class="table-content">
+    <!-- 搜索列表选项框 -->
+    <div class="table-search">
+      <div class="search-top">
+        <div class="search-title">
+          <!-- <i></i> -->
+          <!-- <p style="margin-left: 10px;"> 搜索</p> -->
+
+        </div>
+        <div class="search-list">
+          <el-form :inline="true" :model="deviceForm" class="demo-form-inline">
+            <el-form-item>
+              <el-input v-model="deviceForm.excelname" placeholder="文件名" size="mini" style="width:186px;"></el-input>
+            </el-form-item>
+
+            <el-form-item>
+              <el-input v-model="deviceForm.username" placeholder="导入人" size="mini" style="width:186px;"></el-input>
+            </el-form-item>
+
+            <el-form-item>
+              <el-select v-model="deviceForm.Status" placeholder="导入状态" size="mini" style="width:186px;">
+                <el-option label="全部" value="0"></el-option>
+
+                <el-option label="成功" value="1"></el-option>
+                <el-option label="失败" value="2"></el-option>
+              </el-select>
+            </el-form-item>
+
+
+            <el-form-item v-show="active">
+              <el-date-picker v-model="deviceForm.startTime" type="date" placeholder="选择日期" size="mini" style="width:186px;"
+                value-format="timestamp">
+              </el-date-picker>
+              -
+              <el-date-picker v-model="deviceForm.overTime" type="date" placeholder="选择日期" size="mini" style="width:186px;"
+                value-format="timestamp">
+              </el-date-picker>
+            </el-form-item>
+
+            <el-form-item>
+              <el-button @click="hardwareList2()" style="padding: 8px 78px;
+                          font-size: 14px;
+                          background-color: #409EFF;
+                          color: #fff;
+                          margin-top: 6px; 
+                      ">搜索</el-button>
+            </el-form-item>
+            <br>
+            <el-form-item>
+
+              <div v-show="styleTextBool" @click="style()" style="width: 186px; margin-left: 4px;margin-top: -10px; cursor: pointer;">
+                <img src="../../../../static/moreS.png" alt="">
+                <span style="color: #909399; margin-left: 5px; font-size: 12px;">更多条件</span>
+              </div>
+
+            </el-form-item>
+          </el-form>
+
+        </div>
+      </div>
+    </div>
+    <!-- 表格 -->
+    <div class="table-box">
+      <template>
+        <div class="details-Date">
+            <p> 详情数据</p>
+          <ul style="float:right;">
+            <li>
+              <el-upload class="upload-demo" :action="importUrl" :headers="headers" :on-change="handleChange"
+                :show-file-list=false size="small" :on-success="handleAvatarSuccess">
+                <el-button size="small" >导入</el-button>
+
+              </el-upload>
+            </li>
+            <li>
+              <el-button size="mini" @click="downmodel()">下载模板</el-button>
+            </li>
+            <!-- <li>
+                <el-button size="mini" @click="download()">导出本页数据</el-button>
+            </li> -->
+
+
+          </ul>
+
+        </div>
+        <!-- 表格 -->
+        <el-table v-loading="loading" :data="tableData" id="div" style="width: 100%" :header-cell-style="getRowClass"
+          :row-style="tabH" :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}">
+          <el-table-column prop="deviceInputrecordExcelname" label="文件名" header-align="center">
+          </el-table-column>
+          <el-table-column prop="deviceInputrecordCount" label="数量" header-align="center">
+            <template slot-scope="scope">
+              <a href="javascript:;" style="color: rgb(96, 98, 102); text-decoration: none;  cursor: default;" v-if="scope.row.deviceInputrecordStatus=='失败'">{{scope.row.deviceInputrecordCount }}</a>
+
+              <a href="javascript:;" v-else style="color: #F56C6C; text-decoration: underline" @click="HardwareInventoryMX(scope.row.deviceInputrecordId)">{{scope.row.deviceInputrecordCount }}</a>
+            </template>
+          </el-table-column>
+          <el-table-column prop="username" label="导入人" header-align="center">
+          </el-table-column>
+          <el-table-column prop="deviceInputrecordCtime" label="导入时间" header-align="center">
+          </el-table-column>
+          <el-table-column prop="deviceInputrecordStatus" label="导入状态" header-align="center">
+          </el-table-column>
+          <el-table-column label="原因" width="150" header-align="center">
+            <template slot-scope="scope">
+              <a v-if="scope.row.deviceInputrecordStatus == '失败'" @click="reason(scope.row)" style="color:#F56C6C;padding: 4px 8px; font-size: 12px">查看原因</a>
+            </template>
+          </el-table-column>
+
+        </el-table>
+
+        <!-- 分页 -->
+        <el-pagination @current-change="handleCurrentChange" :currentPage="currentPage" :page-size="10" layout="total, prev, pager, next, jumper"
+          :total="total" style="margin-top: 10px;margin-bottom: 10px;">
+        </el-pagination>
+      </template>
+    </div>
+  </div>
+
+
+  <el-dialog title="失败原因" :visible.sync="dialogVisibleStatus" width="30%" style="text-align: center;">
+    <!-- <span>{{val}}</span> -->
+
+    <p v-for="(item,index) in reasons" :key="index">{{item}}</p>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="dialogVisibleStatus = false" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+      <!-- <el-button  @click="dialogVisibleStatus = false" style="padding: 12px 24px; font-size: 12px">取消</el-button> -->
+    </span>
+  </el-dialog>
+</div>

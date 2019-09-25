@@ -1,0 +1,81 @@
+<div>
+    <!-- 头部 -->
+    <div class="header-header">
+        <h3>运营管理-活动管理-创建活动
+        </h3>
+        <span style="margin-right: 20px;" class="active_title">编辑活动</span>
+
+
+
+        <!-- <span>创建视频专辑</span> -->
+
+    </div>
+    <!-- 创建专辑的内荣 -->
+    <div class="albumContent">
+        <div class="msg">
+            <div class="title">
+                <i></i>
+                <span>活动信息</span>
+            </div>
+            <div class="picMsg">
+                <el-form :inline="true" :rules="rules" :model="ruleForm" class="demo-form-inline">
+                    <el-form-item label="活动名称：" prop="name">
+                        <el-input v-model="ruleForm.name"  placeholder="活动" style="width:300px;"></el-input>
+                        <!-- <span>{{ruleForm.name}}</span> -->
+                    </el-form-item>
+                    <el-form-item label="归属专题：" prop="name" style="margin-left: 100px;">
+                        <el-select v-model="ruleForm.theme" placeholder="专题" style="width:300px;">
+                            <el-option label="区域一" value="shanghai"></el-option>
+                            <el-option label="区域二" value="beijing"></el-option>
+                        </el-select>
+                        <!-- <span>{{ruleForm.theme}}</span> -->
+                    </el-form-item>
+                    <br>
+                    <el-form-item label="活动时间：" prop="name" style="width:600px;">
+                        <div class="block">
+                                <!-- <span>{{ruleForm.time}}</span> -->
+                            <el-date-picker v-model="ruleForm.time" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+                            </el-date-picker>
+                        </div>
+                    </el-form-item>
+                    <br>
+                    <el-form-item label="活动简介：" prop="name">
+                            <!-- <span>{{ruleForm.msg}}</span> -->
+                            <vue-ueditor-wrap v-model="ruleForm.msg" :config="myConfig" style="width: 1300px;height:200px;"></vue-ueditor-wrap>
+                    </el-form-item>
+                    <br>
+                    <el-form-item label="活动封面：" prop="name">
+                        <el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-success="handleAvatarSuccess"
+                            :before-upload="beforeAvatarUpload">
+                            <img v-if="ruleForm.imageUrl" :src="ruleForm.imageUrl" class="avatar">
+                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                        </el-upload>
+                    </el-form-item>
+                    <br>
+                    <el-form-item label="发布时间：" prop="name">
+                        <template>
+                            <el-radio v-model="ruleForm.radio" label="1">审核后立即发布</el-radio>
+
+                            <div class="block">
+                                <el-radio v-model="ruleForm.radio" label="2">定时发布</el-radio>
+                                <el-date-picker v-model="ruleForm.value1" type="datetime" placeholder="选择日期时间">
+                                </el-date-picker>
+                            </div>
+                        </template>
+
+                    </el-form-item>
+                </el-form>
+            </div>
+
+            <!-- <div class="btn">
+                <el-button>提交</el-button>
+                <el-button>
+                    取消
+                </el-button>
+            </div> -->
+        </div>
+
+
+    </div>
+
+</div>

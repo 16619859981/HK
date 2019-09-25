@@ -1,0 +1,42 @@
+<div>
+    <!-- 头部 -->
+    <div class="header-header">
+        <h3>用户管理-学校管理-班级信息
+        </h3>
+        <span style="margin-right: 20px;" class="active_title">查看班级</span>
+
+        <!-- <span>创建视频专辑</span> -->
+
+    </div>
+    <!-- 创建专辑的内荣 -->
+    <div class="albumContent">
+        <div class="msg">
+            <div class="title">
+                <i></i>
+                <span>班级信息</span>
+            </div>
+
+            <el-form :model="ruleForm"  ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                <div class="top">
+                    <el-form-item label="年级:" prop="grade">
+                        <span>{{ruleForm.classGrade}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="班级:" prop="class">
+                        <span>{{ruleForm.className}}</span>
+                    </el-form-item>                
+                </div>
+                
+            </el-form>
+
+
+        </div>
+
+    </div>
+
+
+
+
+</div>
+
+</div>

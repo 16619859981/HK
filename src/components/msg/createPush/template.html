@@ -1,0 +1,292 @@
+<div>
+  <div class="breadcrumb">
+    <a href="#">消息管理</a>
+    <a href="#" class="active">新建push</a>
+  </div>
+  <!-- 创建专辑的内容 -->
+  <div class="albumContent">
+    <div class="msg">
+
+
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="ruleForm">
+        <div class="top">
+          <el-form-item label="push标题:">
+            <el-input v-model="ruleForm.title" placeholder="请输入名称，最多20个字" class="inp"></el-input>
+          </el-form-item>
+          <el-form-item label="跳转类型:" prop="linkType">
+            <!-- type -->
+            <!-- <el-input v-model="ruleForm.pages" placeholder="请选择类型" class="inp"></el-input> -->
+            <el-select v-model="ruleForm.linkType" placeholder="请选择" style="width:500px;" @change="changeType(ruleForm.linkType)">
+              <el-option label="APP首页" :value="1"></el-option>
+              <el-option label="指定专辑" :value="2"></el-option>
+              <el-option label="指定活动" :value="3"></el-option>
+              <el-option label="指定少年宫" :value="4"></el-option>
+              <el-option label="指定学校" :value="5"></el-option>
+              <el-option label="红广号" :value="6"></el-option>
+              <el-option label="网络链接H5" :value="7"></el-option>
+              <!-- <el-option label="自定义页面" :value="8"></el-option> -->
+
+
+
+            </el-select>
+            <br />
+            <el-input v-model="ruleForm.linkUrl" v-if="ruleForm.linkType!=1&&ruleForm.linkType!=8" id="placeholder"
+              placeholder="请输入……" style="margin-top: 10px;" class="inp"></el-input>
+            <div class="box-bottom-bottom" v-if="ruleForm.linkType==8">
+              <p style="color: #909399; text-align: left; margin-bottom: 20px;">详情: (点击添加模块最多20个)</p>
+              <div class="box-bottom-bottom-upload">
+                <div class="box-bottom-bottom-upload-text" @click="uploadText">
+                  文字
+                  <img class="box-bottom-bottom-upload-text-img" src="./yinpinbofang (3).png" alt="">
+                </div>
+                <div class="box-bottom-bottom-upload-text" @click="uploadImg">
+                  图片
+                  <img class="box-bottom-bottom-upload-text-img" src="./yinpinbofang (2).png" alt="">
+                </div>
+                <div class="box-bottom-bottom-upload-text" @click="uploadImg">
+                  音频
+                  <img class="box-bottom-bottom-upload-text-img" src="./yinpinbofang (4).png" alt="">
+                </div>
+                <div class="box-bottom-bottom-upload-text" @click="uploadImg">
+                  视频
+                  <img class="box-bottom-bottom-upload-text-img" src="./yinpinbofang (1).png" alt="">
+                </div>
+              </div>
+              <div class="upload-text" v-for="(item, index) in ruleForm.uploadArr">
+                <el-input v-if="item.type == 'text'" type="textarea" :autosize="{ minRows: 5}" placeholder="请输入通知内容"
+                  v-model="item.areaText">
+                </el-input>
+                <img v-if="item.type == 'img'" :src="item.imgSrc" alt="" width="400px">
+                <audio v-if="item.type == 'mp3'" controls="controls"  @play="playaudio(item.mp3Url)" style="width: 400px; height: 70px;" :src="item.mp3Url"></audio>
+                <video v-if="item.type == 'mp4'" controls="controls"   @play="playvideo(item.mp4Url)" style="width: 400px;" :src="item.mp4Url"></video>
+                 <div class="toolImg">
+                  <img src="./del.png" alt="" class="toolImg-img" @click="divDel(index)">
+                  <img src="./top.png" alt="" class="toolImg-img" @click="divTop(index)">
+                  <img src="./bottom.png" alt="" class="toolImg-img" @click="divBottom(index)">
+                </div>
+              </div>
+            </div>
+            <el-button v-if="ruleForm.linkType!=1&&ruleForm.linkType!=7" @click="preview()">预览</el-button>
+          </el-form-item>
+          <el-form-item label="发布对象:" prop="range">
+            <el-select v-model="ruleForm.range" placeholder="请选择" style="width:500px;">
+              <el-option v-for="item in per" :key="item.value" :label="item.label" :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <!-- <el-form-item label="用户ID:" v-show="ruleForm.range == 5" prop="userID">
+            <el-input v-model="ruleForm.userID" placeholder="请输入用户ID" class="inp"></el-input>
+          </el-form-item> -->
+
+          <el-form-item label="PUSH内容:" prop="content">
+            <el-input type="textarea" :autosize="{ minRows: 3, maxRows: 10 }" style="width: 500px;" v-model="ruleForm.content"
+              placeholder="请输入内容，最多可输入80个字"></el-input>
+            <el-button @click="preview2()">预览</el-button>
+          </el-form-item>
+          <!-- <el-form-item label="发布时间：" prop="publishType">
+            <template>
+              <el-radio v-model="ruleForm.publishType" label="1">立即发布</el-radio>
+
+              <div class="block">
+                <el-radio v-model="ruleForm.publishType" label="2">定时发布</el-radio>
+                <el-date-picker v-if='ruleForm.publishType==2' :picker-options="pickerOptions0" v-model="ruleForm.ptime" type="datetime"
+                  value-format="timestamp" placeholder="选择日期时间">
+                </el-date-picker>
+              </div>
+            </template>
+
+          </el-form-item> -->
+        </div>
+      </el-form>
+
+
+    </div>
+    <div class="btn">
+      <el-button @click="subimt()" style="background-color: #409eff;">提交</el-button>
+      <el-button @click="dialogVisibleDel=true">
+        取消
+      </el-button>
+    </div>
+  </div>
+  <!-- 跳转类型预览 -->
+  <!-- 190107013159501068652 -->
+  <template>
+    <el-dialog title="预览信息" :visible.sync="dialogVisiblePass" width="50%" height="500px;">
+
+      <el-form label-width="120px">
+
+
+
+        <el-form-item label="名称：">
+          <span v-model="checkMsg.name" readonly style="width:300px;">{{checkMsg.name}}</span>
+        </el-form-item>
+
+        <el-form-item label="简介："v-if="ruleForm.linkType!=3">
+          <span>
+            <div type="textarea" v-model="checkMsg.intro" readonly style="width:300px;overflow:hidden;
+                          text-overflow:ellipsis;
+                          white-space:nowrap"
+              :title="checkMsg.intro" v-html="checkMsg.intro"></div>
+
+          </span>
+        </el-form-item>
+
+
+        <el-form-item label="封面：" style="position: relative;margin-top: 50px;width:500px;">
+
+          <el-popover placement="right" height="500" trigger="click" style="padding:0;border:none">
+            <img :src="checkMsg.fileUrl" class="avatar" style="width:500px;height:500px;">
+            <el-button slot="reference" style="padding:0;border:none">
+              <img :src="checkMsg.fileUrl" class="avatar" style="width: 300px;height:200px;">
+            </el-button>
+
+          </el-popover>
+
+        </el-form-item>
+
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisiblePass = false" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+
+      </span>
+    </el-dialog>
+
+  </template>
+
+
+  <!-- 提交预览 -->
+  <template>
+    <el-dialog title="PUSH信息" :visible.sync="dialogVisibleSub" width="30%" height="500px;">
+
+      <span>确认提交信息？</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="submitCode()" :disabled="commitAble" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+        <el-button @click="dialogVisibleSub = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+      </span>
+    </el-dialog>
+
+  </template>
+  <!-- 取消预览 -->
+  <template>
+    <el-dialog title="PUSH信息" :visible.sync="dialogVisibleDel" width="30%" height="500px;">
+
+      <span>确认取消提交信息？</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="del() " style="padding: 12px 24px; font-size: 12px">确定</el-button>
+        <el-button @click="dialogVisibleDel = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+      </span>
+    </el-dialog>
+
+  </template>
+  <!-- 验证码 -->
+  <template>
+    <el-dialog title="验证：" :visible.sync="dialogVisiblePhoneCode" :rules="rules" width="30%" height="500px;">
+
+
+      <el-form>
+        <el-form-item prop="codeId">
+          <el-input type="text" auto-complete="off" v-model="codeId" placeholder="请输入手机验证码"></el-input>
+          <!-- <img :src="imgUrl" alt="" style="position: absolute; top: 5px; right: 6px;cursor: pointer;" @click="kanbuqing"> -->
+          <!-- <el-button style="background-color:rgb(86, 139, 252);color:#fff;border:none;    padding: 10px 22px;position: absolute; top: 3px; right: 5px;cursor: pointer;" @click="sendPhone()">获取验证码</el-button>     -->
+          <el-button class="button" style="position: absolute; top: 4px;bottom:4px; right: 4px;padding:8px 20px;background-color:rgb(86, 139, 252);color:#fff;"
+            @click="huoquyzm()">{{ content }}</el-button>
+
+        </el-form-item>
+      </el-form>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="submitData()" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+        <el-button @click="cancleData()" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+      </span>
+    </el-dialog>
+
+  </template>
+  <!-- 未查到的信息 -->
+  <template>
+    <el-dialog title="预览信息" :visible.sync="dialogVisibleAbl" width="30%" height="500px;">
+
+      <span>未查到对应信息，请核实输入信息</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisibleAbl = false" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+
+      </span>
+    </el-dialog>
+
+  </template>
+
+  <!-- 通知内容的预览 -->
+  <template>
+    <el-dialog title="PUSH预览" :visible.sync="dialogVisiblePhone" width="500px" height="500px;">
+
+      <div style="text-align: center;position: relative;">
+        <img src="../../../../static/images/phone.png" alt="">
+        <div class="hz">
+          <img src="../../../../static/images/star.png" alt="">
+          <span>红卡之家</span>
+          <span style="position: absolute;right: 7px;top: 5px;">刚刚</span>
+          <p class="p1" :title="title">{{title}}</p>
+          <p class="p2" :title="con">{{con}}</p>
+        </div>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisiblePhone = false" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+
+      </span>
+    </el-dialog>
+
+  </template>
+  <!-- 上传 -->
+  <template>
+    <el-dialog title="上传文件" :visible.sync="dialogVisible" width="60%">
+      <el-upload class="avatar-uploader" drag style="width:506px;height:280px; position: relative;margin: 0 auto;"
+        :action=action :file-list="fileList" :on-success="handleAvatarSuccess1" :before-upload="beforeAvatarUpload1">
+        <!-- <i class="el-icon-plus avatar-uploader-icon" style="line-height: 250px; color: #D8DCE6;"></i> -->
+        <i class="el-icon-upload" style="margin: 80px 0 16px;"></i>
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <!-- <div class="el-upload__text">图片必须小于1MB</div>
+      <div class="el-upload__text">图片支持格式jpeg、jpg、png</div> -->
+        <!-- <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
+      </el-upload>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
+  </template>
+  <!-- 自定义页面预览  -->
+  <template>
+      <el-dialog title="自定义页面预览" :visible.sync="dialogVisibleDIY" width="60%" height="500px;">
+
+          <div class="preview-box-bottom">
+              <div class="preview-box-bottom-title">
+                  <h3>{{ruleForm.title}}</h3>
+              </div>
+              
+              <div class="preview-box-bottom-content">
+                <div v-for="(item, index) in ruleForm.uploadArr">
+                  <div v-if="item.type == 'text'" class="preview-box-bottom-content-text">
+                    {{ item.areaText }}
+                  </div>
+                  <div v-if="item.type == 'img'" class="preview-box-bottom-content-img">
+                    <img :src="item.imgSrc" alt="" width="320px">
+                  </div>
+                  <div v-if="item.type == 'mp4'" class="preview-box-bottom-content-mp4">
+                    <video controls="controls" :src="item.mp4Url" width="320px" height="180px"></video>
+                  </div>
+                  <div v-if="item.type == 'mp3'" class="preview-box-bottom-content-mp3">
+                    <audio controls="controls" :src="item.mp3Url" style="width: 333px; height: 55px;"></audio>
+                  </div>
+                </div>
+        
+              </div>
+            </div>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisibleDIY = false" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+    
+          </span>
+        </el-dialog>
+  </template>
+
+</div>
+
+</div>

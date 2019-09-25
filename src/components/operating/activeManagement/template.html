@@ -1,0 +1,208 @@
+<div>
+
+  <div class="breadcrumb">
+    <a href="#">活动管理</a>
+    <a href="#" class="active">活动列表</a>
+  </div>
+  <div class="table-content">
+    <!-- 搜索列表选项框 -->
+    <div class="table-search">
+      <div class="search-top">
+        <div class="search-title">
+          <p style="margin-left: 10px; font-size: 12px"> </p>
+        </div>
+        <div class="search-list">
+          <el-form :inline="true" :model="searchItem" class="demo-form-inline">
+            <el-form-item>
+              <el-input @change="fushu" v-model="searchItem.activityId" placeholder="活动编号" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model="searchItem.activityName" placeholder="活动名称" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+
+
+            <el-form-item>
+              <el-select v-model="searchItem.activityStatus" clearable placeholder="状态" size="mini" style="width:186px;">
+                <el-option label="进行中" value="1"></el-option>
+                <el-option label="已结束" value="2"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item v-show="active">
+              <el-select v-model="value1" placeholder="请选择省份" style="width: 186px;" size="mini" @change="val1(value1)">
+                <el-option label="全国" :value="9999"></el-option>
+                <el-option v-for="item in options1" :key="item.areaNumber" :label="item.areaName" :value="item.areaNumber">
+
+                </el-option>
+              </el-select>
+              -
+              <el-select v-model="value2" placeholder="请选择城市" style="width: 186px;" size="mini" @change="val2(value2)">
+                <el-option v-for="item in options2" :key="item.areaNumber" :label="item.areaName" :value="item.areaNumber">
+
+                </el-option>
+              </el-select>
+
+
+              </el-select>
+            </el-form-item>
+            <el-form-item v-show="active">
+              <el-date-picker v-model="searchItem.createTimeBeginTime" type="date" placeholder="开始日期" size="mini" style="width:186px;"
+                value-format="timestamp">
+              </el-date-picker>
+              -
+              <el-date-picker v-model="searchItem.createTimeEndTime" type="date" placeholder="结束日期" size="mini" style="width:186px;"
+                value-format="timestamp">
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item>
+              <el-button @click="renderList2()" size="mini" style="padding: 8px 78px;
+                  font-size: 14px;
+                  background-color: #409EFF;
+                  color: #fff;
+                  margin-top: 6px; 
+              ">搜索</el-button>
+            </el-form-item>
+            <br>
+            <el-form-item>
+              <div v-show="styleTextBool" @click="style()" style="width: 186px; margin-left: 4px;margin-top: -10px; cursor: pointer;">
+                <img src="../../../../static/moreS.png" alt="">
+                <span style="color: #909399; margin-left: 5px; font-size: 12px;">更多条件</span>
+              </div>
+            </el-form-item>
+
+
+
+            <!-- <el-button class="search-button btnMin" size="mini" @click="renderList2()" style="padding: 4px 8px; font-size: 12px">搜索</el-button> -->
+
+          </el-form>
+
+        </div>
+      </div>
+      <!-- <div class="search-button">
+        
+      </div> -->
+    </div>
+    <!-- 表格 -->
+    <div class="table-box">
+      <template>
+        <div class="details-Date">
+          <!-- <i></i> -->
+          <p>详细数据:</p>
+          <!-- <ul>
+            <li>
+              <el-button size="mini" @click="createActive()">创建活动</el-button>
+            </li>
+          </ul> -->
+
+        </div>
+
+        <!-- 表格 -->
+        <el-table v-loading="loading" :data="tableData" style="width: 100%" :header-cell-style="getRowClass" :row-style="tabH"
+          :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}">
+          <!-- <el-table-column prop="activityId" label="活动编号" header-align="center">
+          </el-table-column> -->
+          <el-table-column prop="activityName" label="活动名称" header-align="center">
+            <template slot-scope="scope">
+              <span @click="handleLook(scope.row.activityId)" class="demo" style="min-width: 100px;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden; text-align: center; color: #F56C6C; cursor: pointer;"
+                :title="scope.row.activityName">{{scope.row.activityName}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="likeCount" label="点赞" header-align="center">
+          </el-table-column>
+          <el-table-column prop="activityCommentCount" label="打卡" header-align="center">
+          </el-table-column>
+          <el-table-column prop="showRange" label="活动区域" header-align="center">
+            <template slot-scope="scope">
+              <span class="demo" style="min-width: 100px;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden; text-align: center; cursor: pointer;"
+                :title="scope.row.showRange">{{scope.row.showRange}}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column prop="activityEtime" label="状态" header-align="center">
+          </el-table-column>
+          <el-table-column label="操作" width="210" header-align="center">
+            <template slot-scope="scope">
+              <!-- <a @click="handleLook(scope.row)" v-if="scope.row.activityStatus=='已结束'||scope.row.activityStatus=='未开始'||scope.row.activityStatus=='进行中'||scope.row.activityStatus=='未发布'||scope.row.activityStatus=='已下架'"
+                type="danger" plain size="small" style="color:#F56C6C;padding: 0px 2px; font-size: 12px">查看</a> -->
+
+                <a v-show="scope.row.isup == 2 && scope.row.nowBelongId" type="danger" plain size="small" @click="noTop(scope.row.activityId)"
+                style="color:#F56C6C;padding: 0px 2px; font-size: 12px">取消置顶</a>
+              <a v-show="scope.row.isup == 1 && scope.row.nowBelongId" type="danger" plain size="small" @click="toTop(scope.row.activityId)"
+                style="color:#F56C6C;padding: 0px 2px; font-size: 12px">置顶</a>
+                <a v-show="scope.row.nowBelongId == false" type="danger" plain size="small"
+                style="color:#909399;padding: 0px 2px; font-size: 12px">置顶</a>
+              <a v-show="scope.row.activityType != 2&&scope.row.nowBelongId == true" @click="jumpEditVote(scope.row.activityId)" type="danger" size="small" style="color:#F56C6C;padding: 0px 2px; font-size: 12px">编辑</a>
+              <a v-show="scope.row.activityType == 2&&scope.row.nowBelongId == false" type="danger" size="small" style="color:#909399;padding: 0px 2px; font-size: 12px">编辑</a>
+              <a type="danger" @click="programData(scope.row.activityId)" plain size="small" style="color:#F56C6C;padding: 0px 2px; font-size: 12px">数据</a>
+              <a type="danger" v-if="scope.row.activityEtime=='已结束'" plain size="small" @click="goAct(scope.row.activityId)"
+                style="color:#F56C6C;padding: 0px 2px; font-size: 12px">开始</a>
+              <a type="danger" v-if="scope.row.activityEtime=='进行中'" plain size="small" @click="noGoAct(scope.row.activityId)"
+                style="color:#F56C6C;padding: 0px 2px; font-size: 12px">结束</a>
+              <a v-show="scope.row.activityEtime=='已结束'" type="danger" plain size="small" @click="delAct(scope.row.activityId)" style="color:#F56C6C;padding: 0px 2px; font-size: 12px">删除</a>
+              <a v-show="scope.row.activityEtime=='进行中'" type="danger" plain size="small" style="color:#909399;padding: 0px 2px; font-size: 12px">删除</a>
+
+
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <!-- 分页 -->
+        <el-pagination @current-change="handleCurrentChange" style="margin-top: 10px;margin-bottom: 10px;" :currentPage="currentPage"
+          :page-size="10" layout="total, prev, pager, next, jumper" :total="total">
+        </el-pagination>
+      </template>
+    </div>
+  </div>
+
+
+
+  <!-- 活动置顶 -->
+  <el-dialog title="活动置顶" :visible.sync="dialogVisibleToTop" width="40%">
+    <span>确认要把活动置顶?</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="EditToTop()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+      <el-button @click="dialogVisibleToTop = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+    </span>
+  </el-dialog>
+
+  <!-- 活动取消置顶 -->
+  <el-dialog title="活动取消置顶" :visible.sync="dialogVisibleNoTop" width="40%">
+    <span>确认要取消活动置顶?</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="EditNoTop()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+      <el-button @click="dialogVisibleNoTop = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+    </span>
+  </el-dialog>
+
+  <!-- 开始活动 -->
+  <el-dialog title="开始活动" :visible.sync="dialogVisibleGo" width="40%">
+    <div style="width: 400px; margin: 0 auto;">
+        <span>请选择活动结束时间：</span>
+        <el-date-picker value-format="timestamp" v-model="endActiveTime" type="date" placeholder="选择日期">
+        </el-date-picker>
+    </div>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="goActive()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+      <el-button @click="dialogVisibleGo = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+    </span>
+  </el-dialog>
+
+  <!-- 结束活动 -->
+  <el-dialog title="结束活动" :visible.sync="dialogVisibleNoGo" width="40%">
+    <span>确认结束活动吗？</span>    
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="noGoActive()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+      <el-button @click="dialogVisibleNoGo = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+    </span>
+  </el-dialog>
+
+  <!-- 删除活动 -->
+  <el-dialog title="删除活动" :visible.sync="dialogVisibleDel" width="40%">
+    <span>确认要把活动删除吗?</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="delActive()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+      <el-button @click="dialogVisibleDel = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+    </span>
+  </el-dialog>
+
+</div>
+</div>

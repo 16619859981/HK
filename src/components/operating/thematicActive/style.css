@@ -1,0 +1,189 @@
+/* 头 */
+.header-header {
+  width: 100%;
+  height: 58px;
+  padding-left:15px;
+  /* border-bottom: 1px solid #ccc; */
+  /* margin-bottom: 20px; */
+  position: relative;
+}
+
+.header-header h3 {
+  font-size: 20px;
+
+}
+
+.header-header span{
+  font-size: 14px;
+  margin-top: 20px;
+  display: inline-block;
+  padding-bottom: 5px;
+
+}
+.active_title {
+    border-bottom:2px solid #409eff;
+    color:#409eff;
+    cursor: pointer;
+}
+/* 内容 */
+.content {
+  padding:0 15px;
+
+  display: flex;
+}
+.content .left {
+  position: relative;
+  width:300px;
+  border:1px solid #ccc;
+  height:100%;
+
+  padding-top:20px;
+}
+.content .right {
+  float:right;
+  margin-left: 20px;
+  flex:1;
+  position: relative;
+  height:100%;
+  border:1px solid #ccc;
+  overflow: hidden;
+
+  padding-top:20px;
+}
+.content .left .title, .content .right .title{
+  margin-left: 30px;
+}
+.content .left  .title i ,.content .right .title i {
+  width: 3px;
+  height:20px;
+  display: inline-block;
+  background-color: rgb(85, 85, 85);
+  position: absolute;
+  left:20px;
+}
+.content .left .title p ,.content .right .title p {
+  font-size: 14px;
+  /* font-weight: 700; */
+  position: relative;
+}
+.content .left .title a {
+  float:right;
+  border-radius: 5px;
+
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  margin-top: -20px;
+  margin-right: 20px;
+}
+.content .left  .con {
+  height:800px;
+  width: 100%;
+  margin-top: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  
+}
+.content .left  .con ul {
+  /* margin-top: 30px; */
+  padding-left: 10px;
+  padding-right:10px;
+  width: 100%;
+  /* border:1px solid #ccc; */
+}
+.content .left  .con ul li {
+  margin-top: 15px;
+}
+.content .left  .con ul li span {
+  float: left;
+  width: 15px;
+  margin-top: 20px;
+  margin-right: 8px;
+}
+.content .left  .con ul li img {
+  width:85px;
+  height:60px;
+  float: left;
+  margin-right: 15px;
+}
+.content .left  .con ul li p {
+  margin-top: 5px;
+}
+.content .left  .con ul li p a {
+  color:#409eff;
+  font-size: 12px;
+  display: inline-block;
+  margin-right: 3px;
+}
+.content .left  .con ul li #div {
+  /* width: 260px; */
+  margin-left: 100px;
+  /* background-color: red;
+   */
+   text-overflow:ellipsis;
+   display: -webkit-box;
+   -webkit-box-orient: vertical;
+   -webkit-line-clamp: 2;
+   overflow: hidden;
+}
+.content .right .right_con .search {
+  padding:20px 40px;
+}
+.content .right .right_con .list {
+  width: 100%;
+  padding:20px 30px;
+  overflow: hidden;
+}
+.content .right .right_con .list .albumMsg {
+  width: 24%;
+  position: relative;
+  margin-bottom: 30px;
+  text-align: center;
+  float: left;
+  margin-right: -7px;
+  /* background-color: rgb(248,248,248); */
+  padding:20px;
+  height: 150px;
+}
+.content .right .right_con .list .albumMsg img:first-child {
+  width: 90%;
+  margin-bottom: 10px;
+}
+
+.xiaoshou {
+  cursor: pointer;
+}
+.el-dialog__header {
+  background-color: #409eff;
+
+  letter-spacing: 2px;
+}
+ .el-dialog__header span,.el-dialog__headerbtn .el-dialog__close{
+  color:#fff;
+}
+.el-dialog  .el-form-item {
+  margin-right: 30px;
+}
+.el-dialog .el-textarea__inner {
+  /* height:100px; */
+  resize: none;
+  /* width: 200px; */
+}
+.el-dialog .footers {
+  border-top:1px solid #ccc;
+  padding-top:30px;
+  /* text-align: center; */
+}
+.el-dialog .dialog-footer {
+  text-align: center;
+
+}
+.el-dialog .dialog-footer button {
+  padding:15px 30px;
+}
+.el-dialog .dialog-footer button:first-child {
+  background-color: #409eff;
+  color:#fff;
+  margin-right: 15px;
+  border:none;
+}

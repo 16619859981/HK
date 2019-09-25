@@ -1,0 +1,306 @@
+<div>
+  <div class="breadcrumb">
+    <a href="#" class="active">首页</a>
+
+  </div>
+  <!-- 内容管理头 -->
+  <!-- <div class="header-header">
+
+    <br>
+    <span style="margin-right: 20px;margin-top:10px;" class="active_title">实时指标</span>
+
+  </div> -->
+  <div class="table-content page">
+    <!-- 用户指标 -->
+    <div class="top-table">
+      <div class="top-title">
+        用户指标
+        <p style="float: right;">
+          <el-select v-model="UserP" placeholder="省份" @change="valu1(UserP)" style="width:90px;">
+            <el-option v-for="item in options1" :key="item.areaNumber" :label="item.areaName" :value="item.areaNumber">
+            </el-option>
+          </el-select>
+          <el-select v-model="UserC" placeholder="城市" @change="valu2(UserC)" style="width:90px;">
+            <el-option v-for="item in options2" :key="item.areaNumber" :label="item.areaName" :value="item.areaNumber">
+            </el-option>
+          </el-select>
+
+          <el-select v-model="UserCounty" placeholder="县区" @change="valu3(UserCounty)" style="width:90px;">
+            <el-option v-for="item in options3" :key="item.areaNumber" :label="item.areaName" :value="item.areaNumber">
+            </el-option>
+          </el-select>
+        </p>
+
+
+
+      </div>
+      <div class="top-list">
+        <ul>
+          <li>
+            <p>注册用户</p>
+            <b>{{userData.signin}}</b>
+            <p style="margin-left:-10px;">
+
+              <el-date-picker v-model="times" type="daterange" range-separator="-" start-placeholder="开始日期" value-format="timestamp" @change="getDate(times)"
+                end-placeholder="结束日期">
+              </el-date-picker>
+
+            </p>
+
+          </li>
+          <li>
+            <p>日新增用户</p>
+            <b>{{userData.newlyincr}}</b>
+
+            <p>
+              <span v-if="userData.newlyincrRate>0" style="color:rgb(255, 124, 124);font-weight: 700;">↑</span>
+              <span v-if="userData.newlyincrRate<0" style="color:#409eff;font-weight: 700;">↓</span>
+
+              <span>环比{{userData.newlyincrRate}}%</span>
+            </p>
+          </li>
+          <li>
+            <p>月新增用户</p>
+            <b>{{userData.mnewlyincr}}</b>
+
+            <p>
+              <span v-if="userData.mnewlyincrRate>0" style="color:rgb(255, 124, 124);font-weight: 700;">↑</span>
+              <span v-if="userData.mnewlyincrRate<0" style="color:#409eff;font-weight: 700;">↓</span>
+
+              <span>环比{{userData.mnewlyincrRate}}%</span>
+            </p>
+          </li>
+          <li>
+            <p>日活跃用户</p>
+            <b>{{userData.lively}}</b>
+
+            <p>
+              <span v-if="userData.livelyRate>0" style="color:rgb(255, 124, 124);font-weight: 700;">↑</span>
+              <span v-if="userData.livelyRate<0" style="color:#409eff;font-weight: 700;">↓</span>
+              <span>环比{{userData.livelyRate}}%</span>
+            </p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="top-table">
+      <!-- 内容指标 -->
+      <div class="top-title">
+        内容指标
+        <p style="float: right;">
+          <el-select v-model="ContentP" placeholder="省份" @change="valu4(ContentP)" style="width:90px;">
+            <el-option v-for="item in options1" :key="item.areaNumber" :label="item.areaName" :value="item.areaNumber">
+            </el-option>
+          </el-select>
+          <el-select v-model="ContentC" placeholder="城市" @change="valu5(ContentC)" style="width:90px;">
+            <el-option v-for="item in options2" :key="item.areaNumber" :label="item.areaName" :value="item.areaNumber">
+            </el-option>
+          </el-select>
+
+          <el-select v-model="ContentCounty" placeholder="县区" @change="valu6(ContentCounty)" style="width:90px;">
+            <el-option v-for="item in options3" :key="item.areaNumber" :label="item.areaName" :value="item.areaNumber">
+            </el-option>
+          </el-select>
+
+          <el-date-picker v-model="ContentTimes" type="daterange" range-separator="-" start-placeholder="开始日期" value-format="timestamp" @change="getDate2(ContentTimes)"
+          end-placeholder="结束日期">
+        </el-date-picker>
+        </p>
+      </div>
+      <div class="top-list">
+        <ul>
+          <li>
+            <p>专辑总数</p>
+            <b>{{contentData.album}}</b>
+          </li>
+          <li>
+            <p>新增音频专辑</p>
+            <b>{{contentData.aaudio}}</b>
+          </li>
+          <li>
+            <p>新增视频专辑</p>
+            <b>{{contentData.avideo}}</b>
+          </li>
+          <li>
+            <p>选送成功全国范围节目总数</p>
+            <b>{{contentData.psuccess}}</b>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <p>节目总数</p>
+            <b>{{contentData.program}}</b>
+          </li>
+          <li>
+            <p>新增音频节目</p>
+            <b>{{contentData.paudio}}</b>
+          </li>
+          <li>
+            <p>新增视频节目</p>
+            <b>{{contentData.pvideo}}</b>
+          </li>
+          <li>
+            <p>点赞总数</p>
+            <b>{{contentData.like}}</b>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="top-table">
+      <!-- 活动指标 -->
+      <div class="top-title">
+        活动指标
+        <p style="float: right;">
+          <el-select v-model="activeP" placeholder="省份" @change="valu7(activeP)" style="width:90px;">
+            <el-option v-for="item in options1" :key="item.areaNumber" :label="item.areaName" :value="item.areaNumber">
+            </el-option>
+          </el-select>
+          <el-select v-model="activeC" placeholder="城市" @change="valu8(activeC)" style="width:90px;">
+            <el-option v-for="item in options2" :key="item.areaNumber" :label="item.areaName" :value="item.areaNumber">
+            </el-option>
+          </el-select>
+
+          <el-select v-model="activeCounty" placeholder="县区" @change="valu9(activeCounty)" style="width:90px;">
+            <el-option v-for="item in options3" :key="item.areaNumber" :label="item.areaName" :value="item.areaNumber">
+            </el-option>
+          </el-select>
+
+          <el-date-picker v-model="activeTimes" type="daterange" range-separator="-" start-placeholder="开始日期" value-format="timestamp" @change="getDate3(activeTimes)"
+          end-placeholder="结束日期">
+          </el-date-picker>
+        </p>
+      </div>
+      <div class="top-list">
+        <ul>
+          <li>
+            <p>活动总数</p>
+            <b>{{activeData.activity}}</b>
+          </li>
+          <li>
+            <p>新增闯关活动</p>
+            <b>{{activeData.apass}}</b>
+          </li>
+          <li>
+            <p>新增经典活动</p>
+            <b>{{activeData.aclassic}}</b>
+          </li>
+          <li>
+            <p>选送成功全国范围活动总数</p>
+            <b>{{activeData.asuccess}}</b>
+          </li>
+        </ul>
+        <ul>
+          <li>
+            <p>打卡总数</p>
+            <b>{{activeData.acard}}</b>
+          </li>
+          <li>
+            <p>点赞总数</p>
+            <b>{{activeData.alike}}</b>
+          </li>
+          <li>
+            <p>收藏总数</p>
+            <b>{{activeData.acollect}}</b>
+          </li>
+          <li>
+            <p>转发总数</p>
+            <b>{{activeData.atransmit}}</b>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+
+    <div class="middle-table">
+
+
+
+      <el-tabs v-model="echarts" @tab-click="handleClick">
+
+        <el-tab-pane label="关键指标" name="first" disabled></el-tab-pane>
+        <el-tab-pane label="专辑浏览次数" name="second" class="second">
+          <div id="second" v-model="echartsData.albumTimes" style="width:100%;height: 400px;margin: 0 auto;"></div>
+
+        </el-tab-pane>
+        <el-tab-pane label="专辑浏览人数" name="third" class="third">
+          <div id="third" v-model="echartsData.albumNum" style="width:100%;height: 400px;margin: 0 auto;"></div>
+        </el-tab-pane>
+        <el-tab-pane label="节目播放次数" name="fourth" class="fourth">
+          <div id="fourth" v-model="echartsData.programTimes" style="width:100%;height: 400px;margin: 0 auto;"></div>
+        </el-tab-pane>
+        <el-tab-pane label="节目播放人数" name="fifth" class="fifth">
+          <div id="fifth" v-model="echartsData.programNum" style="width:100%;height: 400px;margin: 0 auto;"></div>
+        </el-tab-pane>
+
+        <el-tab-pane label="节目收藏人数" name="sixth" class="sixth">
+          <div id="sixth" v-model="echartsData.collectNum" style="width:100%;height: 400px;margin: 0 auto;"></div>
+        </el-tab-pane>
+        <el-tab-pane label="节目推送次数" name="seventh" class="seventh">
+          <div id="seventh" v-model="echartsData.pushTimes" style="width:100%;height: 400px;margin: 0 auto;"></div>
+        </el-tab-pane>
+        <el-tab-pane label="节目推送人数" name="eighth" class="eighth">
+          <div id="eighth" v-model="echartsData.pushNum" style="width:100%;height: 400px;margin: 0 auto;"></div>
+        </el-tab-pane>
+
+
+      </el-tabs>
+      <!-- <el-switch v-model="switchValue1" @change="changeStatus1" style="float:right;right:20px;top:-444px;" active-color="#409eff"
+        active-text="日数据" inactive-text="月数据"> -->
+
+      <!-- </el-switch> -->
+      <div style="margin:0 auto;width: 100%;text-align: center;color:#606266;">
+        <!-- <span>{{name}}</span> -->
+      </div>
+
+      <div style="margin-top: -400px;">
+        <span>趋势图：</span>
+        <span style="float:right;right:20px;">
+          <template>
+            <el-radio v-model="type" @change="changeStatus1(type)" label="d">日</el-radio>
+            <el-radio v-model="type" @change="changeStatus1(type)" label="m">月</el-radio>
+          </template>
+        </span>
+      </div>
+
+
+    </div>
+    <div class="bottom-table" style="    margin-top:400px;">
+      <!-- <div style="margin-bottom:20px;">
+        <span style="color:#606266;">详细内容数据：</span>
+        <span style="float:right;right:20px;">
+          <template>
+            <el-radio v-model="type" @change="changeStatus1(type)" label="d">日</el-radio>
+            <el-radio v-model="type" @change="changeStatus1(type)" label="m">月</el-radio>
+          </template>
+        </span>
+      </div> -->
+      <div class="bottom-list">
+
+        <el-table :data="tableData" :header-cell-style="getRowClass" style="width: 100%;" :row-style="tabH" :cell-style="tabP"
+          :default-sort="{prop: 'date', order: 'descending'}">
+          <el-table-column prop="time" label="时间" header-align="center">
+          </el-table-column>
+          <el-table-column prop="albumTimes" label="专辑浏览次数" header-align="center">
+          </el-table-column>
+          <el-table-column prop="albumNum" label="专辑浏览人数" header-align="center">
+          </el-table-column>
+          <el-table-column prop="programTimes" label="节目播放次数" header-align="center">
+          </el-table-column>
+          <el-table-column prop="programNum" label="节目播放人数" header-align="center">
+          </el-table-column>
+          <el-table-column prop="collectNum" label="节目收藏人数" header-align="center">
+          </el-table-column>
+
+          <el-table-column prop="pushTimes" label="节目推送次数" header-align="center">
+          </el-table-column>
+          <el-table-column prop="pushNum" label="节目推送人数" header-align="center">
+          </el-table-column>
+
+        </el-table>
+
+
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,124 @@
+<div>
+  <div class="breadcrumb">
+    <a href="#">首页</a>
+    <a href="#" class="active">消息通知</a>
+  </div>
+  <!-- 内容管理头 -->
+  <div class="header-header">
+ 
+    <span style="margin-right: 20px;margin-top:10px;" class="active_title">评论</span>
+
+
+
+  </div>
+  <div class="table-content">
+
+    <div class="comment">
+        <div class="left">
+          <img src="../1.3.png" alt="">
+        </div>
+        <div class="center">
+          <p class="name">林夕<span>(连续4天打卡)</span></p>
+          <p class="school">黄城根小学三年纪二班</p>
+          <p class="msg" @click="detail()">乡路上两个放学的孩童把书包顶在头上回家水塘的一只青蛙喊。乡路上两个放学的孩童把书包顶在头上回家水塘的一只青蛙喊。</p>
+          <div class="content">
+            <div >
+                <!-- <img src="../1.3.png" alt=""> -->
+                <video src="../../../../static/哆啦A梦香甜美梦_高清.mp4" controls></video>
+            </div>
+            <div >
+                <!-- <img src="../1.3.png" alt=""> -->
+                <video src="../../../../static/哆啦A梦香甜美梦_高清.mp4" controls></video>
+            </div>
+            <div >
+                <!-- <img src="../1.3.png" alt=""> -->
+                <video src="../../../../static/哆啦A梦香甜美梦_高清.mp4" controls></video>
+            </div>
+            <div >
+                <!-- <img src="../1.3.png" alt=""> -->
+                <video src="../../../../static/哆啦A梦香甜美梦_高清.mp4" controls></video>
+            </div>
+            <div >
+                <!-- <img src="../1.3.png" alt=""> -->
+                <video src="../../../../static/哆啦A梦香甜美梦_高清.mp4" controls></video>
+            </div>
+            <div>
+                <img src="../1.3.png" alt="">
+            </div>
+            <div>
+                <img src="../1.3.png" alt="">
+            </div>
+           
+            <div>
+                <img src="../1.3.png" alt="">
+            </div>
+            <div>
+                <img src="../1.3.png" alt="">
+            </div>
+          
+
+          </div>
+          <p style="color:#909399;font-size: 12px;margin-top: 2px;margin-bottom: 5px;">刚刚</p>
+          <div class="active">
+            <img src="../1.3.png" alt="" style="width:52px;height:52px;" >
+            <div >
+              <p style="color:#606266;font-size: 14px;">你的理想学校是什么</p>
+              <p style="color:#909399;font-size: 12px;">1.1万人参加</p>
+            </div>
+          </div>
+        </div>
+        <div class="right">
+
+        </div>
+    </div>
+    <div class="comment" style="margin-top:18px;position: relative;">
+        <div class="left">
+          <img src="../1.3.png" alt="">
+        </div>
+        <div class="center">
+          <p class="name">林夕</p>
+          <p class="school">黄城根小学三年纪二班</p>
+      
+      
+        </div>
+          <p style="margin:10px 0px;width:331px;" @click="reply()">回复<span>知足常乐:</span>放学的孩童把书包放学的孩童把书包放学的孩童把书包放学的孩童把书包放学的孩童把书包放学的孩童把书包放学的孩童把书包顶在头上回家水塘。</p>
+        <div style="margin-top:10px;width:345px;height: 70px; background-color: rgba(245,247,250,1);">
+            <img src="../1.3.png" alt="" style="width:70px;height:70px;" >
+            <div style="margin-top:-70px;margin-left:70px;  padding:10px;">
+              <p style="color:#606266;font-size: 14px;">林夕</p>
+              <p style="color:#909399;font-size: 12px;width: 246px;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 2;overflow: hidden;;">乡路上两个放学的孩童把书包顶两个放学的孩童把书包顶两个放学的孩童把书包顶两个放学的孩童把书包顶两个放学的孩童把书包顶两个放学的孩童把书包顶在头上回家水塘</p>
+            </div>
+        </div>
+        <p style="color:#909399;font-size: 12px;margin-top: 2px;margin-bottom: 5px;">2019-4-28</p>
+        <div class="right" style="position: absolute;right:20px;top:0px;">
+            <el-button>加入班级动态</el-button>
+            <el-button>删除</el-button>
+
+            <el-button @click="rate()">点评</el-button>
+
+          </div>
+        </div>
+    </div>
+<!-- 点评 -->
+<template>
+    <el-dialog title="点评" :visible.sync="dialogVisibleRate" width="30%">
+        <el-rate v-model="rateNum" show-text :texts="text">
+          </el-rate>
+          <el-input
+          type="textarea"
+          :rows="2"
+          placeholder="请输入内容"
+          v-model="tareText"
+          style="margin-top:10px;">
+        </el-input>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisibleRate = false" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+          <el-button @click="dialogVisibleRate = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+        </span>
+      </el-dialog>
+</template>
+  </div>
+
+
+
+</div>

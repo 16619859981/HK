@@ -1,0 +1,175 @@
+<div>
+    <!-- 头部 -->
+    <div class="header-header">
+ 
+        <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+        <br>
+        <span style="margin-right: 20px;margin-top:10px;" class="active_title">创建Banner</span>
+    
+       
+        <!-- <span>创建视频专辑</span> -->
+
+    </div>
+    <!-- 创建专辑的内容 -->
+    <div class="albumContent">
+        <div class="msg">
+            <div class="title">
+                <!-- <i></i> -->
+                <span>Banner信息</span>
+            </div>
+
+            <el-form :model="ruleForm"  v-loading="loading":rules="rules" ref="ruleForm" label-width="150px" class="ruleForm">
+                <div class="top">
+                    <el-form-item label="banner名称:" prop="bannerName">
+                        <el-input v-model="ruleForm.bannerName" placeholder="请输入名称，最多10个字" class="inp"></el-input>
+                    </el-form-item>
+                    <el-form-item label="跳转类型:">
+                        <!-- type -->
+                        <!-- <el-input v-model="ruleForm.pages" placeholder="请选择类型" class="inp"></el-input> -->
+                        <el-select v-model="ruleForm.type" placeholder="请选择" style="width:500px;"  @change="changeType(ruleForm.type)">
+                                <el-option
+                                  v-for="item in options"
+                                  :key="item.code"
+                                  :label="item.value"
+                                  :value="item.code"
+                                 
+                                 >
+                                </el-option>
+                              </el-select>
+                              <br/>
+                              <el-input    v-model="ruleForm.number" id ="placeholder" placeholder="请输入查询信息" style="margin-top: 10px;" class="inp"></el-input>
+             
+
+                              <el-button v-if ="ruleForm.type!=1" @click="preview()">预览</el-button>
+                    </el-form-item>
+                    <!-- <el-form-item label="发布区域：" prop="area">
+     
+                        <el-select v-model="value3" placeholder="请选择省" style="width:50%;float:left;width: 250px;"  @change="valu1(value3)">
+                            <el-option label="全国" :value="9999"></el-option>
+                          <el-option v-for="item in options3" :key="item.areaNumber" :label="item.areaName" :value="item.areaNumber" >
+                      
+                         </el-option>
+                       </el-select>
+                       <el-select v-model="value4" placeholder="请选择城市"  style="width:50%;float:left;width: 250px;" @change="valu2(value4)">
+                         <el-option v-for="item in options4" :key="item.areaNumber" :label="item.areaName" :value="item.areaNumber" >
+                        
+                         </el-option>
+                       </el-select>
+                     </el-form-item> -->
+                
+
+                    <el-form-item label="banner图片:" prop="img">
+                            <!-- <el-input type="textarea" v-model="ruleForm.desc"></el-input> -->
+                            <el-upload class="avatar-uploader" style="border:1px solid #ccc;width:300px;height:150px; position: relative;" :action=action
+                              :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                              <img v-if="imageUrl" :src="imageUrl" class="avatar" style="width:300px;height:150px;">
+                              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                            <div style="color:#ccc;font-size: 12px; position: absolute;left:320px;top:8px; line-height: 22px;">
+                              <p>上传尺寸要求宽高2:1</p>
+                              <p>推荐最佳尺寸为600*300</p>
+                              <p>图片须小于1MB</p>
+                              <p>图片支持格式jpeg、jpg、png、bmp</p>
+                            </div>
+                          </el-form-item>
+                </div>
+            </el-form>
+
+
+        </div>
+        <div class="btn">
+            <el-button @click ="subimt()" style="background-color: rgb(87, 140, 252);">提交</el-button>
+            <el-button @click="dialogVisibleDel = true ">
+                取消
+            </el-button>
+        </div>
+    </div>
+<!-- 专辑弹框 -->
+
+ <template>
+        <el-dialog title="信息" :visible.sync="dialogVisiblePass" width="50%" height="500px;">
+         
+                <el-form label-width="120px">
+
+
+               
+                        <el-form-item label="名称：">
+                          <span v-model="checkMsg.name" readonly style="width:300px;">{{checkMsg.name}}</span>
+                        </el-form-item>
+                        <!-- <el-form-item label="标签：" v-if="ruleForm.type==">
+                            <span v-model="checkMsg.label" readonly style="width:300px;">{{checkMsg.label}}</span>
+                          </el-form-item> -->
+                        <el-form-item label="简介：">
+                          <span>          
+                            <div type="textarea" v-model="checkMsg.intro" readonly style="width:500px;overflow:hidden;
+                          text-overflow:ellipsis;
+                          white-space:nowrap"
+                          :title="checkMsg.intro">{{checkMsg.intro}}</div>                                                                 
+                          <!--  -->
+                          </span>
+                        </el-form-item>
+               
+                      
+                        <el-form-item label="封面："style="position: relative;margin-top: 50px;width:500px;">
+                     
+                        <el-popover placement="right" height="500" trigger="click" style="padding:0;border:none">
+                          <img  :src="checkMsg.fileId" class="avatar" style="width:500px;height:500px;">
+                          <el-button slot="reference" style="padding:0;border:none">
+                            <img  :src="checkMsg.fileId" class="avatar" style="width: 300px;height:200px;">
+                          </el-button>
+                
+                        </el-popover>
+
+                        </el-form-item>
+                
+                      </el-form>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisiblePass = false" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+            <!-- <el-button @click="dialogVisiblePass = false" style="padding: 12px 24px; font-size: 12px">取消</el-button> -->
+          </span>
+        </el-dialog>
+    
+      </template>
+    
+<!-- 提交弹框 -->
+
+<template>
+        <el-dialog title="banner信息" :visible.sync="dialogVisibleSub" width="30%" height="500px;">
+         
+        <span>确认提交信息？</span>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="submitData()" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+            <el-button @click="dialogVisibleSub = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+          </span>
+        </el-dialog>
+    
+      </template>
+      <!--取消 -->
+      <template>
+        <el-dialog title="banner信息" :visible.sync="dialogVisibleDel" width="30%" height="500px;">
+         
+        <span>确认取消提交信息？</span>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click=" del() " style="padding: 12px 24px; font-size: 12px">确定</el-button>
+            <el-button @click="dialogVisibleDel = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+          </span>
+        </el-dialog>
+    
+      </template>
+      <!-- 未查到专辑信息 -->
+      <template>
+        <el-dialog title="详细信息" :visible.sync="dialogVisibleAbl" width="30%" height="500px;">
+         
+        <span>未查到对应信息，请核实输入信息</span>
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisibleAbl = false" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+            <!-- <el-button @click="dialogVisibleAbl = false" style="padding: 12px 24px; font-size: 12px">取消</el-button> -->
+          </span>
+        </el-dialog>
+    
+      </template>
+    
+
+</div>
+
+</div>

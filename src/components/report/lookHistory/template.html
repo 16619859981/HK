@@ -1,0 +1,75 @@
+<div>
+    <div class="breadcrumb">
+        <a href="#">违规举报</a>
+        <a href="#" onClick="window.history.go(-1)">举报列表</a>
+        <a href="#" onClick="window.history.go(-1)">历史记录</a>
+        <a href="#" class="active">查看详情</a>
+      </div>
+  <!-- 创建专辑的内荣 -->
+  <div class="albumContent">
+    <div class="msg">
+      <!-- <div class="title">
+ 
+      </div> -->
+
+      <el-form :model="tableData" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <div class="top">
+          <el-form-item label="所属活动:">
+            <span>{{tableData.businessId}}</span>
+          </el-form-item>
+          <el-form-item label="举报类型:">
+            <span>{{tableData.reportType}}</span>
+          </el-form-item>
+          <el-form-item label="举报原因:">
+            <span>{{tableData.reportReason}}</span>
+          </el-form-item>
+          <el-form-item label="举报用户:">
+            <span>{{tableData.reportUserName}}</span>
+          </el-form-item>
+          <el-form-item label="违规用户:">
+            <span>{{tableData.reportedUserName}}</span>
+          </el-form-item>
+          <el-form-item label="违规内容:" style="width: 700px;" v-if="formInline.businessType == 1">
+            <span style="display:block;">{{tableData.commentContent}}</span>
+            <div v-for="item in tableData.files" style="width: 150px; height: 150px; display: inline-block; margin-right: 50px; margin-bottom: 50px; vertical-align: middle;">
+              <img v-if="item.type == 3" :src="item.url" alt="" style="width: 150px; height: 150px;object-fit: cover;">
+              <audio v-if="item.type == 1" controls="controls" :src="item.url" style="width: 150px; height: 150px"></audio>
+              <video v-if="item.type == 2" controls="controls" :src="item.url" style="width: 150px; height: 150px;object-fit: cover;"></video>
+            </div>
+      
+          </el-form-item>
+
+          <el-form-item label="违规内容:" style="width: 700px;" v-if="formInline.businessType == 2">
+            <span>{{tableData.activity_name}}</span>
+          </el-form-item>
+          <!-- <el-form-item label="任务LOGO:">
+            <el-popover placement="right" height="500" trigger="click" style="padding:0;border:none">
+              <img :src="tableData.medalFileUrl" class="avatar" style="width:500px;height:500px;">
+              <el-button slot="reference" style="padding:0;border:none">
+                <img :src="tableData.medalFileUrl" class="avatar" style="width: 150px; height: 150px">
+              </el-button>
+            </el-popover>
+          </el-form-item> -->
+          <el-form-item label="举报时间:">
+            <span>{{tableData.reportTime}}</span>
+          </el-form-item>
+
+          <el-form-item label="处理结果:">
+            <span>{{tableData.reHandle}}</span>
+          </el-form-item>
+        </div>
+
+      </el-form>
+
+
+
+    </div>
+
+  </div>
+
+
+
+
+</div>
+
+</div>

@@ -1,0 +1,125 @@
+<div>
+
+    <!-- 内容管理头 -->
+    <div class="header-header">
+      <!-- <h3>用户管理-学校管理
+          </h3> -->
+      <!-- <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button> -->
+      <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+       <br>
+      <span style="margin-right: 20px;margin-top:10px; color: #409eff;" class="xiaoshou active_title">学生节目</span>
+      <!-- <span style="margin-right: 20px;margin-top:5px;" class="xiaoshou" @click="lookRole()">教师角色</span> -->
+    </div>
+    <div class="table-content">
+      <!-- 搜索列表选项框 -->
+      <div class="table-search">
+        <div class="search-top">
+          <div class="search-title">
+            <!-- <i></i> -->
+            <p style="margin-left: 10px; font-size: 12px"></p>
+  
+          </div>
+          <div class="search-list">
+            <el-form :inline="true" :model="searchItem" class="demo-form-inline">
+              <!-- <el-form-item label="学生ID：　">
+                <el-input v-model="from.schoolid"   placeholder="请输入学校ID" size="mini" style="width:140px;"></el-input>
+              </el-form-item> -->
+  
+              <el-form-item label="关键字：　">
+                <el-input v-model="from.keyvalue" placeholder="请输入关键字" size="mini" style="width:140px;"></el-input>
+              </el-form-item>
+  
+  
+              <el-form-item label="状　　态：">
+                <el-select v-model="from.commentisup" placeholder="状态" size="mini" style="width:140px;">
+                  <el-option label="全部" value="0"></el-option>
+                  <el-option label="上架" value="1"></el-option>
+                  <el-option label="下架" value="2"></el-option>
+                </el-select>
+              </el-form-item>
+  
+  
+              <el-form-item label="参与时间："  style="margin-right: 65px;">
+                <el-date-picker v-model="from.startTime" value-format="timestamp" type="date" placeholder="选择日期" size="mini" style="width:140px;">
+                </el-date-picker>
+                -
+                <el-date-picker v-model="from.endTime"  value-format="timestamp"  type="date" placeholder="选择日期" size="mini" style="width:140px;">
+                </el-date-picker>
+              </el-form-item>
+  
+  
+              <el-button class="search-button btnMin" size="mini" @click="handleList2()" style="padding: 7px 19px;
+              font-size: 12px;
+              background-color: #409eff;
+              color: #fff;
+          ">搜索</el-button>
+  
+            </el-form>
+  
+          </div>
+        </div>
+        <!-- <div class="search-button">
+          <el-button size="mini">搜索</el-button>
+        </div> -->
+      </div>
+      <!-- 表格 -->
+      <div class="table-box">
+        <template>
+          <div class="details-Date">
+            <!-- <i></i> -->
+            <p> </p>
+            <ul style="float:right;">
+              <!-- <li>
+                <el-button size="mini" class="btnMin">导出本页数据</el-button>
+              </li> -->
+            </ul>
+  
+          </div>
+          <!-- 表格 -->
+          <el-table v-loading="loading" :data="tableData" style="width: 100%" :header-cell-style="getRowClass" :row-style="tabH" :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}">
+            <el-table-column prop="commentpersonid" label="学生ID" header-align="center" width="195">
+            </el-table-column>
+            <el-table-column prop="studentname" label="学生姓名" header-align="center">
+            </el-table-column>
+            <el-table-column prop="activityname" label="活动名称" header-align="center">
+            </el-table-column>
+            <el-table-column prop="ctime" label="参与时间" header-align="center">
+            </el-table-column>
+            <el-table-column prop="schoolPersonId" label="播放" header-align="center" width="280">
+              <template slot-scope="scope">
+                <audio controls="controls" @click="btn($event)" :src="scope.row.fileurl" style="width: 260px;height:65px;"></audio>
+              </template>
+            </el-table-column>
+            <el-table-column prop="commentisup" label="状态" header-align="center">
+            </el-table-column>
+            <el-table-column  label="操作" width="150"  header-align="center" >
+              <template slot-scope="scope">
+                <a v-if="scope.row.commentisup=='上架'" plain size="small" @click="statueTrue (scope.row)" style="color:#409eff;padding: 4px 8px; font-size: 12px">下架</a>
+                <a v-if="scope.row.commentisup=='下架'" plain size="small" @click="statueTrue (scope.row)" style="color:#409eff;padding: 4px 8px; font-size: 12px">上架</a>
+  
+              </template>
+            </el-table-column>
+          </el-table>
+  
+          <!-- 分页 -->
+          <el-pagination @current-change="handleCurrentChange" :currentPage="currentPage" :page-size="10" layout="total, prev, pager, next, jumper" :total="total" style="margin: 10px 0;">
+          </el-pagination>
+        </template>
+      </div>
+    </div>
+  
+    <el-dialog
+   title="修改状态"
+   :visible.sync="dialogVisibleStatus"
+   width="30%"
+  
+   >
+   <span>确定要改变状态么？</span>
+   <span slot="footer" class="dialog-footer">
+     <el-button @click="editStatUs()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+     <el-button  @click="dialogVisibleStatus = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+   </span>
+  </el-dialog>
+  
+  </div>
+  

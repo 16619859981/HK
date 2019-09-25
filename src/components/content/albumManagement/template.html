@@ -1,0 +1,183 @@
+<div>
+
+  <div class="breadcrumb">
+    <a href="#">内容管理</a>
+    <a href="#" class="active">专辑列表</a>
+  </div>
+  <!-- 内容管理头 -->
+  <!-- <div class="header-header">
+    <br>
+    <span style="margin-right: 20px;margin-top:10px;" class="active_title">专辑管理</span>
+  </div> -->
+  <div class="table-content">
+    <!-- 搜索列表选项框 -->
+    <div class="table-search">
+      <div class="search-top">
+        <div class="search-title">
+          <p style="margin-left: 10px; font-size: 12px"></p>
+        </div>
+        <div class="search-list">
+          <el-form :inline="true" :model="searchItem" class="demo-form-inline">
+            <el-form-item>
+            
+              <el-input v-model="searchItem.albumId" @change="fushu" placeholder="专辑编号" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model="searchItem.albumName" placeholder="专辑名称" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-select v-model="searchItem.albumStatus" placeholder="状态" size="mini" style="width:186px;">
+                <el-option label="全部" value='0'></el-option>
+                <el-option label="上架中" value="1"></el-option>
+                <el-option label="已下架" value="2"></el-option>
+              </el-select>
+            </el-form-item>
+            <!-- <el-form-item v-show="active">
+              <el-cascader :options="options" v-model="selectedOptions3" placeholder="专辑分类" size="mini" style="width:186px;"></el-cascader>
+            </el-form-item> -->
+            <el-form-item v-show="active">
+              <el-select v-model="searchItem.albumType" placeholder="类型" size="mini" style="width:186px;">
+                <el-option label="全部" value='0'></el-option>
+                <el-option label="音频" value="1"></el-option>
+                <el-option label="视频" value="2"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item v-show="active">
+              <el-input v-model="searchItem.orgName" placeholder="所属组织" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+            <el-form-item v-show="active">
+              <el-date-picker v-model="searchItem.createTimeBeginTime" type="date" placeholder="开始日期" size="mini" style="width:186px;"
+                value-format="timestamp">
+              </el-date-picker>
+              -
+              <el-date-picker v-model="searchItem.createTimeEndTime" type="date" placeholder="结束日期" size="mini" style="width:186px;"
+                value-format="timestamp">
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item>
+              <el-button @click="renderList2()" style="padding: 8px 78px;
+                      font-size: 14px;
+                      background-color: #409EFF;
+                      color: #fff;
+                      margin-top: 6px; 
+                  ">搜索</el-button>
+            </el-form-item>
+            <br>
+            <el-form-item>
+              <div v-show="styleTextBool" @click="style()" style="width: 186px; margin-left: 4px;margin-top: -10px; cursor: pointer;">
+                <img src="../../../../static/moreS.png" alt="">
+                <span style="color: #909399; margin-left: 5px; font-size: 12px;">更多条件</span>
+              </div>
+            </el-form-item>
+         
+          </el-form>
+        </div>
+      </div>
+    </div>
+    <!-- 表格 -->
+    <div class="table-box">
+      <template>
+        <div class="details-Date">
+          <!-- <i></i> -->
+          <p>详细数据:</p>
+          <ul>
+            <!-- <li>
+              <el-button size="mini" class="btnMin" @click="createAlbum()">创建专辑</el-button>
+            </li> -->
+            <!-- <li>
+              <el-button size="mini" class="btnMin" @click="downmodel()">下载模板</el-button>
+            </li>
+            <li>
+              <el-upload class="upload-demo" action="/file/ihongka_files/upload/importContent" :headers="headers"
+                :on-preview="handleChange" :on-progress="handleChange1" :on-success="handleSuccess" :show-file-list=false
+                size="small">
+                <el-button size="small" class="btnMin" type="primary" style="color: #909399;">导入</el-button>
+              </el-upload>
+            </li> -->
+            <!-- <li>
+              <el-button size="mini" class="btnMin" @click="download()">导出本页数据</el-button>
+            </li> -->
+          </ul>
+        </div>
+        <!-- 表格 -->
+        <el-table v-loading="loading" :data="tableData" :header-cell-style="getRowClass" style="width: 100%;"
+          :row-style="tabH" :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}" @sort-change="sortChange">
+          <!-- <el-table-column prop="albumId" label="专辑编号" width="195" header-align="center">
+          </el-table-column> -->
+          <el-table-column prop="albumName" label="专辑名称" header-align="center">
+            <template slot-scope="scope">
+              <span class="demo"  @click="handleLook(scope.row.albumId,scope.row.albumType)" style="min-width: 100px;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden; text-align: center; color: #F56C6C; cursor: pointer;"
+                :title="scope.row.albumName">{{scope.row.albumName}}</span>
+            </template>
+          </el-table-column>
+          <!-- <el-table-column prop="albumCategoryName" label="专辑分类" header-align="center">
+        
+          </el-table-column> -->
+          <el-table-column prop="albumType" label="类型" header-align="center">
+
+          </el-table-column>
+          <el-table-column prop="albumUpcount" label="节目" header-align="center" sortable>
+          </el-table-column>
+
+          <el-table-column prop="albumOpencount" label="播放" header-align="center" sortable>
+          </el-table-column>
+
+          <el-table-column prop="orgName" label="所属组织" header-align="center">
+          </el-table-column>
+
+          <el-table-column prop="albumIsup" label="状态" header-align="center">
+          </el-table-column>
+          <el-table-column label="操作" width="202" header-align="center">
+            <template slot-scope="scope">
+              <!-- <a @click="handleLook(scope.row.albumId)" size="small" style="color:#409eff;padding: 0 2px; font-size: 12px">查看</a> -->
+              <a type="primary" plain size="small" @click="handleEdit(scope.row.albumId,scope.row.albumType)" style="color:#F56C6C;padding: 4px 2px; font-size: 13px">编辑</a>
+              <!-- <a type="primary" plain size="small" @click="creatProgram(scope.row)" style="color:#F56C6C;padding: 0px 2px; font-size: 13px">添加节目</a> -->
+              <!-- <a type="primary" plain size="small" v-if="scope.row.albumStatus=='不通过'" @click='dialogVisiblePopout=true'
+                style="color:#F56C6C;padding: 0px 2px; font-size: 13px">添加节目</a> -->
+              <a type="primary" v-if=" scope.row.albumIsup=='上架中'" plain size="small" @click="change(scope.row)" style="color:#F56C6C;padding: 0px 2px; font-size: 13px">下架</a>
+              <a type="primary" v-if=" scope.row.albumIsup=='已下架'" plain size="small" @click="change(scope.row)" style="color:#F56C6C;padding: 0px 2px; font-size: 13px">上架</a>
+              <a type="primary" size="small" @click="handleDel(scope.row.albumId)" style="color:#F56C6C;padding: 4px 2px; font-size: 13px">删除</a>
+              <!-- <a type="primary" v-if="scope.row.albumStatus=='不通过'" plain size="small" @click="examine(scope.row)"
+                style="color:#409eff;padding: 0px 2px; font-size: 12px">原因</a> -->
+            </template>
+          </el-table-column>
+        </el-table>
+        <!-- 分页 -->
+        <el-pagination style="margin-top: 10px;margin-bottom: 10px;" @current-change="handleCurrentChange" :currentPage="currentPage"
+          :page-size="10" layout="total, prev, pager, next, jumper" :total="total">
+        </el-pagination>
+      </template>
+    </div>
+  </div>
+  <!-- 弹框 -->
+  <el-dialog title="原因" :visible.sync="dialogVisible" width="30%">
+    <span>{{val}}</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="dialogVisible = false" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+      <el-button @click="dialogVisible = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+    </span>
+  </el-dialog>
+  <!-- 不通过的弹框 -->
+  <el-dialog title='提示' :visible.sync="dialogVisiblePopout" width="30%">
+    <span>该专辑未通过审核,请重新编辑提交审核,审核过后可添加节目。</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="dialogVisiblePopout = false" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+    </span>
+  </el-dialog>
+  <!-- 修改状态弹框 -->
+  <el-dialog title="修改状态" :visible.sync="dialogVisibleStatus" width="30%">
+    <span>确定要改变状态么？</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="changeStatus()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+      <el-button @click="dialogVisibleStatus = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+    </span>
+  </el-dialog>
+  <!-- 删除弹框 -->
+  <el-dialog title="删除专辑" :visible.sync="dialogVisibleDel" width="30%">
+    <span>确定要删除么？</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="DelAlbum()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+      <el-button @click="dialogVisibleDel = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+    </span>
+  </el-dialog>
+</div>

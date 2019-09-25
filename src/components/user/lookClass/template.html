@@ -1,0 +1,90 @@
+<div>
+  <div class="breadcrumb">
+    <a href="#">账号管理</a>
+    <a @click="goLookTeacherLT">行政系统</a>
+    <a @click="goSchoolManagement">全部学校</a>
+    <a href="#" class="active">班级列表</a>
+  </div>
+  <div class="table-content">
+    <!-- 搜索列表选项框 -->
+    <div class="table-search">
+      <div class="search-top">
+        <div class="search-list">
+          <el-form :inline="true" :model="from" class="demo-form-inline">
+            <el-form-item>
+              <el-select v-model="from.classGrade" placeholder="年级" size="mini" style="width: 186px;">
+                <el-option label="一年级" value="1"></el-option>
+                <el-option label="二年级" value="2"></el-option>
+                <el-option label="三年级" value="3"></el-option>
+                <el-option label="四年级" value="4"></el-option>
+                <el-option label="五年级" value="5"></el-option>
+                <el-option label="六年级" value="6"></el-option>
+                <el-option label="初一" value="7"></el-option>
+                <el-option label="初二" value="8"></el-option>
+                <el-option label="初三" value="9"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model="from.className" placeholder="班级" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button @click="handleList2()" style="padding: 8px 78px;
+                        font-size: 14px;
+                        background-color: #409EFF;
+                        color: #fff;
+                        margin-top: 6px; 
+                    ">搜索</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+      </div>
+
+    </div>
+    <!-- 表格 -->
+    <div class="table-box">
+      <template>
+        <div class="details-Date">
+          <p>详细数据:</p>
+        </div>
+        <!-- 表格 -->
+        <el-table v-loading="loading" :data="tableData" style="width: 100%" :header-cell-style="getRowClass" :row-style="tabH"
+          :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}">
+          <el-table-column prop="classGrade" label="年级" header-align="center">
+          </el-table-column>
+          <el-table-column prop="className" label="班级" header-align="center">
+          </el-table-column>
+          <el-table-column prop="counselorCount" label="辅导员" header-align="center">
+            <template slot-scope="scope">
+              <span @click="handleLookClass(scope.row.classId)" style="min-width: 40px; text-align: center; color: #F56C6C; cursor: pointer;"
+                :title="scope.row.counselorCount">{{scope.row.counselorCount}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="studentCount" label="学生" header-align="center">
+            <template slot-scope="scope">
+              <span @click="handleLookClass1(scope.row.classId)" style="min-width: 40px; text-align: center; color: #F56C6C; cursor: pointer;"
+                :title="scope.row.studentCount">{{scope.row.studentCount}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="materialCount" label="节目" header-align="center">
+          </el-table-column>
+          <el-table-column prop="activityCount" label="活动" header-align="center">
+          </el-table-column>
+        </el-table>
+
+        <!-- 分页 -->
+        <el-pagination @current-change="handleCurrentChange" :currentPage="currentPage" :page-size="10" layout="total, prev, pager, next, jumper"
+          :total="total" style="margin: 10px 0;">
+        </el-pagination>
+      </template>
+    </div>
+  </div>
+
+  <el-dialog title="修改状态" :visible.sync="dialogVisibleStatus" width="30%">
+    <span>确定要改变状态么？</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="editStatUs()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+      <el-button @click="dialogVisibleStatus = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+    </span>
+  </el-dialog>
+
+</div>

@@ -1,0 +1,74 @@
+<div>
+    <div class="breadcrumb">
+        <a href="#">app管理</a>
+        <a href="#" class="active">iOS列表</a>
+      </div>
+  <div class="table-content">
+    <!-- 搜索列表选项框 -->
+    <div class="table-search">
+      <div class="search-top">
+        <!-- <div class="search-title">
+          <i></i>
+          <p style="margin-left: 10px; font-size: 12px"></p>
+        </div>
+        <div class="search-list">
+      
+        </div> -->
+      </div>
+    </div>
+    <!-- 表格 -->
+    <div class="table-box">
+      <template>
+        <div class="details-Date">
+          <!-- <i></i> -->
+          <p>详细数据</p>
+          <ul>
+            <li>
+              <el-button size="mini" class="btnMin" @click="createAlbum()">新增安装包</el-button>
+            </li>
+        
+          </ul>
+        </div>
+        <!-- 表格 -->
+        <el-table v-loading="loading" :data="tableData" :header-cell-style="getRowClass" style="width: 100%;"
+        :row-style="tabH" :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}">
+        <el-table-column prop="packageType" label="应用类型"  header-align="center">
+        </el-table-column>
+        <!-- <el-table-column prop="packageName" label="安装包名称" header-align="center" width="195">
+         
+        </el-table-column> -->
+        <el-table-column prop="packageVersion" label="版本号" header-align="center">
+      
+        </el-table-column>
+        <el-table-column prop="packageVersionName" label="版本名" header-align="center">
+        </el-table-column>
+        <el-table-column prop="packageDate" label="上传日期" header-align="center">
+        </el-table-column>
+        <el-table-column prop="packageUtype" label="更新类型" header-align="center">
+        </el-table-column>
+
+        <el-table-column label="操作" width="180" header-align="center">
+          <template slot-scope="scope">
+            <a @click="handleLook(scope.row.packageId)" size="small" style="color:#F56C6C;padding: 0 2px; font-size: 12px">查看</a>
+            <a type="primary" plain size="small" @click="handleEdit(scope.row.packageId)" style="color:#F56C6C;padding: 4px 2px; font-size: 12px">删除</a>
+         
+          </template>
+        </el-table-column>
+      </el-table>
+        <!-- 分页 -->
+        <el-pagination style="margin-top: 10px;margin-bottom: 10px;" @current-change="handleCurrentChange" :currentPage="currentPage"
+          :page-size="10" layout="total, prev, pager, next, jumper" :total="total">
+        </el-pagination>
+      </template>
+    </div>
+  </div>
+
+  <!-- 修改状态弹框 -->
+  <el-dialog title="修改状态" :visible.sync="dialogVisibleDel" width="30%">
+    <span>确定要改变删除此条数据么？</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="delData()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+      <el-button @click="dialogVisibleDel = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+    </span>
+  </el-dialog>
+</div>

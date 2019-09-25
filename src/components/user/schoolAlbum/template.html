@@ -1,0 +1,28 @@
+<div>
+  <div class="breadcrumb">
+    <a @click="goLookTeacherLT">账号管理</a>
+    <a @click="goLookTeacherLT">行政系统</a>
+    <a @click="goLookTeacher">全部辅导员</a>
+    <a href="#" class="active">查看辅导员</a>
+  </div>
+  <div class="box">
+    <div style="color: #606266; font-size: 14px; margin-bottom: 10px;">
+      辅导员信息：
+    </div>
+    <div class="box-top">
+      <div class="box-left">
+        <img :src="form.counselorFileUrl" alt="">
+      </div>
+      <div class="box-right">
+        <p>{{ form.counselorName }}</p>
+        <p>辅导员手机：{{ form.counselorPhone }}</p>
+        <!-- <p>开通人：{{ form.schoolCname }}</p> -->
+        <p>性别：{{ form.counselorSex }}</p>
+        <p><span v-for="(item, index) in form.classList" :key="index" style="margin-right: 10px;">{{ item.counselorGrade }}{{ item.counselorClass }}班</span></p>
+        <p>辅导员简介: {{ form.counselorIntro }}</p>
+        <p>所属学校: {{ form.schoolName }}</p>
+      </div>
+    </div>
+  </div>
+
+</div>

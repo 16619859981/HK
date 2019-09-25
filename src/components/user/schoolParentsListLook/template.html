@@ -1,0 +1,86 @@
+<div>
+    <!-- 头部 -->
+    <div class="header-header">
+        <h3>用户管理-学校管理-家长列表
+        </h3>
+        <span style="margin-right: 20px;" class="active_title">查看家长</span>
+
+        <!-- <span>创建视频专辑</span> -->
+
+    </div>
+    <!-- 创建专辑的内荣 -->
+    <div class="albumContent">
+        <div class="msg">
+            <div class="title">
+                <i></i>
+                <span>家长信息</span>
+            </div>
+
+            <!--
+                行内 
+                :inline="true"
+             -->
+            <el-form :model="ruleForm"  ref="ruleForm" label-width="100px" class="demo-ruleForm" >
+                <div class="top">
+                    <el-form-item label="家长姓名:" prop="name">
+                        <span>{{ruleForm.name}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="所属年级:" prop="name">
+                        <span>{{ruleForm.name}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="所属班级:" prop="name">
+                        <span>{{ruleForm.name}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="手机号:" prop="type">
+                        <span>{{ruleForm.phone}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="性别:" prop="type">
+                        <span>{{ruleForm.gender}}</span>
+                    </el-form-item>
+                    
+                    <el-form-item label="绑定学生:" prop="type">
+                        <span>{{ruleForm.founder}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="推送次数:" prop="desc">
+                        <span>{{ruleForm.time}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="创建人:" prop="desc">
+                        <span>{{ruleForm.state}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="创建时间:" prop="desc">
+                        <span>{{ruleForm.operation}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="状态:" prop="desc">
+                        <span>{{ruleForm.operationTime}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="操作人:" prop="desc">
+                        <span>{{ruleForm.operation}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="操作时间:" prop="desc">
+                        <span>{{ruleForm.operationTime}}</span>
+                    </el-form-item>
+                </div>
+                
+            </el-form>
+
+
+        </div>
+
+    </div>
+
+
+
+
+</div>
+
+</div>

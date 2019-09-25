@@ -1,0 +1,32 @@
+<div class="box-box">
+  <div class="breadcrumb">
+    <a href="#">账户管理</a>
+    <a href="#" class="active">新建账户</a>
+  </div>
+  <div class="box-top">
+    <el-steps :active="active" finish-status="success">
+      <el-step title="选择类型"></el-step>
+      <el-step title="详细信息"></el-step>
+      <el-step title="创建账户"></el-step>
+    </el-steps>
+    <!-- <el-button style="margin-top: 12px;" @click="next">下一步</el-button> -->
+  </div>
+  <div class="box-bottom">
+    <div class="box-one" @click="card">
+      <p class="p-title">基地账户</p>
+      
+      <!-- <img src="./Group 2.png" alt="" class="Group2"> -->
+    </div>
+    <div class="box-two" @click="emigrated">
+      <p class="p-title">学校账户</p>
+     
+      <!-- <img src="./Group 1.png" alt="" class="Group1"> -->
+    </div>
+    <div class="box-three" @click="emigrated1">
+      <p class="p-title">伙伴账户</p>
+      <p class="p-title" style="font-size: 16px;">(红广号)</p>
+      
+      <!-- <img src="./Group 1.png" alt="" class="Group1"> -->
+    </div>
+  </div>
+</div>

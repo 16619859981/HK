@@ -1,0 +1,37 @@
+<div>
+  <div class="breadcrumb">
+    <a href="#">奖章管理</a>
+    <a href="#" onClick="window.history.go(-1)">奖章列表</a>
+    <a href="#" class="active">查看奖章</a>
+  </div>
+  <!-- 创建专辑的内容 -->
+  <div class="albumContent">
+    <div class="msg" style="height:170px;">
+      <div class="msgTitle">
+        <span style="margin-bottom:10px;">简介</span>
+        <span>{{ruleForm.medalName}}</span>
+
+        <span>创建人：{{ruleForm.userName}}</span>
+        <span style="color:#909399">发布时间：{{ruleForm.createTime}}</span>
+        <span style="color:#909399">组织类型：{{ruleForm.groupType}}</span>
+        <span style="color:#909399">所属组织：{{ruleForm.groupAsc}}</span>
+      </div>
+    </div>
+    <div class="msg" >
+        <div class="msgTitle">
+          <span style="margin-bottom:10px;">奖章</span>
+
+        </div>
+        <div  class="icon">
+            <ul>
+                <li v-for="(item,index) in medalImg" :key="index">
+                  <img :src="item.fileUrl" alt="">
+                  <p>{{item.medalName}}</p>
+                </li>
+             
+              </ul>
+        </div>
+      </div>
+  </div>
+
+</div>

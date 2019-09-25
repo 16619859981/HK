@@ -1,0 +1,33 @@
+<div class="box-box">
+  <div class="breadcrumb">
+    <a href="#">内容管理</a>
+    <a href="#" class="active">新建专辑</a>
+  </div>
+
+  <div class="box">
+    <div class="audio" @click="createAudio()">
+      <div class="top">
+        <img src="./audio.png" alt="" style="margin-bottom: 20px; width: 150px; height: 150px;">
+        
+        <p class="pC">创建音频专辑</p>
+      </div>
+      <!-- <div class="bottom">
+              <p>仅限于上传音频文件</p>
+              <p>音频不可传播负能量</p>
+              <p>需管理员审核通过方可上传成功</p>
+          </div> -->
+    </div>
+    <div class="video" @click="createVideo()">
+      <div class="top">
+        <img src="./video.png" alt="" style="margin-bottom: 20px; width: 150px; height: 150px;">
+
+        <p class="pC">创建视频专辑</p>
+      </div>
+      <!-- <div class="bottom">
+            <p>仅限于上传视频文件</p>
+            <p>视频不可传播负能量</p>
+            <p>需管理员审核通过方可上传成功</p>
+        </div> -->
+    </div>
+  </div>
+</div>

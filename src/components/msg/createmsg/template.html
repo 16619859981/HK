@@ -1,0 +1,146 @@
+<div>
+  <div class="breadcrumb">
+    <a href="#">消息管理</a>
+    <a href="#" class="active">新建通知</a>
+  </div>
+  <!-- 创建专辑的内容 -->
+  <div class="albumContent">
+    <div class="msg">
+      <div class="title">
+        <!-- <i></i> -->
+        <!-- <span>Banner信息</span> -->
+      </div>
+
+      <el-form :model="ruleForm" ref="ruleForm" label-width="100px" class="ruleForm">
+        <div class="top">
+          <el-form-item label="通知标题：">
+            <el-input v-model="ruleForm.title" placeholder="请输入名称，最多20个字" class="inp"></el-input>
+          </el-form-item>
+
+          <el-form-item label="发布范围：">
+            <el-checkbox-group v-model="checkList">
+              <!-- <el-checkbox v-for="(item,idnex) in  end_codes" :label="item.label" :key="index" :value="item.value">{{item.label}}</el-checkbox> -->
+              <el-checkbox label="少年宫"></el-checkbox>
+              <cascaderMulti
+        
+              :data="end_codes"
+              v-model="childrenPalaceRangeId"
+              placeholder="请选择"
+              :multiple="true"
+              :separate="separate"
+              style="width: 400px;display: inline-block;margin-left: 35px;"
+            ></cascaderMulti>
+              <br>
+              <el-checkbox label="学校"></el-checkbox>
+              <cascaderMulti
+         
+              :data="end_codes"
+              v-model="schoolRangeId"
+              placeholder="请选择"
+              :multiple="true"
+              :separate="separate"
+              style="width: 400px;height:40px;display: inline-block;margin-left: 35px;"
+            ></cascaderMulti>
+              <br>
+              <el-checkbox label="中队辅导员"></el-checkbox>
+              <cascaderMulti
+
+              :data="end_codes"
+              v-model="teacherRangeId"
+              placeholder="请选择"
+              :multiple="true"
+              :separate="separate"
+              style="width: 400px;height:40px;display: inline-block;margin-left: 35px;"
+            ></cascaderMulti>
+              <br>
+              <el-checkbox label="红广号"></el-checkbox>
+            </el-checkbox-group>
+        
+          </el-form-item>
+
+          <el-form-item label="通知详情：">
+            <template>
+              <div class="box-bottom-bottom">
+                <!-- <p style="color: #909399; text-align: left; margin-bottom: 20px;">详情: (点击添加模块最多20个)</p>
+                <div class="box-bottom-bottom-upload">
+                  <div class="box-bottom-bottom-upload-text" @click="uploadText">
+                    文字
+                    <img class="box-bottom-bottom-upload-text-img" src="./yinpinbofang (3).png" alt="">
+                  </div>
+                  <div class="box-bottom-bottom-upload-text" @click="uploadImg">
+                    图片
+                    <img class="box-bottom-bottom-upload-text-img" src="./yinpinbofang (2).png" alt="">
+                  </div>
+                  <div class="box-bottom-bottom-upload-text" @click="uploadImg">
+                    音频
+                    <img class="box-bottom-bottom-upload-text-img" src="./yinpinbofang (4).png" alt="">
+                  </div>
+                  <div class="box-bottom-bottom-upload-text" @click="uploadImg">
+                    视频
+                    <img class="box-bottom-bottom-upload-text-img" src="./yinpinbofang (1).png" alt="">
+                  </div>
+                </div> -->
+                <div class="upload-text" v-for="(item, index) in ruleForm.uploadArr">
+                  <el-input v-if="item.type == 'text'" type="textarea" :autosize="{ minRows: 5}" placeholder="请输入通知内容"
+                    v-model="item.areaText">
+                  </el-input>
+                  <!-- <img v-if="item.type == 'img'" :src="item.imgSrc" alt="" width="400px">
+                  <audio v-if="item.type == 'mp3'" controls="controls"  @play="playaudio(item.mp3Url)" style="width: 400px; height: 70px;" :src="item.mp3Url"></audio>
+                  <video v-if="item.type == 'mp4'" controls="controls"   @play="playvideo(item.mp4Url)" style="width: 400px;" :src="item.mp4Url"></video>
+                  <div class="toolImg">
+                    <img src="./del.png" alt="" class="toolImg-img" @click="divDel(index)">
+                    <img src="./top.png" alt="" class="toolImg-img" @click="divTop(index)">
+                    <img src="./bottom.png" alt="" class="toolImg-img" @click="divBottom(index)">
+                  </div> -->
+                </div>
+              </div>
+            </template>
+
+          </el-form-item>
+        </div>
+      </el-form>
+
+
+    </div>
+    <div class="btn">
+      <el-button @click="subimt()" style="background-color: #409eff;">提交</el-button>
+      <el-button @click=" del() ">
+        取消
+      </el-button>
+    </div>
+  </div>
+
+  <!-- 提交弹框 -->
+
+  <template>
+    <el-dialog title="通知信息" :visible.sync="dialogVisibleSub" width="30%" height="500px;">
+
+      <span>确认提交信息？</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="submitData()" :disabled="commitAble" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+        <el-button @click="dialogVisibleSub = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+      </span>
+    </el-dialog>
+
+  </template>
+  <!-- 上传 -->
+  <template>
+        <el-dialog title="上传文件" :visible.sync="dialogVisible" width="60%">
+          <el-upload class="avatar-uploader" drag style="width:506px;height:280px; position: relative;margin: 0 auto;"
+            :action=action :file-list="fileList" :on-success="handleAvatarSuccess1" :before-upload="beforeAvatarUpload1">
+    
+            <i class="el-icon-upload" style="margin: 80px 0 16px;"></i>
+            <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+  
+          </el-upload>
+          <span slot="footer" class="dialog-footer">
+            <!-- <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="dialogVisible = false">确 定</el-button> -->
+          </span>
+        </el-dialog>
+      </template>
+
+
+</div>
+
+</div>

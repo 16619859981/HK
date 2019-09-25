@@ -1,0 +1,178 @@
+<div style="margin: 20px;">
+  <div class="breadcrumb">
+    <a href="#">内容管理</a>
+    <a href="#" onClick="window.history.go(-1)">专辑列表</a>
+    <a href="#" class="active">添加节目</a>
+  </div>
+  <!-- 创建专辑的内荣 -->
+  <div class="albumContent">
+    <div class="msg">
+      <div class="top">
+        <div>
+          <span class="msgTitle">
+            专辑信息：
+          </span>
+        </div>
+
+        <div class="msg-bigBox">
+          <div class="msg-bigBox-logo">
+            <img :src="tableData.fileUrl" class="avatar">
+          </div>
+
+          <div class="msg-bigBox-msgBox">
+            <div class="msg-bigBox-msgbBox-tool">
+              <span class="sColor-a">{{tableData.albumName}}</span>
+            </div>
+            <div class="msg-bigBox-msgbBox-tool">
+              <el-tag v-for="(item,index) in tableData.albumLabel" :key="index">
+                {{ item }}
+              </el-tag>
+            </div>
+            <div class="msg-bigBox-msgbBox-tool">
+              <span class="see sColor-a">观看：<span class="seeS sColor-a">{{ tableData.albumOpencount }}</span></span>
+              <span class="see sColor-a">观众人数：<span class="seeS sColor-a">{{ tableData.albumPersoncount }}</span></span>
+              <span class="see sColor-a">收藏：<span class="seeS sColor-a">{{ tableData.albumCollectciunt }}</span></span>
+            </div>
+            <div class="msg-bigBox-msgbBox-tool">
+              <span class="sColor">创建人：</span><span class="sColor">{{ tableData.albumPersonName }} ( {{ tableData.orgName }} , {{ tableData.albumAuthorType }})</span>
+            </div>
+            <div class="msg-bigBox-msgbBox-tool">
+              <span class="sColor">创建时间：</span><span class="sColor">{{ tableData.albumCtime }}</span>
+            </div>
+            <div class="msg-bigBox-msgbBox-tool">
+              <span class="sColor">专辑编号：</span><span class="sColor">{{ tableData.albumId }}</span>
+            </div>
+            <div class="msg-bigBox-msgbBox-tool">
+              <span class="sColor">简介：</span><span class="sColor">{{ tableData.albumIntro }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <i></i>
+
+      <div class="bottom">
+        <div class="title-bottom" id="up">
+          <span style="color: #606266;
+                    font-size: 14px;
+                    font-weight: 400;">节目信息：</span>
+        </div>
+        <el-table :data="programData" :header-cell-style="getRowClass" style="width: 100%" :row-style="tabH"
+          :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}">
+          <el-table-column prop="materialSort" label="序号" header-align="center">
+          </el-table-column>
+          <el-table-column prop="materialId" label="节目编号" header-align="center">
+          </el-table-column>
+          <el-table-column prop="materialName" label="节目名称" header-align="center">
+            <template slot-scope="scope">
+              <span class="demo" style="min-width: 100px;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden; text-align: center; cursor: pointer;"
+                :title="scope.row.materialName">{{scope.row.materialName}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="materialType" label="类型" header-align="center">
+          </el-table-column>
+          <el-table-column prop="materialDuration" label="时长" header-align="center">
+          </el-table-column>
+          <el-table-column label="播放" header-align="center">
+            <template slot-scope="scope">
+              <a href="javascript:;" v-if="scope.row.materialTranscodingStatus == 2" style="color:#F56C6C;padding: 0px 2px; font-size: 12px">转码中</a>
+              <a v-if="scope.row.materialTranscodingStatus == 1" style="color: #F56C6C;" @click="play(scope.row.fileUrl1)">播放
+              </a>
+
+
+            </template>
+          </el-table-column>
+
+        </el-table>
+
+        <!-- 分页 -->
+        <el-pagination @current-change="handleCurrentChange" :page-size="10" layout="total, prev, pager, next, jumper"
+          :total="total" style="margin-top: 20px;">
+        </el-pagination>
+
+
+
+      </div>
+
+
+
+      <div class="bottom" id="add">
+        <div class="title" style="margin-bottom: 20px;">
+          <span>添加节目：</span>
+        </div>
+        <el-form :inline="true" class="demo-form-inline" v-for="(item,index) in uploadData" :key="index">
+          <el-form-item :label="'节目'+Number(index+1)" style="position: relative;margin-right: 30px;">
+            <audio controls="controls"  class="audio" @play="btn2(index)" style="width:260px;height:65px; margin-top: -20px;" :src="item.realUrl"></audio>                  
+          </el-form-item>
+          <el-form-item label="节目名称：">
+            <el-input v-model="item.fileName" placeholder="请输入节目名称" style="width:200px;"></el-input>
+          </el-form-item>
+          <span>
+            <a href="javaScript:;" @click="del(index)">删除</a>
+          </span>
+        </el-form>
+        <el-button @click="upload()" style="padding: 12px 15px; font-size: 12px">添加节目</el-button>
+      </div>
+
+
+    </div>
+    <div class="btn">
+      <el-button @click="tj()" id="btn" style="padding: 12px 24px; font-size: 12px">提交</el-button>
+      <el-button style="padding: 12px 24px; font-size: 12px" @click="cancel">
+        取消
+      </el-button>
+    </div>
+  </div>
+  <!-- 上传按钮的弹框-->
+  <template>
+    <el-dialog title="导入项目" :visible.sync="dialogVisible" width="60%" height="500px;">
+      <el-upload class="upload-demo" drag :action=action multiple style="width: 506px; margin: 0 auto;"
+        :on-success="fn" :file-list="fileList" :before-upload="beforeImageUpload" ref="upload">
+        <i class="el-icon-upload"></i>
+        <div class="el-upload__text" style="width: 506px;">将文件拖到此处，或
+          <em>点击上传</em>
+        </div>
+        <video style="display: none" id="vid"></video>
+        <div style="text-align: left;
+        width: 80%;
+        margin: 0 auto;
+        margin-top: 20px;
+        line-height: 22px;">
+          <p>音频要求：</p>
+          <p>1、音频文件大小不超过50M，时长不超过30分种</p>
+          <p>2、音频格式必须为MP3</p>
+          <p>3、请勿上传色情、反动等违法音频</p>
+        </div>
+
+      </el-upload>
+      <span slot="footer" class="dialog-footer">
+    </span>
+    </el-dialog>
+  </template>
+
+
+  <!-- 播放的弹框 -->
+  <template>
+    <el-dialog title="音频播放" :visible.sync="dialogVisiblePlayAudio" @close="closeDialog" width="60%" height="500px;">
+      <div slot="footer" style="width:480px;height:90px;margin: 0 auto;margin-top: -45px;margin-bottom: 20px;" class="div">
+        <audio controls="controls" class="audio" autoplay id="media" style="width:480px;height:65px;" :src="UrlAudio"></audio>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisiblePlayAudio = false">确定</el-button>
+      </span>
+    </el-dialog>
+  </template>
+  <!-- tijiao  -->
+  <template>
+    <el-dialog title="提示" :visible.sync="dialogVisibleSubmit" width="60%" height="500px;">
+      <span>确认提交?</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="submitData()" :disabled="commitAble" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+        <el-button @click="dialogVisibleSubmit = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+      </span>
+    </el-dialog>
+  </template>
+
+
+</div>
+
+</div>

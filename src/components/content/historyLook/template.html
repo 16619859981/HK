@@ -1,0 +1,73 @@
+<div>
+    <!-- 头部 -->
+    <div class="header-header">
+        <h3>
+            <!-- <a @click="a()">内容管理</a>-<a @click="a()">专辑审核</a>-<a @click="b()">历史记录</a> -->
+        </h3>
+        <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+        <br>
+
+        <span style="margin-right: 20px;margin-top:10px;" class="active_title">查看历史记录</span>
+
+
+        <!-- <span>创建视频专辑</span> -->
+
+    </div>
+    <!-- 创建专辑的内荣 -->
+    <div class="albumContent">
+        <div class="msg">
+            <div class="title">
+                <!-- <i></i> -->
+                <span></span>
+            </div>
+
+            <el-form :model="tableData" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                <div class="top">
+                    <el-form-item label="专辑名称:">
+
+                        <span>{{tableData.auditAlbum}}</span>
+                    </el-form-item>
+                    <el-form-item label="专辑标签:">
+
+                        <span>{{tableData.auditLable}}</span>
+                    </el-form-item>
+                    <el-form-item label="专辑分类:">
+
+                        <span>{{tableData.auditCategory}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="专辑简介:">
+                        <span>{{tableData.auditIntro}}</span>
+
+                    </el-form-item>
+                    <el-form-item label="原因:" v-if="tableData.auditStatus==2">
+                        <span>{{tableData.auditReason}}</span>
+
+                    </el-form-item>
+                    <el-form-item label="专辑封面:">
+                 
+                            <el-popover placement="right" height="500" trigger="click" style="padding:0;border:none">
+                                <img :src="tableData.auditFile" class="avatar" style="width:500px;height:500px;">
+                                <el-button slot="reference" style="padding:0;border:none">
+                                  <img :src="tableData.auditFile" class="avatar">
+                                </el-button>
+                              </el-popover>
+             
+
+                    </el-form-item>
+             
+           
+                </div>
+      
+            </el-form>
+
+
+        </div>
+
+    </div>
+      
+
+
+</div>
+
+</div>

@@ -1,0 +1,77 @@
+<div>
+  <!-- 头部 -->
+  <div class="header-header">
+    <h3>
+      <!-- <a @click=" a() ">内容管理</a>- -->
+      <!-- <a @click=" a() ">专辑管理</a> -->
+    </h3>
+    <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+    <br>
+    <span style="margin-right: 20px;margin-top:10px;" class="active_title">查看评论</span>
+
+
+    <!-- <span>创建视频专辑</span> -->
+
+  </div>
+  <!-- 创建专辑的内荣 -->
+  <div class="albumContent">
+    <div class="msg">
+      <div class="title">
+        <!-- <i></i> -->
+        <!-- <span>专辑信息</span> -->
+      </div>
+
+      <el-form :model="tableData" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <div class="top">
+          <!-- <el-form-item label="文字评论:" >
+
+            <span>{{tableData.content}}</span>
+
+          </el-form-item>
+
+          <el-form-item  label="图片评论:" style="width: 800px;">
+            <el-popover placement="right" height="500" trigger="click" style="padding:0;border:none;" :key="index" v-for="(item,index) in tableData.activityFileUrl">
+              <img :src="item.file" class="avatar" style="width:500px;height:500px;">
+              <el-button slot="reference" style="padding:0;border:none; margin-right: 30px; margin-top: 10px;">
+
+                <img :src="item.file" class="avatar">
+
+
+
+              </el-button>
+            </el-popover>
+          </el-form-item>
+          <el-form-item  label="语音评论:" style="width: 800px;">
+            <audio controls :src="tableData.activityFileUrl1"></audio>
+          </el-form-item>
+          <el-form-item  label="视频评论:" style="width: 800px;height:100%">
+            <video controls :src="tableData.activityFileUrl2" :poster="img" style="width:200px;height:220px;"></video>
+          </el-form-item> -->
+
+
+
+          <el-form-item label="评论内容:" style="width: 700px;" >
+            <span style="display:block">{{tableData.content}}</span>
+            <div v-for="(item,index) in tableData.files" :key="index" style="width: 150px; height: 150px; display: inline-block; margin-right: 50px; margin-bottom: 50px; vertical-align: middle;">
+              <img v-if="item.type == 3" :src="item.url" alt="" style="width: 150px; height: 150px">
+              <audio v-if="item.type == 2" controls="controls" :src="item.url" style="width: 150px; height: 150px"></audio>
+              <video v-if="item.type == 1" controls="controls" :src="item.url" style="width: 150px; height: 150px"></video>
+            </div>
+        
+          </el-form-item>
+        </div>
+      </el-form>
+      </div>
+
+<!-- 
+    </div> -->
+
+  </div>
+
+
+
+
+
+</div>
+
+</div>

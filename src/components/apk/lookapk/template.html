@@ -1,0 +1,37 @@
+<div>
+    <div class="breadcrumb">
+        <a href="#">app管理</a>
+        <a href="#" class="active">查看安装包</a>
+      </div>
+  <!-- 创建专辑的内荣 -->
+  <div class="albumContent">
+    <div class="msg">
+      <!-- <div class="title">
+      </div> -->
+      <el-form :model="tableData" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <div class="top">
+          <el-form-item label="版本号:">
+            <span>{{tableData.packageVersion}}</span>
+          </el-form-item>
+          <el-form-item label="版本名:">
+            <span>{{tableData.packageVersionName}}</span>
+          </el-form-item>
+          <el-form-item label="应用类型:">
+            <span>{{tableData.packageType}}</span>
+          </el-form-item>
+          <el-form-item label="更新类型:">
+            <span>{{tableData.packageUtype}}</span>
+          </el-form-item>
+          <el-form-item label="更新日志:">
+              <span>{{tableData.packageLog}}</span>
+            </el-form-item>
+          
+  
+        </div>
+        
+      </el-form>
+    </div>
+  </div>
+
+</div>
+</div>

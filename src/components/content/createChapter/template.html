@@ -1,0 +1,37 @@
+<div>
+   <!-- 内容管理-专辑管理头 -->
+   <!-- <div class="header-header"></div> -->
+    <div class="header-header">
+        <h3>内容管理-专辑管理
+        </h3>
+        <span style="margin-right: 20px;" class="active_title">选择专辑类型</span>
+    
+       
+       
+      </div>
+
+  <div class="box"> 
+      <div class="audio" @click="createAudio()">
+          <div class="top">
+              <img src="./audio.png" alt="" style="margin-bottom: 45px;width: 200px;height:200px;">
+              <p>创建音频争章</p>
+          </div>
+          <div class="bottom">
+              <p>仅限于上传音频文件</p>
+              <p>音频不可传播</p>
+              <p>需管理员审核通过方可上传成功</p>
+          </div>
+      </div>
+      <div class="video"  @click="createVideo()">
+        <div class="top">
+            <img src="./video.png" alt="" style="margin-bottom: 45px;width: 200px;height:200px;">
+            <p>创建视频争章</p>
+        </div>
+        <div class="bottom">
+            <p>仅限于上传视频文件</p>
+            <p>视频不可传播</p>
+            <p>需管理员审核通过方可上传成功</p>
+        </div>
+      </div>
+  </div>
+</div>

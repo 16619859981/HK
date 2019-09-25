@@ -1,0 +1,205 @@
+<div>
+  <!-- 头部 -->
+  <div class="header-header">
+    <el-button style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+    <br>
+    <span @click="createVote()" class="active_title">编辑活动</span>
+
+  </div>
+  <!-- 创建专辑的内荣 -->
+  <div class="albumContent">
+    <div class="msg">
+      <div class="picMsg">
+        <el-form :inline="true" :rules="rules" v-loading="loading" :model="ruleForm" class="demo-form-inline">
+          <el-form-item label="活动名称：" prop="activityName">
+            <el-input v-model="ruleForm.activityName" placeholder="请输入活动名称，最多20个字" style="width:300px;"></el-input>
+          </el-form-item>
+         
+          <br>
+          <el-form-item label="开始时间：" prop="activityStime" v-if="sTime == 0">
+            <div class="block">
+              <el-date-picker v-model="ruleForm.activityStime" value-format="timestamp" type="date" placeholder="选择日期"
+                style="width:300px;">
+              </el-date-picker>
+            </div>
+          </el-form-item>
+          <el-form-item label="开始时间：" prop="activityStime" v-if="sTime == 1">
+            <div class="block">
+              <el-date-picker v-model="ruleForm.activityStime" disabled value-format="timestamp" type="date"
+                placeholder="选择日期" style="width:300px;">
+              </el-date-picker>
+            </div>
+          </el-form-item>
+          <br>
+          <el-form-item label="结束时间：" prop="activityEtime">
+            <div class="block">
+              <el-date-picker v-model="ruleForm.activityEtime" value-format="timestamp" type="date" placeholder="选择日期"
+                style="width:300px;">
+              </el-date-picker>
+            </div>
+          </el-form-item>
+          <br>
+          <el-form-item label="发布对象：" prop="area" v-if="activityUserName == 1">
+            <span class="activityAreaName">{{ ruleForm.activityAreaName }}</span>
+          </el-form-item>
+          <!-- <el-form-item label="发布对象：" prop="area" v-if="activityUserName == 2">
+            <span class="activityAreaName">{{ ruleForm.activityAreaName }}</span>
+            <el-button style="background-color: #409eff; color: #fff;" @click="more()" v-show="activityAreaNum == 0">增加发布对象</el-button>
+            <el-select v-model="activityArea" multiple filterable allow-create default-first-option placeholder="请选择发布对象"
+              style="width:300px;" @change="val1(activityArea)" v-show="activityAreaNum == 1">
+              <el-option v-for="(item,index) in per" :key="index" :label="item.name" :value="item.id">
+              </el-option>
+            </el-select>
+            <el-button style="background-color: #409eff; color: #fff;" @click="noMore()" v-show="activityAreaNum == 1">清除</el-button>
+          </el-form-item> -->
+          <br>
+ 
+
+
+          <el-form-item label="活动简介：" prop="desc">
+            <div>
+            <vue-ueditor-wrap v-model="ruleForm.activityIntro" :config="myConfig" style="width:800px;height:200px;"></vue-ueditor-wrap>
+            </div>
+          </el-form-item>
+          <br>
+
+          <el-form-item label="活动封面:" prop="img">
+            <!-- <el-input type="textarea" v-model="ruleForm.desc"></el-input> -->
+            <el-upload class="avatar-uploader" style="border:1px solid #ccc;width:400px;height:250px;margin-left: 10px;; position: relative;"
+              :action=action :show-file-list="false" :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="imageUrl" :src="imageUrl" class="avatar" style="width:400px;height:250px; ">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+            <div style="color:#ccc;font-size: 12px; position: absolute;left:430px;top:28px; line-height: 22px;width: 300px;">
+              <p>上传尺寸要求宽高比例8：5</p>
+              <p>推荐最佳尺寸为800*500，最小尺寸应大于400*250</p>
+              <p>图片须小于1MB</p>
+              <p>图片支持格式jpeg、jpg、png、bmp</p>
+
+            </div>
+          </el-form-item>
+          <br>
+ 
+          <el-form-item label="归属专题：" style="margin-left: 10px;">
+            <el-select v-model="ruleForm.activitySubjectId" placeholder="可选择将活动归属到合适的专题下" style="width:300px;">
+              <el-option v-for="item in options" :key="item.subjectId" :label="item.subjectName" :value="item.subjectId">
+              </el-option>
+            </el-select>
+            <el-button style="background-color: #409eff; color: #fff;" @click="clear()" v-show="ruleForm.activitySubjectId != ''">清除</el-button>
+          </el-form-item>
+          <br>
+          <el-form-item label="是否推送红卡设备:" prop="activityRadio" v-if="activityRadioNum == 0">
+
+            <el-radio v-model="ruleForm.activityRadio" label="1">是</el-radio>
+            <el-radio v-model="ruleForm.activityRadio" checked label="2">否</el-radio>
+
+          </el-form-item>
+          <el-form-item label="是否推送红卡设备:" prop="activityRadio" v-if="activityRadioNum == 1">
+
+            <el-radio v-model="ruleForm.activityRadio" disabled label="1">是</el-radio>
+            <el-radio v-model="ruleForm.activityRadio" disabled label="2">否</el-radio>
+
+          </el-form-item>
+          <br>
+          <el-form-item label="活动发布时间：" prop="activityItime" v-if="releaseTime == 0">
+            <div class="block">
+              <el-date-picker v-model="ruleForm.activityItime" value-format="timestamp" type="date" placeholder="选择日期"
+                style="width:300px;">
+              </el-date-picker>
+            </div>
+          </el-form-item>
+          <el-form-item label="活动发布时间：" prop="activityItime" v-if="releaseTime == 1">
+            <div class="block">
+              <el-date-picker v-model="ruleForm.activityItime" disabled value-format="timestamp" type="date"
+                placeholder="选择日期" style="width:300px;">
+              </el-date-picker>
+            </div>
+          </el-form-item>
+          <br>
+          <el-form-item label="评论是否全天:" prop="activityRadio">
+
+            <el-radio v-model="ruleForm.activityIssingle" label="1">是</el-radio>
+            <el-radio v-model="ruleForm.activityIssingle" label="2">否</el-radio>
+
+          </el-form-item>
+          <br>
+
+          <!-- <el-form-item label="评论开始时间：" prop="activityDayStartTime" v-if="activityDayStartTimeNum == 0">
+            <div class="block">
+              <el-time-picker v-model="ruleForm.activityDayStartTime" value-format="timestamp" placeholder="请选择评论开始时间" style="width:300px;">
+              </el-time-picker>
+            </div>
+          </el-form-item> -->
+          <el-form-item label="评论开始时间：" prop="activityDayStartTime" v-if="ruleForm.activityIssingle == 2">
+            <div class="block">
+              <el-time-picker v-model="ruleForm.activityDayStartTime" value-format="timestamp" placeholder="请选择评论开始时间" style="width:300px;">
+              </el-time-picker>
+            </div>
+          </el-form-item>
+          <br v-if="ruleForm.activityIssingle == 2">
+          <!-- <el-form-item label="评论结束时间：" prop="activityDayEndTime" v-if="activityDayEndTimeNum == 0">
+            <div class="block">
+              <div class="block">
+                <el-time-picker v-model="ruleForm.activityDayEndTime" value-format="timestamp" placeholder="请选择评论结束时间" style="width:300px;">
+                </el-time-picker>
+              </div>
+            </div>
+          </el-form-item> -->
+          <el-form-item label="评论结束时间：" prop="activityDayEndTime" v-if="ruleForm.activityIssingle == 2">
+            <div class="block">
+              <div class="block">
+                <el-time-picker v-model="ruleForm.activityDayEndTime" value-format="timestamp" placeholder="请选择评论结束时间" style="width:300px;">
+                </el-time-picker>
+              </div>
+            </div>
+          </el-form-item>
+          <br v-if="ruleForm.activityIssingle == 2">
+          <el-form-item label="活动评论类型：" prop="activityLimitType">
+            <el-select v-model="ruleForm.activityLimitType" placeholder="请选择活动评论类型" style="width:300px;">
+              <el-option label="不设权限" value="1"></el-option>
+              <el-option label="必须包含视频" value="2"></el-option>
+              <el-option label="必须包含音频" value="3"></el-option>
+              <el-option label="必须包含图片" value="4"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+      </div>
+
+
+
+    </div>
+
+    <!-- 提交的弹框 -->
+    <template>
+      <el-dialog title="提示" :visible.sync="dialogVisible" width="50%" height="500px;">
+        <span>确认提交?</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="handleForm()" size="mini">确定</el-button>
+          <el-button @click="dialogVisible = false" size="mini"> 取消</el-button>
+        </span>
+      </el-dialog>
+    </template>
+ <!-- 取消的弹框 -->
+ <template>
+  <el-dialog title="提示" :visible.sync="dialogVisibleDel" width="50%" height="500px;">
+    <span>取消提交?</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="cancel" size="mini">确定</el-button>
+      <el-button @click="dialogVisibleDel = false" size="mini"> 取消</el-button>
+    </span>
+  </el-dialog>
+</template>
+
+
+
+
+  </div>
+  <div class="btn">
+    <el-button style="background-color: #409eff;" @click="submit()">提交</el-button>
+    <el-button @click="dialogVisibleDel=true">
+      取消
+    </el-button>
+  </div>
+
+</div>

@@ -1,0 +1,131 @@
+<div>
+    <div class="breadcrumb">
+        <a href="#">硬件管理</a>
+        <a href="#" class="active">硬件出库</a>
+      </div>
+  <div class="table-content">
+    <!-- 搜索列表选项框 -->
+    <div class="table-search">
+      <div class="search-top">
+        <div class="search-title">
+          <!-- <i></i> -->
+          <!-- <p style="margin-left: 10px;"> 搜索</p> -->
+
+        </div>
+        <div class="search-list">
+          <el-form :inline="true" :model="deviceForm" class="demo-form-inline" >
+            <el-form-item >
+              <el-input @change="fushu"   v-model="deviceForm.deviceNumber" placeholder="设备号" size="mini" style="width:186px;"></el-input>
+            </el-form-item>
+            <el-form-item >
+
+              <el-select v-model="deviceForm.deviceltime" placeholder="使用状态" size="mini" style="width:186px;">
+                <el-option label="全部" value="0"></el-option>
+
+                <el-option label="刚刚" value="1"></el-option>
+                <el-option label="一小时前" value="2"></el-option>
+                <el-option label="一天前" value="3"></el-option>
+
+                <el-option label="一周前" value="4"></el-option>
+
+                <el-option label="一个月前" value="5"></el-option>
+                <el-option label="一年前" value="6"></el-option>
+                <el-option label="一年后" value="7"></el-option>
+                <el-option label="未使用" value="8"></el-option>
+
+              </el-select>
+            </el-form-item>
+
+             <el-form-item>
+                <el-button @click="handleList2()" style="padding: 8px 78px;
+                        font-size: 14px;
+                        background-color: #409EFF;
+                        color: #fff;
+                        margin-top: 6px; 
+                    ">搜索</el-button>
+              </el-form-item>
+          </el-form>
+
+        </div>
+      </div>
+      <!-- <div class="search-button">
+        <el-button size="mini">搜索</el-button>
+      </div> -->
+    </div>
+    <!-- 表格 -->
+    <div class="table-box">
+      <template>
+        <div class="details-Date">
+          <!-- <i></i> -->
+          <p> 详细数据</p>
+          <ul style="float:right;">
+            
+            <li>
+              <el-button size="mini" @click="downmodel()">下载模板</el-button>
+            </li>
+            <li>
+              <el-upload
+              class="upload-demo"
+              :action="importUrl"
+              :headers="headers"
+              :on-change="handleChange"
+              :show-file-list = false
+              size="small"
+              :on-success="handleAvatarSuccess"
+            
+             >
+              <el-button size="small" >出库导入</el-button>
+       
+            </el-upload>
+            </li>
+            <!-- <li>
+                <el-button size="mini" @click="download()">导出本页数据</el-button>
+            </li> -->
+     
+          </ul>
+
+        </div>
+        <!-- 表格 -->
+        <el-table v-loading="loading" :data="tableData" id="div" style="width: 100%" :header-cell-style="getRowClass" :row-style="tabH" :cell-style="tabP"  :default-sort="{prop: 'date', order: 'descending'}" >
+      
+          <el-table-column prop="deviceNumber" label="设备号" header-align="center">
+          </el-table-column>
+
+          <el-table-column prop="deviceltimeStr" label="使用状态"  header-align="center">
+          </el-table-column>
+          <!-- <el-table-column prop="time" label="操作时间" >
+          </el-table-column> -->
+          <el-table-column  label="操作" width="150"  header-align="center" >
+            <template slot-scope="scope">
+              <a @click="out(scope.row)" style="color:#F56C6C;padding: 4px 8px; font-size: 12px">出库</a>
+
+            </template>
+          </el-table-column>
+       
+        </el-table>
+
+        <!-- 分页 -->
+        <el-pagination @current-change="handleCurrentChange"  :currentPage="currentPage" :page-size="10" layout="total, prev, pager, next, jumper" :total="total" style="margin-top: 10px;margin-bottom: 10px;">
+        </el-pagination>
+      </template>
+    </div>
+  </div>
+
+<!-- 弹框 -->
+<el-dialog
+ title="硬件出库"
+ :visible.sync="dialogVisibleStatus"
+ width="30%"
+
+ >
+ <span>出库设备会同时解除孩子的绑定关系，请确认是否出库？</span>
+ <span slot="footer" class="dialog-footer">
+   <el-button @click="outSubmit()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+   <el-button  @click="dialogVisibleStatus = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+ </span>
+</el-dialog>
+
+
+
+
+</div>

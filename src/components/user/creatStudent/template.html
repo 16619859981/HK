@@ -1,0 +1,70 @@
+<div>
+    <!-- 头部 -->
+    <div class="header-header">
+        <h3>用户管理-学校管理-学生列表-创建学生
+        </h3>
+        <span style="margin-right: 20px;" class="active_title">创建学生</span>
+
+        <!-- <span>创建视频专辑</span> -->
+
+    </div>
+    <!-- 创建专辑的内容 -->
+    <div class="albumContent">
+        <div class="msg">
+            <div class="title">
+                <i></i>
+                <span>班级信息</span>
+            </div>
+
+            <el-form :model="creatStudent" :rules="rules" ref="ruleForm" label-width="100px" class="ruleForm" :inline="true">
+                <div class="top">
+
+                    <el-form-item label="学生姓名:" prop="student_name">
+                        <el-input v-model="creatStudent.student_name" style="width: 380px;"></el-input>
+                      </el-form-item>
+                      <el-form-item label="学生性别:" prop="student_sex">
+                          <el-select v-model="creatStudent.student_sex" placeholder="请选择学生性别" style="width: 380px;">
+                              <el-option label="男" value="0"></el-option>
+                              <el-option label="女" value="1"></el-option>
+                          </el-select>
+                      </el-form-item>
+                      <!-- <el-form-item label="学生年级:" prop="class_grade">
+                          <el-select v-model="creatStudent.class_grade" placeholder="请选择学生性别" style="width: 380px;"> 
+                              <el-option label="一年级" value="1"></el-option>
+                              <el-option label="二年级" value="2"></el-option>
+                              <el-option label="三年级" value="3"></el-option>
+                              <el-option label="四年级" value="4"></el-option>
+                              <el-option label="五年级" value="5"></el-option>
+                              <el-option label="六年级" value="6"></el-option>
+                          </el-select>
+                      </el-form-item>
+            
+                      <el-form-item label="学生班级:" prop="class_name">
+                          <el-input v-model="creatStudent.class_name" style="width: 380px;"></el-input>
+                        </el-form-item> -->
+
+                    
+                </div>
+
+                
+                
+            </el-form>
+
+            
+
+            
+         
+           
+        </div>
+        <div class="btn">
+                <el-button @click="submit()">提交</el-button>
+                <el-button @click="del()">
+                    取消
+                </el-button>
+        </div>
+    </div>
+
+
+</div>
+
+</div>

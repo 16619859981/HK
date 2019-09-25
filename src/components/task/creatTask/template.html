@@ -1,0 +1,40 @@
+<div class="box-box">
+    <!-- 内容管理-专辑管理头 -->
+    <!-- <div class="header-header"></div> -->
+     <div class="header-header">
+         <h3>
+             <!-- <a @click=" a() ">内容管理</a>-<a @click=" a() ">专辑管理</a> -->
+         </h3>
+         <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+         <br>
+ 
+         <span style="margin-right: 20px;margin-top:10px;" class="active_title">选择任务类型</span>
+ 
+     
+        
+        
+       </div>
+ 
+   <div class="box"> 
+       <div class="audio" @click="cR()">
+           <div class="top">
+               <img src="./video.png" alt="" style="margin-bottom: 17px; margin-top: 15px; width: 100px; height: 100px;">
+               <p class="pC">添加阅读类任务</p>
+           </div>
+           <div class="bottom">
+               <p>发布音视频阅读任务</p>
+               <p>后台自动计算完成人数</p>
+           </div>
+       </div>
+       <div class="video"  @click="cO()">
+         <div class="top">
+             <img src="./over.png" alt="" style="margin-bottom: 17px; margin-top: 15px; width: 100px; height: 100px;">
+             <p class="pC">添加完成类任务</p>
+         </div>
+         <div class="bottom">
+             <p>发布图文或视频</p>
+             <p>需要对用户提交的任务进行处理</p>
+         </div>
+       </div>
+   </div>
+ </div>

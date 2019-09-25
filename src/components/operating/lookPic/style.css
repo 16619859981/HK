@@ -1,0 +1,115 @@
+.header-header {
+    width: 100%;
+    height: 58px;
+    padding-left:15px;
+    /* border-bottom: 1px solid #ccc; */
+    /* margin-bottom: 20px; */
+    position: relative;
+  }
+  
+  .header-header h3 {
+    font-size: 20px;
+
+  }
+  
+  .header-header span{
+    font-size: 14px;
+    margin-top: 20px;
+    display: inline-block;
+    /* padding-bottom: 5px; */
+ 
+    
+  }
+  .header-header span:hover {
+    cursor: pointer;
+}
+  .active_title {
+      border-bottom:2px solid #409eff;
+      color:#409eff;
+  }
+  .albumContent {
+    padding:10px;
+   
+  }
+  .albumContent .msg {
+      padding:15px;
+      border:1px solid #ccc;
+      padding-top:20px;
+  }
+  /* title */
+  .albumContent .msg  .title {
+        height:60px;
+        line-height: 60px;
+        /* font-weight: 700; */
+        position: relative;
+  }
+  .albumContent .msg  .title span {
+      margin-left: 10px;
+  }
+  .albumContent .msg  .title i {
+      position: absolute;
+      left:0px;
+      top:20px;
+      display: inline-block;
+      width: 3px;
+      height:20px;
+      background-color: #969696;
+  }
+
+
+
+.bottom .el-button {
+    border:none;
+    background-color: #409eff;
+    color:#fff;
+}
+.btn {
+    text-align: center;
+  }
+  
+  .btn .el-button {
+    margin-top: 30px;
+    padding: 10px 30px;
+    border-radius: 5px;
+    font-size: 18px;
+    text-align: center;
+    letter-spacing: 2px;
+  }
+  
+  .btn .el-button:first-child {
+    border: none;
+    background-color: #409EFF;
+    color: #fff;
+    margin-right: 20px;
+  }
+  
+  .btn .el-button:nth-child(2) {
+    border: 1px solid #409EFF;;
+    background-color: #fff;
+    color: #409EFF;
+  }
+/* 图片上传 */
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 150px;
+    height: 150px;
+    line-height: 150px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+

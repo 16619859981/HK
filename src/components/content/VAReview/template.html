@@ -1,0 +1,231 @@
+<div>
+
+  <!-- 内容管理头 -->
+  <div class="header-header">
+    <h3>
+      <!-- <a>内容管理</a> -->
+    </h3>
+    <!-- <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button> -->
+    <br>
+    <span style="margin-right: 20px;margin-top:10px;" class="active_title">节目审核</span>
+
+
+
+  </div>
+  <!-- 内容表格 -->
+  <div class="table-content">
+    <!-- 搜索列表选项框 -->
+    <div class="table-search">
+      <div class="search-top">
+        <div class="search-title">
+          <!-- <i></i> -->
+          <!-- <p style="margin-left: 10px;"> 搜索</p> -->
+
+        </div>
+        <div class="search-list">
+          <el-form :inline="true" :model="formInline" class="demo-form-inline">
+            <el-form-item label="节目编号：">
+              <el-input v-model="formInline.id"   @change="fushu" placeholder="请输入节目编号" size="mini" style="width:140px;"></el-input>
+            </el-form-item>
+            <el-form-item label=" 关  键  字 ：">
+              <el-input v-model="formInline.key" placeholder="请输入关键字" size="mini" style="width:140px;"></el-input>
+            </el-form-item>
+            <el-form-item label="类　　型：">
+              <el-select v-model="formInline.type" placeholder="请选择" size="mini" style="width:140px;">
+                <el-option label="全部" value="0"></el-option>
+
+                <el-option label="音频" value="1"></el-option>
+                <el-option label="视频" value="2"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="创建时间：" style="margin-right: 65px;">
+              <el-date-picker v-model="formInline.startTime" type="date" placeholder="选择日期" size="mini" style="width:140px;" value-format="timestamp">
+              </el-date-picker>
+              -
+              <el-date-picker v-model="formInline.endTime" type="date" placeholder="选择日期" size="mini" style="width:140px;" value-format="timestamp">
+              </el-date-picker>
+
+
+            </el-form-item>
+            <el-button class="search-button btnMin" size="mini" @click="albumReview2()" style="padding: 7px 19px;
+            font-size: 12px;
+            background-color: #409eff;
+            color: #fff;
+            
+        ">搜索</el-button>
+
+            <!-- <el-button size="mini"  class="search-button btnMin" style="padding: 4px 8px; font-size: 12px" @click='albumReview()'>搜索</el-button> -->
+          </el-form>
+
+        </div>
+      </div>
+      <div class="search-button">
+        
+      </div>
+    </div>
+    <!-- 表格 -->
+    <div class="table-box">
+      <template>
+        <div class="details-Date">
+          <!-- <i></i> -->
+          <!-- <p> 节目信息</p> -->
+          <ul style="float:right;">
+
+            <li>
+              <el-button size="mini" @click="handelHistory()" class="btnMin">历史记录</el-button>
+            </li>
+            <!-- <li>
+              <el-button size="mini" class="btnMin" @click="download()">导出本页数据</el-button>
+            </li> -->
+            <!-- <li> -->
+              <!-- <el-button size="mini" class="btnMin">全部数据</el-button> -->
+            <!-- </li> -->
+          </ul>
+
+        </div>
+        <!-- 表格 -->
+        <el-table v-loading="loading"  :data="tableData" :header-cell-style="getRowClass" style="width: 100%" :row-style="tabH" :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}">
+
+
+
+          <el-table-column prop="materialId" label="节目编号" width="195" header-align="center">
+          </el-table-column>
+          <el-table-column prop="materialName" label="节目名称" width="195" header-align="center">
+
+              <template slot-scope="scope">
+                  <span class="demo" style="width: 175px;text-overflow:ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;text-align: center;" :title="scope.row.materialName">{{scope.row.materialName}}</span>
+              </template>
+          </el-table-column>
+
+          <el-table-column prop="materialType" label="类型" header-align="center">
+          </el-table-column>
+          <el-table-column prop="materialAlbumName" label="所属专辑" header-align="center">
+          </el-table-column>
+          <el-table-column prop="materialPublisherName" label="创建人" header-align="center">
+          </el-table-column>
+          <el-table-column prop="materialCtime" label="创建时间" header-align="center">
+          </el-table-column>
+
+          <el-table-column label="操作" header-align="center">
+            <template slot-scope="scope">
+              <a @click="check(scope.row)" style="color:#409eff">审核</a>
+
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <!-- 分页 -->
+        <el-pagination @current-change="handleCurrentChange" style="margin-top: 10px;margin-bottom: 10px;" :currentPage="currentPage" :page-size="10" layout="total, prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
+      </template>
+    </div>
+  </div>
+
+  <!--音频弹框 -->
+  <template>
+    <el-dialog title="审核" :visible.sync="audio_outerVisible" class="checkDialog" @close="closeDialog" :closeOnClickModal="false">
+      <!-- 内框 -->
+      <el-dialog width="30%" title="系统提示" :visible.sync="audio_innerVisible" append-to-body>
+        <el-form>
+          <el-form-item label="不通过理由:">
+            <el-input v-model="reason" type="textarea" :autosize="{ minRows: 3, maxRows: 3 }" style="width:370px;"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisiblenoPass = true" style="padding: 12px 24px; font-size: 12px">提交</el-button>
+          <!-- <el-button @click="audio_innerVisible = false,audio_outerVisible = false">提交</el-button> -->
+          <el-button @click="audio_innerVisible = false,audio_outerVisible = true" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+        </div>
+      </el-dialog>
+      <!-- 外框 -->
+      <el-form label-width="120px">
+
+
+        <!-- <i style="width: 100%;height:1px;display: inline-block;background-color: #ccc;margin-top: 30px;margin-bottom: 40px;"></i> -->
+        <el-form-item label="节目名称：" style="border:none">
+          <span v-model="checkMsg.materialName" readonly style="width:300px;border:none">{{checkMsg.materialName}}</span>
+        </el-form-item>
+        <!-- <el-form-item label="作   者：">
+          <span v-model="checkMsg.materialAuthor" readonly style="width:300px;">{{checkMsg.materialAuthor}}</span>
+        </el-form-item> -->
+        <el-form-item label="专辑名称：">
+          <span v-model="checkMsg.materialAlbumName" readonly style="width:300px;">{{checkMsg.materialAlbumName}}</span>
+        </el-form-item>
+        <el-form-item label="专辑简介：">
+          <span>          
+            <div type="textarea" v-model="checkMsg.materialAlbumIntro" readonly style="width:300px;overflow:hidden;
+          text-overflow:ellipsis;
+          white-space:nowrap"
+          :title="checkMsg.materialAlbumIntro">{{checkMsg.materialAlbumIntro}}</div>                                                                 
+          <!--  -->
+          </span>
+        </el-form-item>
+        <el-form-item   v-if="checkMsg.materialType==1"label="节目时长：">
+          <span readonly style="width:300px;">{{checkMsg.materialDuration}}</span>
+        </el-form-item>
+        <!-- <el-form-item v-if="checkMsg.materialType==1" label="节目时长:" >
+          <span v-if="checkMsg.materialType==1">{{checkMsg.materialDuration}}</span>
+        </el-form-item> -->
+        <el-form-item label="节目内容：" style="position: relative;width:500px;">
+
+          <audio v-if="checkMsg.materialType==1" controls="controls" :src="checkMsg.fileUrl1" id="media"
+          />
+          <video v-if="checkMsg.materialType==2" controls="controls" style="width:300px;height:200px;" id="media" :src="checkMsg.fileUrl1"
+          />
+        </el-form-item>
+
+        <el-form-item v-if="checkMsg.materialType==2" label="视频封面:" style="position: relative;margin-top: 50px;width:500px;"></el-form-item>
+        <el-popover v-if="checkMsg.materialType==2" placement="right" height="500" trigger="click" style="padding:0;border:none">
+          <img v-if="checkMsg.materialType==2" :src="checkMsg.fileUrl" class="avatar" style="width:500px;height:500px;">
+          <el-button slot="reference" v-if="checkMsg.materialType==2" style="padding:0;border:none; margin-left: 120px; width: 150px; height: 150px;">
+            <img v-if="checkMsg.materialType==2" :src="checkMsg.fileUrl" class="avatar" style="width: 100%;height:100%;">
+          </el-button>
+
+        </el-popover>
+
+
+        <!-- <img  v-if="checkMsg.materialType==2" :src="checkMsg.fileUrl" style="width: 300px;height:200px; margin-left: 120px;" alt="">     -->
+        </el-form-item>
+
+      </el-form>
+      <div slot="footer" class="dialog-footer footers" style="border:none;">
+
+        <el-button @click="Pass(checkMsg.materialId,checkMsg.materialAlbumName)" style="padding: 12px 24px; font-size: 12px">通过</el-button>
+        <el-button @click="noPass(checkMsg.materialId,checkMsg.materialAlbumName)" style="padding: 12px 24px; font-size: 12px">不通过</el-button>
+      </div>
+    </el-dialog>
+  </template>
+
+
+
+  <!-- 通过弹框 -->
+  <template>
+    <el-dialog title="审核" :visible.sync="dialogVisiblePass" width="50%" height="500px;">
+      <span>确认要通过此节目的审核么?</span>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="pass()" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+        <el-button @click="dialogVisiblePass = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+      </span>
+    </el-dialog>
+
+  </template>
+
+  <!-- 不通过弹框 -->
+  <template>
+    <el-dialog title="审核" :visible.sync="dialogVisiblenoPass" width="50%" height="500px;">
+      <span>确认不通过此节目的审核么?</span>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="noPassSubmit()" style="padding: 12px 24px; font-size: 12px">确定</el-button>
+        <el-button @click="dialogVisiblenoPass = false,audio_innerVisible = false,audio_outerVisible = true" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+      </span>
+    </el-dialog>
+
+  </template>
+
+
+
+
+</div>

@@ -1,0 +1,264 @@
+<div>
+  <div class="breadcrumb">
+    <a href="#">活动管理</a>
+    <a href="#" @click="goActiveManagement">活动列表</a>
+    <a href="#" class="active">编辑活动</a>
+  </div>
+  <div class="box-top">
+    <el-steps :active="active" finish-status="success">
+      <el-step title="创建活动"></el-step>
+      <el-step title="选择类型"></el-step>
+      <!-- <el-step title="打卡选项"></el-step> -->
+      <el-step title="活动详情" @click.native="theFourth"></el-step>
+      <el-step title="选填(奖章)" @click.native="theFifth"></el-step>
+      <el-step title="发布活动" @click.native="thesixth"></el-step>
+    </el-steps>
+  </div>
+
+
+  <div class="box-box-box">
+
+    <div class="box-bottom">
+      <el-form :model="lookForm" :rules="rules" ref="lookForm" label-width="100px" class="ruleForm">
+        <div class="top-one">
+          <div class="one-one">
+            <el-upload class="avatar-uploader" 
+            style="border:1px dashed #D8DCE6;width:400px;height:250px; position: relative;margin-left: -6px;"
+            action=""             
+            :auto-upload="false"
+            :show-file-list="false"
+            :on-change="changeUpload" 
+              :before-upload="beforeAvatarUpload">
+              <img v-if="imgSRC" :src="imgSRC" class="avatar" style="width:400px;height:250px; ">
+              <i v-else class="el-icon-plus avatar-uploader-icon" style="line-height: 250px; color: #D8DCE6;"></i>
+            </el-upload>
+            <div v-show="imgSRC == ''" style="color:#ccc;font-size: 12px; position: absolute;left:58px;top:158px; line-height: 22px;width: 300px;">
+              <p>推荐最佳尺寸为800*500</p>
+              <p>图片必须小于1MB</p>
+              <p>图片支持格式jpeg、jpg、png</p>
+            </div>
+          </div>
+        </div>
+        <div class="top-top">
+          <el-form-item label="活动标题:">
+            <el-input v-model="lookForm.activityName" placeholder="请给我取个好听的标题吧" style="width: 320px;"></el-input>
+          </el-form-item>
+          <el-form-item label="活动分类:">
+            <el-select v-model="lookForm.category	" placeholder="选个好分类，更好的推荐出去" style="width:320px;">
+              <el-option v-for="(item, index) in activityCategoryOption" :key="index" :label="item.label" :value='item.value'></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="模式选择:">
+              <el-select v-model="lookForm.activityTaskSubJoins[0].type" disabled placeholder="打卡模式" style="width:320px;">
+                <el-option label="不限" value='0'></el-option>
+                <el-option label="必须包含文字" value='1'></el-option>
+                <el-option label="必须包含图片" value='2'></el-option>
+                <el-option label="必须包含音频" value='3'></el-option>
+                <el-option label="必须包含视频" value='4'></el-option>
+              </el-select>
+            </el-form-item>
+          <el-form-item label="结束时间:">
+            <el-date-picker v-model="lookForm.activityEtime" value-format="timestamp" type="date" placeholder="选择结束日期" style="width:320px;"></el-date-picker>
+            </el-date-picker>
+            </el-time-picker>
+          </el-form-item>
+          <el-form-item label="连续打卡天数:">
+              <el-input v-model="lookForm.activityTaskSubJoins[0].continuousDay" placeholder="只能填写数字0-365,0代表不限天数" style="width: 320px;" @blur.prevent="changeCount()"></el-input>
+            </el-form-item>
+            <!-- <el-form-item label="限时打卡:">
+              <el-time-picker is-range value-format="timestamp" v-model="lookForm.timer" range-separator="至"
+                start-placeholder="开始时间" end-placeholder="结束时间"   placeholder="选择时间范围" style="width: 320px;">
+              </el-time-picker>
+            </el-form-item> -->
+            <el-form-item label="限时打卡:">
+                <el-time-picker is-range value-format="timestamp" format="HH:mm" v-model="lookForm.activityTaskSubJoins[0].timer" range-separator="至"
+                  start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围" style="width: 320px;">
+                </el-time-picker>
+              </el-form-item>
+          <!-- <el-form-item label="参与范围:">
+            <el-select v-model="value1" placeholder="请选择省份" @change="valu1(value1)" style="width:158px;">
+              <el-option label="全国" value="9999"></el-option>
+              <el-option v-for="(item,index) in options1" :key="index" :label="item.areaName" :value="item.areaNumber">
+              </el-option>
+            </el-select>
+            <el-select v-model="value2" placeholder="请选择城市" @change="valu2(value2)" style="width:158px;">
+              <el-option v-for="(item,index) in options2" :key="index" :label="item.areaName" :value="item.areaNumber">
+              </el-option>
+            </el-select>
+          </el-form-item> -->
+          <!-- <el-form-item>
+            <el-button @click="next" style="margin-top: 20px;background: #F56C6C;padding: 12px 154px; color: #fff">下一步</el-button>
+          </el-form-item> -->
+        </div>
+      </el-form>
+      <div class="box-bottom-bottom">
+        <p style="color: #909399; text-align: left; margin-bottom: 20px;">详情: (点击添加模块最多20个)</p>
+        <div class="box-bottom-bottom-upload">
+          <div class="box-bottom-bottom-upload-text" @click="uploadText">
+            文字
+            <img class="box-bottom-bottom-upload-text-img" src="./yinpinbofang (3).png" alt="">
+          </div>
+          <div class="box-bottom-bottom-upload-text" @click="uploadImg">
+            图片
+            <img class="box-bottom-bottom-upload-text-img" src="./yinpinbofang (2).png" alt="">
+          </div>
+          <div class="box-bottom-bottom-upload-text" @click="uploadImg">
+            音频
+            <img class="box-bottom-bottom-upload-text-img" src="./yinpinbofang (4).png" alt="">
+          </div>
+          <div class="box-bottom-bottom-upload-text" @click="uploadImg">
+            视频
+            <img class="box-bottom-bottom-upload-text-img" src="./yinpinbofang (1).png" alt="">
+          </div>
+        </div>
+        <div class="upload-text" v-for="(item, index) in lookForm.activityIntro">
+          <el-input v-if="item.type == 'text'" type="textarea" :autosize="{ minRows: 5}" placeholder="请输入活动文字" v-model="item.areaText">
+          </el-input>
+          <img v-if="item.type == 'img'" :src="item.imgSrc" alt="" width="400px">
+          <audio  @play="playaudio(item.mp3Url)" v-if="item.type == 'mp3'" controls="controls" style="width: 400px; height: 70px;" :src="item.mp3Url"></audio>
+          <video  @play="playvideo(item.mp4Url)" v-if="item.type == 'mp4'" controls="controls" style="width: 400px;" :src="item.mp4Url"></video>
+          <div class="toolImg">
+            <img src="./del.png" alt="" class="toolImg-img" @click="divDel(index)">
+            <img src="./top.png" alt="" class="toolImg-img" @click="divTop(index)">
+            <img src="./bottom.png" alt="" class="toolImg-img" @click="divBottom(index)">
+          </div>
+        </div>
+        <div class="next-box">
+          <el-button @click="nextNext" style="margin-top: 20px; background: #409eff; padding: 12px 140px; color: #fff;">下一步</el-button>
+        </div>
+      </div>
+    </div>
+    <el-dialog title="上传图片" :visible.sync="dialogVisible" width="60%">
+      <el-upload class="avatar-uploader" drag style="width:506px;height:280px; position: relative;margin: 0 auto;"
+        :action=action :file-list="fileList" :on-success="handleAvatarSuccess1" :before-upload="beforeAvatarUpload1">
+        <!-- <i class="el-icon-plus avatar-uploader-icon" style="line-height: 250px; color: #D8DCE6;"></i> -->
+        <i class="el-icon-upload" style="margin: 80px 0 16px;"></i>
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <!-- <div class="el-upload__text">图片必须小于1MB</div>
+        <div class="el-upload__text">图片支持格式jpeg、jpg、png</div> -->
+        <!-- <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div> -->
+      </el-upload>
+      <span slot="footer" class="dialog-footer">
+        <!-- <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button> -->
+      </span>
+    </el-dialog>
+  </div>
+
+  <div class="box-box-box-box">
+    <div class="medal-div">
+      <div class="medal-div-box" v-for="(item, index) in meadlArr">
+        <!-- <div class="check-radio">
+          <el-radio v-model="radio" label="1"> </el-radio>
+        </div> -->
+        <img class="edal-div-box-img" :src="item.fileUrl" alt="" width="60px" height="60px">
+        <div class="medal-div-box-text">
+          <el-radio v-model="lookForm.medalId" :label="item.medalId" disabled v-if="item.medalName!=''">{{ item.medalGroupName }}({{item.medalName}})</el-radio>
+          <el-radio v-model="lookForm.medalId" :label="item.medalId" disabled v-else>{{ item.medalGroupName }}</el-radio>
+ </div>
+      </div>
+    </div>
+    <div class="nextNextNextBtn">
+      <el-button @click="nextNextNext" style="margin-top: 20px; background: #409eff; padding: 12px 140px; color: #fff;">预览发布</el-button>
+    </div>
+  </div>
+
+  <div class="box-box-box-box-box">
+    <div class="preview-box-top">
+      <div class="preview-box-top-top">活动信息：</div>
+      <div class="preview-box-top-bottom">
+        <div class="preview-box-top-bottom-left">
+          <img :src="imgSRC" alt="" width="320px" height="180px">
+        </div>
+        <div class="preview-box-top-bottom-right">
+          <div class="preview-box-top-bottom-right-title">
+            {{ lookForm.activityName }}
+          </div>
+          <div class="preview-box-top-bottom-right-lei">
+            <el-tag style="margin-right: 10px; margin-bottom: 10px;">打卡</el-tag>
+            <el-tag style="margin-right: 10px; margin-bottom: 10px;">{{ text1 }}</el-tag>
+            <el-tag style="margin-right: 10px; margin-bottom: 10px;">连续{{ daysDays }}天</el-tag>
+            <el-tag style="margin-right: 10px; margin-bottom: 10px;">{{ timer1 }}-{{ timer2 }}</el-tag>
+            <el-tag style="margin-right: 10px; margin-bottom: 10px;">{{ text2 }}</el-tag>
+          </div>
+          <div class="preview-box-top-bottom-right-one">
+            <span class="preview-box-top-bottom-right-span">打卡数：<span>{{ lookForm.activityCommentCount }}</span></span><span class="preview-box-top-bottom-right-span">点赞数：<span>{{ lookForm.likeCount }}</span></span><span
+              class="preview-box-top-bottom-right-span">收藏数：<span>{{ lookForm.collectCount }}</span></span>
+          </div>
+          <div class="preview-box-top-bottom-right-two">
+            <p>创建人：<span>{{ lookForm.userName }}({{ lookForm.activityOrgName }},{{ lookForm.activityAuthorType }})</span></p>
+            <p>活动时间：<span>{{ nowTime }}-{{ endTimeText }}</span></p>
+            <p>活动编号：<span>{{ lookForm.activityId }}</span></p>
+          </div>
+          <div class="preview-box-top-bottom-right-imgText" v-if="lookForm.medalId != ''">
+            <img :src="lookForm.medalUrl" alt="" width="40px" height="40px">
+            <span>{{ lookForm.medalName }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="preview-box-bottom">
+      <div class="preview-box-bottom-title">
+        活动详情：
+      </div>
+      <div class="preview-box-bottom-content">
+        <div v-for="(item, index) in lookForm.activityIntro">
+          <div v-if="item.type == 'text'" class="preview-box-bottom-content-text">
+              <pre> {{ item.areaText }}</pre>
+          </div>
+          <div v-if="item.type == 'img'" class="preview-box-bottom-content-img">
+            <img :src="item.imgSrc" alt="" width="320px">
+          </div>
+          <div v-if="item.type == 'mp4'" class="preview-box-bottom-content-mp4">
+            <video  @play="playvideo(item.mp4Url)" controls="controls" :src="item.mp4Url" width="320px" height="180px"></video>
+          </div>
+          <div v-if="item.type == 'mp3'" class="preview-box-bottom-content-mp3">
+            <audio  @play="playaudio(item.mp3Url)" controls="controls" :src="item.mp3Url" style="width: 333px; height: 55px;"></audio>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="nextNextNextBtn">
+        <el-button @click="nextNextNextNext" style="margin-top: 20px; background: #409eff; padding: 12px 140px; color: #fff;">提交</el-button>
+      </div>
+            <!-- 图片裁剪 -->
+            <template>
+              <el-dialog title="图片剪裁" :visible.sync="dialogVisibleImg" append-to-body>
+                <div class="cropper-content">
+                  <div class="cropper" style="text-align:center">
+                    <vueCropper
+                      ref="cropper"
+                      :img="option.img"
+                      :outputSize="option.size"
+                      :outputType="option.outputType"
+                      :info="true"
+                      :full="option.full"
+                      :canMove="option.canMove"
+                      :canMoveBox="option.canMoveBox"
+            
+                      :original="option.original"
+                      :autoCrop="option.autoCrop"
+                      :canScale="option.canScale"
+                      :fixed="option.fixed"
+                      :fixedNumber="option.fixedNumber"
+                      :centerBox="option.centerBox"
+                      :infoTrue="option.infoTrue"
+                      :fixedBox="option.fixedBox"
+                    ></vueCropper>
+                
+            
+                  </div>
+                  <!-- @realTime="realTime" -->
+                </div>
+                <div slot="footer" class="dialog-footer">
+                
+                  <el-button type="primary" @click="finish" >确认</el-button>
+                  <el-button @click="dialogVisibleImg = false">取 消</el-button>
+                </div>
+              </el-dialog>
+            
+            </template>
+  </div>
+
+</div>

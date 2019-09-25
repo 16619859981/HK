@@ -1,0 +1,77 @@
+<div>
+  <div class="breadcrumb">
+    <a>账号管理</a>
+    <a @click="goLookTeacherLT">行政系统</a>
+    <a @click="goSchoolManagement">全部学校</a>
+    <a @click="goLookClass">班级列表</a>
+    <a class="active">辅导员列表</a>
+  </div>
+
+  <div class="table-content">
+    <!-- 搜索列表选项框 -->
+    <div class="table-search">
+      <div class="search-top">
+        <div class="search-list">
+          <el-form :inline="true" :model="from" class="demo-form-inline">
+            <el-form-item>
+              <el-input v-model="from.counselorName" placeholder="辅导员名称" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model="from.counselorPhone" placeholder="辅导员手机" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model="from.counselorId" placeholder="辅导ID" size="mini" style="width: 186px;"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button @click="handleList2()" style="padding: 8px 78px;
+                      font-size: 14px;
+                      background-color: #409EFF;
+                      color: #fff;
+                      margin-top: 6px; 
+                  ">搜索</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+      </div>
+
+    </div>
+    <!-- 表格 -->
+    <div class="table-box">
+      <template>
+        <div class="details-Date">
+          <p>详细数据:</p>
+        </div>
+        <!-- 表格 -->
+        <el-table v-loading="loading" :data="tableData" style="width: 100%" :header-cell-style="getRowClass" :row-style="tabH"
+          :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}">
+          <!-- <el-table-column prop="schoolPersonId" label="学校ID" header-align="center" width="195">
+              </el-table-column> -->
+          <el-table-column prop="counsolerId" label="辅导员ID" header-align="center">
+          </el-table-column>
+          <el-table-column prop="counsolerName" label="辅导员姓名" header-align="center">
+            <template slot-scope="scope">
+              <span @click="handleLook(scope.row.counsolerId)" style="min-width: 40px; text-align: center; color: #F56C6C; cursor: pointer;"
+                :title="scope.row.counsolerName">{{scope.row.counsolerName}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="counsolerPhone" label="辅导员手机" header-align="center">
+          </el-table-column>
+        </el-table>
+
+        <!-- 分页 -->
+        <el-pagination @current-change="handleCurrentChange" :currentPage="currentPage" :page-size="10" layout="total, prev, pager, next, jumper"
+          :total="total" style="margin: 10px 0;">
+        </el-pagination>
+      </template>
+    </div>
+  </div>
+
+  <el-dialog title="修改状态" :visible.sync="dialogVisibleStatus" width="30%">
+    <span>确定要改变状态么？</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="editStatUs()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+      <el-button @click="dialogVisibleStatus = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+    </span>
+  </el-dialog>
+
+</div>

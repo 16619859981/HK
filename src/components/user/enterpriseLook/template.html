@@ -1,0 +1,73 @@
+<div>
+        <!-- 头部 -->
+        <div class="header-header">
+            <!-- <h3>用户管理-学校管理-全部学校
+            </h3> -->
+            <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+            <br>
+            <span style="margin-right: 20px;margin-top:10px;" class="active_title">查看身份</span>
+    
+            <!-- <span>创建视频专辑</span> -->
+    
+        </div>
+        <!-- 创建专辑的内荣 -->
+        <div class="albumContent">
+            <div class="msg">
+                <div class="title">
+                    <!-- <i></i> -->
+                    <span></span>
+                </div>
+    
+                <el-form :model="ruleForm"  ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                    <div class="top">
+                        <el-form-item label="身份名称:" prop="name">
+                            <span>{{ruleForm.personName}}</span>
+                        </el-form-item>
+    
+                        <el-form-item label="联系方式:" prop="type">
+                            <span>{{ruleForm.personPhone}}</span>
+                        </el-form-item>
+    
+                        <el-form-item label="身份类型:" prop="type">
+                            <span>{{ruleForm.personType}}</span>
+                        </el-form-item>
+
+                        <el-form-item label="性　　别:" prop="type" v-if="ruleForm.personType == '大咖'">
+                            <span>{{ruleForm.personSex}}</span>
+                        </el-form-item>
+
+                        <el-form-item label="地　　区:" prop="type">
+                            <span>{{ruleForm.personArea}}</span>
+                        </el-form-item>
+    
+                        <el-form-item label="身份简介:" prop="type">
+                            <span>{{ruleForm.personIntro}}</span>
+                        </el-form-item>
+    
+                        <el-form-item label="头像LOGO:" prop="img">
+    
+    
+                              <el-popover placement="right" height="500" trigger="click" style="padding:0;border:none">
+                                <img :src="ruleForm.FIleUrl" class="avatar" style="width:500px;height:500px;">
+                                <el-button slot="reference" style="padding:0;border:none">
+                                  <img :src="ruleForm.FIleUrl" class="avatar">
+                                </el-button>
+                  
+                              </el-popover>
+    
+                        </el-form-item>
+                    </div>
+                    
+                </el-form>
+    
+    
+            </div>
+    
+        </div>
+    
+    
+    
+    
+    </div>
+    
+    </div>

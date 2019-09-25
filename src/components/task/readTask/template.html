@@ -1,0 +1,141 @@
+<div>
+
+        <!-- 内容管理头 -->
+        <div class="header-header">
+          <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+          <br>
+          <span style="margin-right: 20px;margin-top:10px;" class="active_title">阅读任务数据</span>
+        
+           
+           
+          </div>
+        <div class="table-content">
+          <!-- 搜索列表选项框 -->
+          <div class="table-search">
+            <div class="search-top">
+              <div class="search-title">
+                <!-- <i></i> -->
+                <!-- <p style="margin-left: 10px;"> 搜索</p> -->
+      
+              </div>
+              <div class="search-list">
+                <el-form :inline="true" :model="deviceForm" class="demo-form-inline" >
+                  <el-form-item label="学生ID：　" >
+                    <el-input @change="fushu"   v-model="deviceForm.child" placeholder="请输入孩子ID" size="mini" style="width:140px;"></el-input>
+                  </el-form-item>
+
+                  <el-form-item label="关键字：　" >
+                    <el-input v-model="deviceForm.key" placeholder="请输入关键字" size="mini" style="width:140px;"></el-input>
+                  </el-form-item>
+
+                  <el-form-item label="年　　级：">
+                    <el-select v-model="deviceForm.grade" placeholder="请选择年级" size="mini" style="width:140px;">
+                      <el-option label="全部" value="0"></el-option>
+                      <el-option label="一年级" value="1"></el-option>
+                      <el-option label="二年级" value="2"></el-option>
+                      <el-option label="三年级" value="3"></el-option>
+                      <el-option label="四年级" value="4"></el-option>
+                      <el-option label="五年级" value="5"></el-option>
+                      <el-option label="六年级" value="6"></el-option>
+                    </el-select>
+            </el-form-item>
+
+            <!-- <el-form-item label="班　　级：" >
+              <el-input v-model="deviceForm.bj" placeholder="请输入班级" size="mini" style="width:140px;"></el-input>
+            </el-form-item> -->
+                  
+
+                <el-form-item label="状　　态：">
+                        <el-select v-model="deviceForm.status" placeholder="请选择状态" size="mini" style="width:140px;">
+                          <el-option label="全部" value="0"></el-option>
+                          <el-option label="完成" value="1"></el-option>
+                          <el-option label="未完成" value="3"></el-option>
+                        </el-select>
+                </el-form-item>
+
+
+                  <el-form-item label="完成时间："  style="margin-right: 65px;">
+                    <el-date-picker v-model="deviceForm.overTime" value-format="timestamp" type="date" placeholder="选择日期" size="mini" style="width:140px;">
+                    </el-date-picker>
+                    -
+                    <el-date-picker v-model="deviceForm.overTime2"  value-format="timestamp"  type="date" placeholder="选择日期" size="mini" style="width:140px;">
+                    </el-date-picker>
+                  </el-form-item>
+      
+                  <el-button class="search-button btnMin" size="mini" @click="handleList2()" style="padding: 7px 19px;
+                  font-size: 12px;
+                  background-color: #409eff;
+                  color: #fff;
+              ">搜索</el-button>
+                  
+      
+                </el-form>
+      　
+              </div>
+            </div>
+          </div>
+          <!-- 表格 -->
+          <div class="table-box">
+            <template>
+              <div class="details-Date">
+                <!-- <i></i> -->
+                <!-- <p> 详情数据</p> -->
+                <ul style="float:right;">
+                  <!-- <li>
+                    <el-button size="mini" @click="deviceVisible=true">新建硬件</el-button>
+                  </li> -->
+                  <!-- <li>
+                    <el-button size="mini" @click="download()">导出本页数据</el-button>
+                  </li> -->
+           
+                </ul>
+      
+              </div>
+              <!-- 表格 -->
+              <el-table v-loading="loading" :data="tableData" style="width: 100%" :header-cell-style="getRowClass" :row-style="tabH" :cell-style="tabP" :default-sort="{prop: 'date', order: 'descending'}">
+                <el-table-column prop="studentName" label="学生姓名" header-align="center">
+                </el-table-column>
+                <el-table-column prop="studentId" label="学生ID" header-align="center">
+                </el-table-column>
+                <el-table-column prop="parentPhone" label="家长手机号" header-align="center">
+                </el-table-column>
+                <el-table-column prop="schoolName" label="学校名称" header-align="center">
+                </el-table-column>
+                <el-table-column prop="gradeName" label="年级" header-align="center">
+                </el-table-column>
+                <el-table-column prop="className" label="班级" header-align="center">
+                </el-table-column>
+                <el-table-column prop="Medalstatus" label="状态" header-align="center">
+                </el-table-column>
+                <el-table-column prop="endTime" label="完成时间" header-align="center">
+                </el-table-column>
+               
+              </el-table>
+      
+              <!-- 分页 -->
+              <el-pagination @current-change="handleCurrentChange" :page-size="10" layout="total, prev, pager, next, jumper" :total="total" style="margin: 10px 0px;">
+              </el-pagination>
+            </template>
+          </div>
+        </div>
+      
+      
+        <!-- 弹框 -->
+        <template>
+          <el-dialog title="新增硬件" :visible.sync="deviceVisible" class="checkDialog" width="36%">
+        
+            <!-- 外框 -->
+            <el-form label-width="120px" >
+              <el-form-item label="设备号：">
+                <el-input v-model="deviceNumber2" readonly ></el-input>
+              </el-form-item>
+         
+            </el-form>
+            <div slot="footer" class="dialog-footer footers">
+              <el-button @click="deviceVisible = false">提交</el-button>
+              <el-button  @click="deviceVisible = true">取消</el-button>
+            </div>
+          </el-dialog>
+        </template>
+      </div>
+      

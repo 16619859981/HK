@@ -1,0 +1,106 @@
+<div>
+    <!-- 头部 -->
+    <div class="header-header">
+        <h3>内容管理-争章管理
+        </h3>
+        <span style="margin-right: 20px;" class="active_title">查看争章</span>
+
+        <!-- <span>创建视频专辑</span> -->
+
+    </div>
+    <!-- 创建专辑的内荣 -->
+    <div class="albumContent">
+        <div class="msg">
+            <div class="title">
+                <i></i>
+                <span>争章信息</span>
+            </div>
+
+            <el-form :model="ruleForm"  ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                <div class="top">
+                    <el-form-item label="争章名称:" prop="name">
+
+                        <span>{{ruleForm.name}}</span>
+                    </el-form-item>
+                    <el-form-item label="争章标签:" prop="region">
+
+                        <span>{{ruleForm.region}}</span>
+                    </el-form-item>
+
+                    <el-form-item label="争章简介:" prop="desc">
+                        <span>{{ruleForm.desc}}</span>
+
+                    </el-form-item>
+                    <el-form-item label="争章封面:" prop="img">
+
+                        <img :src="ruleForm.imageUrl" class="avatar">
+
+                    </el-form-item>
+                </div>
+                <i></i>
+                <div class="title">
+                    <i></i>
+                    <span>任务信息</span>
+
+                </div>
+                <div class="bottom">
+
+
+                    <el-form :inline="true" :model="ruleForm" class="demo-form-inline">
+                            <el-form-item label="任务一:" style="position: relative;">
+
+                                    <div class="preview"></div>
+                                    <span style="position: absolute;left:105px;top:0px;">55s</span>
+                            </el-form-item>
+                        <el-form-item label="任务名称：">
+                            <el-input v-model="ruleForm.name" placeholder="请输入节目名称" style="width:300px;"></el-input>
+                        </el-form-item>
+                        <el-form-item label="作者：">
+                            <el-input v-model="ruleForm.name" placeholder="请输入作者名字" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    
+                    </el-form>
+                    <el-form :inline="true" :model="ruleForm" class="demo-form-inline">
+                            <el-form-item label="任务一:" style="position: relative;">
+
+                                    <div class="preview"></div>
+                                    <span style="position: absolute;left:105px;top:0px;">55s</span>
+                            </el-form-item>
+                        </el-form-item>
+                        <el-form-item label="任务名称：">
+                            <el-input v-model="ruleForm.name" placeholder="请输入节目名称" style="width:300px;"></el-input>
+                        </el-form-item>
+                        <el-form-item label="作者：">
+                            <el-input v-model="ruleForm.name" placeholder="请输入作者名字" style="width: 200px;"></el-input>
+                        </el-form-item>
+                
+                    </el-form>
+                    <el-form :inline="true" :model="ruleForm" class="demo-form-inline">
+                            <el-form-item label="任务一:" style="position: relative;">
+
+                                    <div class="preview"></div>
+                                    <span style="position: absolute;left:105px;top:0px;">55s</span>
+                            </el-form-item>
+                        <el-form-item label="任务名称：">
+                            <el-input v-model="ruleForm.name" placeholder="请输入节目名称" style="width:300px;"></el-input>
+                        </el-form-item>
+                        <el-form-item label="作者：">
+                            <el-input v-model="ruleForm.name" placeholder="请输入作者名字" style="width: 200px;"></el-input>
+                        </el-form-item>
+                    
+                    </el-form>
+           
+                </div>
+            </el-form>
+
+
+        </div>
+
+    </div>
+
+
+
+
+</div>
+
+</div>

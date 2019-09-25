@@ -1,0 +1,165 @@
+<div>
+
+  <!-- 内容管理头 -->
+  <div class="header-header">
+    <!-- <h3>用户管理-学校管理-班级信息
+        </h3>    -->
+    <el-button plain style="padding: 4px 12px; font-size: 12px; margin-top:5px;" onClick="window.history.go(-1)">返回</el-button>
+    <br>
+    <span style="margin-right: 20px;margin-top:10px;" class="active_title xiaoshou">入班申请</span>
+  </div>
+  <div class="table-content">
+    <!-- 搜索列表选项框 -->
+    <div class="table-search">
+      <div class="search-top">
+        <div class="search-title">
+          <!-- <i></i> -->
+          <p style="margin-left: 10px;"> </p>
+
+        </div>
+        <div class="search-list">
+          <el-form :inline="true" :model="searchItem" class="demo-form-inline">
+
+            <el-form-item label="关键字：　">
+              <el-input v-model="searchItem.keyvalue" placeholder="请输入关键字" size="mini" style="width:140px;"></el-input>
+            </el-form-item>
+
+
+            <el-form-item label="状　　态：">
+              <el-select v-model="searchItem.status" placeholder="请选择" size="mini" style="width:140px;">
+                <el-option label="全部" value="3"></el-option>
+
+                <el-option label="已入班" value="1"></el-option>
+                <el-option label="待入班" value="0"></el-option>
+                <el-option label="未通过" value="2"></el-option>
+              </el-select>
+            </el-form-item>
+
+            <el-form-item label="申请时间：">
+              <el-date-picker v-model="searchItem.startTime" type="date" value-format="timestamp" placeholder="选择日期" size="mini" style="width:140px;">
+              </el-date-picker>
+              -
+              <el-date-picker v-model="searchItem.endTime" type="date" value-format="timestamp" placeholder="选择日期" size="mini" style="width:140px;">
+              </el-date-picker>
+            </el-form-item>
+
+            <el-form-item label="操作时间：">
+              <el-date-picker v-model="searchItem.ustartTime" type="date" value-format="timestamp" placeholder="选择日期" size="mini" style="width:140px;">
+              </el-date-picker>
+              -
+              <el-date-picker v-model="searchItem.uendTime" type="date" value-format="timestamp" placeholder="选择日期" size="mini" style="width:140px;">
+              </el-date-picker>
+            </el-form-item>
+
+            <el-button class="search-button btnMin" size="mini" @click="handleList2()" style="padding: 7px 19px;
+            font-size: 12px;
+            background-color: #409eff;
+            color: #fff;
+        ">搜索</el-button>
+
+          </el-form>
+
+        </div>
+      </div>
+      <!-- <div class="search-button">
+          <el-button size="mini">搜索</el-button>
+        </div> -->
+    </div>
+    <!-- 表格 -->
+    <div class="table-box">
+      <template>
+        <div class="details-Date">
+          <!-- <i></i> -->
+          <p></p>
+          <ul style="float:right;">
+            <!-- <li>
+              <el-button size="mini" @click="download()">导出本页数据</el-button>
+            </li> -->
+          </ul>
+
+        </div>
+        <!-- 表格 -->
+        <el-table v-loading="loading" :data="tableData" style="width: 100%" :header-cell-style="getRowClass" :row-style="tabH" :cell-style="tabP"
+          :default-sort="{prop: 'date', order: 'descending'}">
+
+          <el-table-column prop="applyName" label="学生姓名" header-align="center" width="120">
+          </el-table-column>
+          <!-- <el-table-column prop="applyName" label="申请姓名" header-align="center" width="120">
+            </el-table-column> -->
+          <el-table-column prop="sex" label="性别" header-align="center">
+          </el-table-column>
+          <el-table-column prop="parentName" label="家长姓名" header-align="center">
+          </el-table-column>
+          <el-table-column prop="phone" label="家长手机号" width="180" header-align="center">
+          </el-table-column>
+          <el-table-column prop="cTime" label="申请时间" width="180" header-align="center">
+          </el-table-column>
+          <el-table-column prop="uName" label="操作人" header-align="center">
+          </el-table-column>
+          <el-table-column prop="utime" label="操作时间" width="180" header-align="center">
+          </el-table-column>
+          <el-table-column prop="status" label="状态" header-align="center">
+          </el-table-column>
+          <el-table-column label="操作" width="140" header-align="center">
+            <template slot-scope="scope">
+              <a v-if="scope.row.status == '待入班'" @click="handleLook(scope.row.studentClassId,scope.row.applyName,scope.row.studentId)" style="color:#409eff;padding: 4px 8px; font-size: 12px">通过</a>
+              <!-- <el-button type="danger" plain size="small">排序</el-button> -->
+              <a v-if="scope.row.status == '待入班'" @click="handleEdit(scope.row.studentClassId,scope.row.applyName,scope.row.studentId)" style="color:#409eff;padding: 4px 8px; font-size: 12px">不通过</a>
+              <!-- <el-button type="danger" plain size="small" @click="dialogVisible = true">状态</el-button> -->
+
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <!-- 分页 -->
+        <el-pagination @current-change="handleCurrentChange" ::currentPage="currentPage" :page-size="10" layout="total, prev, pager, next, jumper"
+          :total="total" style="margin: 10px 0px;">
+        </el-pagination>
+      </template>
+    </div>
+  </div>
+
+
+  <el-dialog title="选择学生" :visible.sync="tgxs" width="30%">
+    <template>
+      <p v-for="item in xzXS" style="margin-bottom: 20px">
+        <el-radio v-model="radio" :label="item.userid1">学生姓名：{{ item.studentName }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;身份证号：{{ item.studentCard }}</el-radio>
+      </p>      
+    </template>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="tgxsqd()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+      <el-button @click="tgxs = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+    </span>
+  </el-dialog>
+
+
+  <el-dialog title="选择学生" :visible.sync="btgxx" width="30%">
+      <template>
+        <p v-for="item in xzXS" style="margin-bottom: 20px">
+          <el-radio v-model="radio" :label="item.userid1">学生姓名：{{ item.studentName }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;身份证号：{{ item.studentCard }}</el-radio>
+        </p>      
+      </template>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="btgxx1()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+        <el-button @click="btgxx = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+      </span>
+    </el-dialog>
+
+  <!-- 通过弹窗 -->
+  <el-dialog title="修改状态" :visible.sync="dialogVisibleStatus" width="30%">
+    <span>确定通过么？</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="editStatUs()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+      <el-button @click="dialogVisibleStatus = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+    </span>
+  </el-dialog>
+
+  <!-- 不通过弹窗 -->
+  <el-dialog title="修改状态" :visible.sync="dialogVisibleStatus1" width="30%">
+    <span>确定不通过么？</span>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="editStatUs1()" style="padding: 12px 24px; font-size: 12px">确认</el-button>
+      <el-button @click="dialogVisibleStatus1 = false" style="padding: 12px 24px; font-size: 12px">取消</el-button>
+    </span>
+  </el-dialog>
+</div>

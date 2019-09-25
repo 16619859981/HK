@@ -1,0 +1,205 @@
+/*公共样式--开始*/
+html, body, div, ul, li, h1, h2, h3, h4, h5, h6, p, dl, dt, dd, ol, form, input, textarea, th, td, select {
+    margin: 0;
+    padding: 0;
+}
+*{box-sizing: border-box;}
+html, body {
+    height: 100%;
+    zoom:100%;
+}
+
+body {
+    font-family: "Microsoft YaHei";
+    font-size:14px;
+    color:#333;
+    /* background-color: rgb(237, 237, 237); */
+}
+h1, h2, h3, h4, h5, h6{font-weight:normal;}
+ul,ol {
+    list-style: none;
+}
+
+img {
+    border: none;
+    vertical-align: middle;
+}
+
+a {
+    text-decoration: none;
+    color: #232323;
+}
+
+table {
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+input, textarea {
+    outline: none;
+    border: none;
+}
+
+textarea {
+    resize: none;
+    overflow: auto;
+}
+
+.clearfix {
+    zoom: 1;
+}
+
+.clearfix:after {
+    content: ".";
+    width: 0;
+    height: 0;
+    visibility: hidden;
+    display: block;
+    clear: both;
+    overflow:hidden;
+}
+
+.fl {
+    float: left
+}
+
+.fr {
+    float: right
+}
+
+.tl {
+    text-align: left;
+}
+
+.tc {
+    text-align: center
+}
+
+.tr {
+    text-align: right;
+}
+
+.ellipse {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.inline{
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+}
+.el-radio:focus:not(.is-focus):not(:active):not(.is-disabled) .el-radio__inner {
+    -webkit-box-shadow: 0 0 2px 2px #fff !important; 
+    box-shadow: 0 0 2px 2px #fff !important; 
+}
+
+.breadcrumb {
+    display: inline-block;
+    box-shadow: 0 0 13px -5px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+    border-radius: 5px;
+    counter-reset: flag;
+    position: fixed;
+    top: 22px;
+    z-index: 2000;
+    left: 179px;
+  }
+  
+  .breadcrumb a {
+    text-decoration: none;
+    outline: none;
+    display: block;
+    float: left;
+    font-size: 12px;
+    line-height: 32px;
+    color: #409eff;
+    padding: 0 10px 0 60px;
+    background: #fff;
+    background: linear-gradient(#fff, #fff);
+    position: relative;
+  }
+  
+  .breadcrumb a:first-child {
+    padding-left: 46px;
+    border-radius: 5px 0 0 5px;
+  }
+  
+  .breadcrumb a:first-child:before {
+    left: 14px;
+  }
+  
+  .breadcrumb a:last-child {
+    border-radius: 0 5px 5px 0;
+    padding-right: 20px;
+    background: #409eff;
+    background: linear-gradient(#409eff, #409eff);
+    color: #fff;
+  }
+  
+  
+  .breadcrumb a.active,
+    {
+    background: #fff;
+    background: linear-gradient(#fff, #fff);
+    color: #409eff;
+  
+  }
+  
+  .breadcrumb a.active:after,
+    {
+    background: #fff;
+    background: linear-gradient(135deg, #fff, #fff);
+    color: #409eff;
+  
+  }
+  
+  .breadcrumb a:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -16px;
+    width: 32px;
+    height: 32px;
+    transform: scale(0.707) rotate(45deg);
+    z-index: 1;
+    background: #fff;
+    background: linear-gradient(135deg, #fff, #fff);
+    box-shadow: 2px -2px 0 -1px rgba(0, 0, 0, 0.1), 3px -3px 0 2px rgba(255, 255, 255, 0.1);
+    border-radius: 0 5px 0 50px;
+  }
+  
+  .breadcrumb a:last-child:after {
+    content: none;
+  }
+  
+  .breadcrumb a:before {
+    content: counter(flag);
+    counter-increment: flag;
+    /*some styles now*/
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    margin: 6px 0;
+    position: absolute;
+    top: 0;
+    left: 30px;
+    background: #409eff;
+    background: linear-gradient(#409eff, #409eff);
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+  }
+  
+  .breadcrumb a:last-child:before {
+    background: #fff;
+    background: linear-gradient(#fff, #fff);
+    color: #409eff;
+  }
+::-webkit-scrollbar {
+  display: none;
+}
+.el-table:before {
+  height:0px !important;
+}

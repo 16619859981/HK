@@ -1,0 +1,72 @@
+<div>
+  <div class="breadcrumb">
+    <a href="#">运营管理</a>
+    <a href="#" class="active">首页运营</a>
+  </div>
+
+  <div class="table-content page">
+    <div class="homeLeft">
+      <p style="color:#409EFF;">模板配置：</p>
+      <div class="TypeIcon">
+        <div>
+          <img src="./pic.png" alt="" @click="getLists('3')">
+          <p>图片运营位</p>
+        </div>
+        <div>
+          <img src="./audio.png" alt="" @click="getLists('1')">
+          <p>音频推荐</p>
+        </div>
+        <div>
+          <img src="./red.png" alt="" @click="getLists('2')">
+          <p>红广号推荐</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="homeRight" style="margin-top:30px;">
+      <p style="color:#409EFF;">配置后预览：</p>
+      <div class="yulan">
+        <div class="bgc">
+          <div class="content">
+            <div v-for="(item,index) in feedData" :key="index">
+              <div class="feed" v-if="item.frontText!=''">
+                <p>{{item.frontText}}</p>
+              </div>
+              <div class="bar" v-if="item.frontText!=''"></div>
+              <div class="pic" v-if="item.modelType==3" style="width:279px;height:115px; overflow: hidden;">
+                <!-- <img src="./tupian.png" alt=""> -->
+                <img :src="item2.headFileUrl" alt="" style="width:279px;height:115px;display:inline;"
+                     v-for="(item2,index2) in item.dataJSON" :key="index2">
+              </div>
+              <div class="bar" v-if="item.modelType==3"></div>
+              <div class="audio" v-if="item.modelType==1">
+                <img src="./title.png" alt="" style="margin-bottom:8px;">
+                <div v-for="(item2,index2) in item.dataJSON" :key="index2">
+                  <img src="./bofang.png" alt="">
+                  <span>{{item2.name}}</span>
+                </div>
+              </div>
+              <div class="bar" v-if="item.modelType==1"></div>
+              <div class="red" v-if="item.modelType==2">
+                <img src="./titleRed.png" alt="" style="margin-bottom:8px;">
+                <div class="red-box">
+                  <div class="item" v-for="(item2,index2) in item.dataJSON" :key="index2">
+                    <img :src="item2.headFileUrl" alt="" style="width:37px;height:37px;">
+                    <p class="name">{{item2.name}}</p>
+                    <p class="other">可能感兴趣的人</p>
+                  </div>
+                </div>
+              </div>
+              <div class="bar" v-if="item.modelType==2"></div>
+              <div class="feed" v-if="item.nextText">
+                <p>{{item.nextText}}</p>
+              </div>
+              <div class="bar" v-if="item.nextText"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
